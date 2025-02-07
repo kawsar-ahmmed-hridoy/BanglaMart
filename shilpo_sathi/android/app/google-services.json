@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "981862459735",
+    "project_id": "shilposathi-16aea",
+    "storage_bucket": "shilposathi-16aea.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:981862459735:android:568c99cc3bd3d733937612",
+        "android_client_info": {
+          "package_name": "com.example.shilpo_sathi"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDg-4se70U5b8jirLw7c8wITd84_OkGSBk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
