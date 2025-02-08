@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../MainScreen.dart';
+
 final onboardingIndexProvider = StateProvider<int>((ref) => 0);
 
 class OnboardingScreen extends ConsumerWidget {
@@ -140,7 +142,7 @@ class OnboardingScreen extends ConsumerWidget {
 
                   currentIndex == pages.length - 1
                       ? ElevatedButton(
-                    onPressed: () => Navigator.pushReplacementNamed(context, '/home'),
+                    onPressed: () => {Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MainScreen()),)},
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF2A5934),
                       shape: RoundedRectangleBorder(

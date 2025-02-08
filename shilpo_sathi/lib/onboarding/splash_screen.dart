@@ -31,7 +31,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF2A5934),
+      backgroundColor: const Color(0xFF16447C),
       body: SingleChildScrollView(
         child: Container(
           height: MediaQuery.of(context).size.height,
@@ -42,10 +42,10 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                 Expanded(
                   flex: 2,
                   child: Lottie.asset(
-                    'assets/animations/splash_animation.json',
+                    'assets/animations/Animation.json',
                     fit: BoxFit.contain,
                     width: MediaQuery.of(context).size.width * 0.8,
-                    height: MediaQuery.of(context).size.height * 0.7,
+                    height: MediaQuery.of(context).size.height * 0.5,
                     controller: _controller,
                     onLoaded: (composition) {
                       _controller
@@ -54,17 +54,17 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                     },
                   ),
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 2),
                 Text(
                   'শিল্পসাথী',
                   style: TextStyle(
-                    fontSize: 32,
+                    fontSize: 50,
                     color: Colors.amber[700],
                     fontFamily: 'Kalpurush',
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 40),
+                  padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 40),
                   child: Text(
                     'Crafting Heritage, Empowering Artisans',
                     textAlign: TextAlign.center,
@@ -73,7 +73,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                     ),
                   ),
                 ),
-                const SizedBox(height: 40),
+                const SizedBox(height: 70),
               ],
             ),
           ),
