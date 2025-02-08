@@ -39,10 +39,13 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Expanded( // Add this
+                Expanded(
                   flex: 2,
                   child: Lottie.asset(
                     'assets/animations/splash_animation.json',
+                    fit: BoxFit.contain,
+                    width: MediaQuery.of(context).size.width * 0.8,
+                    height: MediaQuery.of(context).size.height * 0.7,
                     controller: _controller,
                     onLoaded: (composition) {
                       _controller
