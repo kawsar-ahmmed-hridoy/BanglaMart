@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'Homepage/HomePage.dart';
 
 class MainScreen extends StatefulWidget {
   @override
@@ -7,7 +8,7 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  int _currentIndex = 0; // Default to Home Page
+  int _currentIndex = 0;
   final Color primaryColor = Color(0xFF26547D);
   final List<Widget> _pages = [
     HomePage(),
@@ -44,48 +45,6 @@ class _MainScreenState extends State<MainScreen> {
   }
 }
 
-class HomePage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Home Page'),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text('Welcome to ShilpoSathi!'),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ARVirtualShowroomPage(),
-                  ),
-                );
-              },
-              child: Text('Explore AR Showroom'),
-            ),
-            SizedBox(height: 10),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ArtisanStorytellingPage(),
-                  ),
-                );
-              },
-              child: Text('Artisan Stories'),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
 
 class CommunityPage extends StatelessWidget {
   @override
@@ -124,21 +83,6 @@ class AccountPage extends StatelessWidget {
       ),
       body: Center(
         child: Text('Account Page Content'),
-      ),
-    );
-  }
-}
-
-// Additional pages for navigation
-class ARVirtualShowroomPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('AR Virtual Showroom'),
-      ),
-      body: Center(
-        child: Text('AR Virtual Showroom Content'),
       ),
     );
   }
