@@ -1,7 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../MainScreen.dart';
+import 'package:shilpo_sathi/MainScreen.dart';
+import 'package:shilpo_sathi/Signing/sign_in_page.dart';
 
 final onboardingIndexProvider = StateProvider<int>((ref) => 0);
 
@@ -141,18 +142,34 @@ class OnboardingScreen extends ConsumerWidget {
                   ),
 
                   currentIndex == pages.length - 1
-                      ? ElevatedButton(
-                    onPressed: () => {Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MainScreen()),)},
+                      ?
+                  ElevatedButton(
+                    onPressed: () {
+                      FirebaseAuth.instance.authStateChanges().listen((User? user) {
+                        if (user != null) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => MainScreen()),
+                          );
+                        } else {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => SignInPage()),
+                          );
+                        }
+                      });
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF2A5934),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(24),
                       ),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 32, vertical: 12),
+                      padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
                     ),
-                    child: const Text('Start Exploring',
-                        style: TextStyle(color: Colors.white, fontSize: 16)),
+                    child: const Text(
+                      'Start Exploring',
+                      style: TextStyle(color: Colors.white, fontSize: 16),
+                    ),
                   )
                       : TextButton(
                     onPressed: () => pageController.nextPage(

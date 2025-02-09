@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shilpo_sathi/Homepage/HomePage.dart';
 import 'home_screen.dart';
 import 'onboarding_screen.dart';
 import 'splash_screen.dart';
@@ -11,7 +12,7 @@ class AppRouter {
       case '/onboarding':
         return MaterialPageRoute(builder: (_) => const OnboardingScreen());
       case '/home':
-        return MaterialPageRoute(builder: (_) => const HomeScreen());
+        return MaterialPageRoute(builder: (_) => HomePage());
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(
