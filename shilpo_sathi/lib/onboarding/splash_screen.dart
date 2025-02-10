@@ -22,7 +22,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
   }
 
   void _navigateToOnboarding() async {
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 5));
     if (mounted) {
       Navigator.pushReplacementNamed(context, '/onboarding');
     }
@@ -31,7 +31,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF16447C),
+      backgroundColor: const Color(0xFFBDD0F3),
       body: SingleChildScrollView(
         child: Container(
           height: MediaQuery.of(context).size.height,
@@ -42,7 +42,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                 Expanded(
                   flex: 2,
                   child: Lottie.asset(
-                    'assets/animations/Animation.json',
+                    'assets/animations/Animation2.json',
                     fit: BoxFit.contain,
                     width: MediaQuery.of(context).size.width * 0.8,
                     height: MediaQuery.of(context).size.height * 0.5,
@@ -69,7 +69,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                     'Crafting Heritage, Empowering Artisans',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: Colors.white.withOpacity(0.9),
+                      color: Colors.black,
                     ),
                   ),
                 ),
