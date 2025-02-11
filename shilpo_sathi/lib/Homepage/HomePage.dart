@@ -5,7 +5,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: _buildAppBar(),
+      appBar: _buildAppBar(context),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -70,13 +70,14 @@ class HomePage extends StatelessWidget {
             ),
             SizedBox(height: 10),
             _buildDIYCraftWorkshops(),
+            SizedBox(height: 55),
           ],
         ),
       ),
     );
   }
 
-  PreferredSizeWidget _buildAppBar() {
+  PreferredSizeWidget _buildAppBar(BuildContext context) {
     return AppBar(
       backgroundColor: Color(0xFF26547D),
       title: Row(
@@ -84,7 +85,7 @@ class HomePage extends StatelessWidget {
           SizedBox(width: 20),
           Text(
             "Homepage",
-            style: TextStyle(color: Colors.white, fontSize: 20,fontWeight: FontWeight.bold),
+            style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
           ),
         ],
       ),
@@ -92,6 +93,7 @@ class HomePage extends StatelessWidget {
         IconButton(
           icon: Icon(Icons.notifications, color: Colors.white),
           onPressed: () {
+            Navigator.pushNamed(context, '/notification');
           },
         ),
         SizedBox(width: 20),
@@ -256,19 +258,6 @@ class HomePage extends StatelessWidget {
   }
 }
 
-class NotificationsPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Notifications'),
-      ),
-      body: Center(
-        child: Text('Notifications Page Content'),
-      ),
-    );
-  }
-}
 
 class ARVirtualShowroomPage extends StatelessWidget {
   @override

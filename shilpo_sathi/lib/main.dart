@@ -1,7 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:shilpo_sathi/Homepage/HomePage.dart';
+import 'package:shilpo_sathi/Homepage/NotificationsPage.dart';
+import 'package:shilpo_sathi/MainScreen.dart';
 import 'Signing/sign_in_page.dart';
 import 'Signing/sign_up_page.dart';
 import 'firebase_options.dart';
@@ -33,7 +34,8 @@ class MyApp extends StatelessWidget {
       routes: {
         '/sign_in': (context) => SignInPage(),
         '/sign_up': (context) => SignUpPage(),
-        '/home': (context) => HomePage(),
+        '/home': (context) => MainScreen(),
+        '/notification': (context) => NotificationsPage(),
       },
     );
   }
