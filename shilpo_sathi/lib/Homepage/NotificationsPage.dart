@@ -70,7 +70,6 @@ class DataNotification extends StatelessWidget {
   }
 }
 
-// Login Notification Class
 class LoginNotification extends StatelessWidget {
   final String message;
   final String timestamp;
@@ -91,7 +90,6 @@ class LoginNotification extends StatelessWidget {
   }
 }
 
-// Order Notification Class
 class OrderNotification extends StatelessWidget {
   final String message;
   final String timestamp;

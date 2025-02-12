@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'Homepage/HomePage.dart';
+import 'Marketplace/MarketplacePage.dart';
 
 class MainScreen extends StatefulWidget {
   @override
@@ -12,8 +13,8 @@ class _MainScreenState extends State<MainScreen> {
   final Color primaryColor = Color(0xFF26547D);
   final List<Widget> _pages = [
     HomePage(),
-    CommunityPage(),
     MarketplacePage(),
+    CommunityPage(),
     AccountPage(),
   ];
 
@@ -31,7 +32,7 @@ class _MainScreenState extends State<MainScreen> {
         animationDuration: Duration(milliseconds: 300),
         items: <Widget>[
           Icon(Icons.home, size: 30, color: Colors.white),
-          Icon(Icons.groups_rounded, size: 30, color: Colors.white),
+          Icon(Icons.storefront , size: 30, color: Colors.white),
           Icon(Icons.shopping_cart, size: 30, color: Colors.white),
           Icon(Icons.person, size: 30, color: Colors.white),
         ],
@@ -55,20 +56,6 @@ class CommunityPage extends StatelessWidget {
       ),
       body: Center(
         child: Text('Community Page Content'),
-      ),
-    );
-  }
-}
-
-class MarketplacePage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Marketplace Page'),
-      ),
-      body: Center(
-        child: Text('Marketplace Page Content'),
       ),
     );
   }
