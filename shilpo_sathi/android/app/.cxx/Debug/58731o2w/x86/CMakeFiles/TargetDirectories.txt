@@ -1,0 +1,2 @@
+E:/shilpo-sathi/shilpo_sathi/android/app/.cxx/Debug/58731o2w/x86/CMakeFiles/edit_cache.dir
+E:/shilpo-sathi/shilpo_sathi/android/app/.cxx/Debug/58731o2w/x86/CMakeFiles/rebuild_cache.dir

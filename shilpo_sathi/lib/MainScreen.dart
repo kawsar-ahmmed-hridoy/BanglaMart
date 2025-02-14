@@ -14,7 +14,7 @@ class _MainScreenState extends State<MainScreen> {
   final List<Widget> _pages = [
     HomePage(),
     MarketplacePage(),
-    CommunityPage(),
+    CartPage(),
     AccountPage(),
   ];
 
@@ -47,12 +47,12 @@ class _MainScreenState extends State<MainScreen> {
 }
 
 
-class CommunityPage extends StatelessWidget {
+class CartPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Community Page'),
+        title: Text('C Page'),
       ),
       body: Center(
         child: Text('Community Page Content'),

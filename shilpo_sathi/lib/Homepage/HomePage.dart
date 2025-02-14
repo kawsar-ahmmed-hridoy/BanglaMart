@@ -7,7 +7,6 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: _buildAppBar(context),
       body: SingleChildScrollView(
         child: Column(
@@ -25,12 +24,6 @@ class HomePage extends StatelessWidget {
               ),
             ),
             SizedBox(height: 10),
-
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: _buildSearchBar(),
-            ),
-            SizedBox(height: 20),
 
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -80,23 +73,6 @@ class HomePage extends StatelessWidget {
         ),
         SizedBox(width: 20),
       ],
-    );
-  }
-
-  Widget _buildSearchBar() {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 15),
-      decoration: BoxDecoration(
-        color: Colors.grey[200],
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: TextField(
-        decoration: InputDecoration(
-          hintText: 'Search for crafts or artisans...',
-          border: InputBorder.none,
-          icon: Icon(Icons.search, color: Colors.grey),
-        ),
-      ),
     );
   }
 }

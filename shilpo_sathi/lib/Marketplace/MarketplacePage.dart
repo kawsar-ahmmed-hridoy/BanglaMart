@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-
 import 'AddPostPage.dart';
+import 'ProductDescriptionPage.dart';
 
 class MarketplacePage extends StatefulWidget {
   @override
@@ -9,12 +9,24 @@ class MarketplacePage extends StatefulWidget {
 
 class _MarketplacePageState extends State<MarketplacePage> {
   List<Product> products = [
-    Product(name: 'Handmade Pot', price: '\$20', imageUrl: 'https://via.placeholder.com/150'),
-    Product(name: 'Wooden Chair', price: '\$50', imageUrl: 'https://via.placeholder.com/150'),
-    Product(name: 'Bamboo Basket', price: '\$15', imageUrl: 'https://via.placeholder.com/150'),
-    Product(name: 'Ceramic Vase', price: '\$30', imageUrl: 'https://via.placeholder.com/150'),
-    Product(name: 'Cotton Scarf', price: '\$25', imageUrl: 'https://via.placeholder.com/150'),
-    Product(name: 'Leather Bag', price: '\$40', imageUrl: 'https://via.placeholder.com/150'),
+    Product(
+      name: 'Nakshi Katha',
+      price: '\$20',
+      imageUrl: 'https://phantomhands.in/imager/media/the-practical-magic-of-the-nakshi-kantha-a-brief-introduction/23599/9-1_515cffaa34c7b727c9423a5db08aae1f.jpg',
+      description: 'A beautiful katha.',
+      sellerName: 'Artisan 1',
+      sellerContact: '+880123456789',
+      location: 'Natore, Rajshahi, Bangladesh',
+    ),
+    Product(
+      name: 'Jamdani Sharee',
+      price: '\$50',
+      imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTwrNhEl0ObNXh0IgGO7T3K5rQLVAz3U6sxwttLoTzwj5-AmGHW4lAJqV0XTU2jU8wBkiY&usqp=CAU',
+      description: 'A Share.',
+      sellerName: 'Artisan 2',
+      sellerContact: '+880987654321',
+      location: 'Tangail, Dhaka, Bangladesh',
+    ),
   ];
 
   List<Product> filteredProducts = [];
@@ -78,6 +90,13 @@ class _MarketplacePageState extends State<MarketplacePage> {
         );
       },
     );
+  }
+
+  void _addNewPost(Product newProduct) {
+    setState(() {
+      products.add(newProduct);
+      filteredProducts = products;
+    });
   }
 
   @override
@@ -149,7 +168,9 @@ class _MarketplacePageState extends State<MarketplacePage> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => AddPostPage(onPostAdded: (Product) {})),
+              MaterialPageRoute(
+                builder: (context) => AddPostPage(onPostAdded: _addNewPost),
+              ),
             );
           },
           child: Icon(Icons.add),
@@ -159,13 +180,24 @@ class _MarketplacePageState extends State<MarketplacePage> {
     );
   }
 }
-
 class Product {
   final String name;
   final String price;
   final String imageUrl;
+  final String description;
+  final String sellerName;
+  final String sellerContact;
+  final String location;
 
-  Product({required this.name, required this.price, required this.imageUrl});
+  Product({
+    required this.name,
+    required this.price,
+    required this.imageUrl,
+    required this.description,
+    required this.sellerName,
+    required this.sellerContact,
+    required this.location,
+  });
 }
 
 class ProductCard extends StatelessWidget {
@@ -175,48 +207,58 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 2.0,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8.0),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
-            child: ClipRRect(
-              borderRadius: BorderRadius.vertical(top: Radius.circular(8.0)),
-              child: Image.network(
-                product.imageUrl,
-                fit: BoxFit.cover,
-                width: double.infinity,
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ProductDescriptionPage(product: product),
+          ),
+        );
+      },
+      child: Card(
+        elevation: 2.0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: ClipRRect(
+                borderRadius: BorderRadius.vertical(top: Radius.circular(8.0)),
+                child: Image.network(
+                  product.imageUrl,
+                  fit: BoxFit.cover,
+                  width: double.infinity,
+                ),
               ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  product.name,
-                  style: TextStyle(
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.bold,
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    product.name,
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                SizedBox(height: 4.0),
-                Text(
-                  product.price,
-                  style: TextStyle(
-                    fontSize: 14.0,
-                    color: Colors.green,
+                  SizedBox(height: 4.0),
+                  Text(
+                    product.price,
+                    style: TextStyle(
+                      fontSize: 14.0,
+                      color: Colors.green,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
