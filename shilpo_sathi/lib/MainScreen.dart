@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'Account/AccountPage.dart';
+import 'Cart/CartPage.dart';
 import 'Homepage/HomePage.dart';
 import 'Marketplace/MarketplacePage.dart';
 
@@ -46,34 +48,6 @@ class _MainScreenState extends State<MainScreen> {
   }
 }
 
-
-class CartPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('C Page'),
-      ),
-      body: Center(
-        child: Text('Community Page Content'),
-      ),
-    );
-  }
-}
-
-class AccountPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Account Page'),
-      ),
-      body: Center(
-        child: Text('Account Page Content'),
-      ),
-    );
-  }
-}
 
 class ArtisanStorytellingPage extends StatelessWidget {
   @override

@@ -1,16 +1,53 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
 
 class SignInPage extends StatefulWidget {
   @override
   _SignInPageState createState() => _SignInPageState();
 }
 
-class _SignInPageState extends State<SignInPage> {
+class _SignInPageState extends State<SignInPage> with SingleTickerProviderStateMixin {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _isLoading = false;
+
+  late AnimationController _controller;
+  late Animation<double> _opacityAnimation;
+  late Animation<double> _translateAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _controller = AnimationController(
+      duration: const Duration(seconds: 1),
+      vsync: this,
+    );
+
+    _opacityAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: Curves.easeInOut,
+      ),
+    );
+
+    _translateAnimation = Tween<double>(begin: 50.0, end: 0.0).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: Curves.easeInOut,
+      ),
+    );
+
+    _controller.forward();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   Future<void> _signIn() async {
     if (_formKey.currentState!.validate()) {
@@ -38,169 +75,151 @@ class _SignInPageState extends State<SignInPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFFFE3E3),
-      body: SingleChildScrollView(
-        child: Container(
-          height: MediaQuery.of(context).size.height,
-          child: Stack(
-            children: [
-              Column(
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: Container(
-                      margin: EdgeInsets.only(bottom: 50),
-                      color: Color(0xFFFFE3E3),
-                      child: Center(
-                        child: Image.asset(
-                          "assets/images/shilpo.png",
-                          width: 250,
-                          height: 100,
+      backgroundColor: Colors.white,
+      body: AnimatedBuilder(
+        animation: _controller,
+        builder: (context, child) {
+          return SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                minHeight: MediaQuery.of(context).size.height,
+              ),
+              child: Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage("assets/images/background1.jpg"),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                child: Column(
+                  children: [
+                    Container(
+                      height: MediaQuery.of(context).size.height * 0.38,
+                      child: Opacity(
+                        opacity: _opacityAnimation.value,
+                        child: Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset(
+                                "assets/images/shilpo.png",
+                                width: 150,
+                                height: 150,
+                              ),
+                              SizedBox(height: 10),
+                              Text(
+                                "Welcome Back!",
+                                style: TextStyle(
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.blueGrey,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: Container(color: Color(0xFFC9E9D2)),
-                  ),
-                ],
-              ),
-              Center(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Container(
-                      padding: EdgeInsets.all(20),
-                      margin: EdgeInsets.only(top: 150, left: 20, right: 20, bottom: 20),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(20),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black26,
-                            blurRadius: 8,
-                            offset: Offset(0, 4),
+                    Transform.translate(
+                      offset: Offset(0, _translateAnimation.value),
+                      child: Container(
+                        width: MediaQuery.of(context).size.width * 0.90,
+                        height: MediaQuery.of(context).size.height * 0.31,
+                        padding: EdgeInsets.fromLTRB(12, 15, 12, 0),
+                        decoration: BoxDecoration(
+                          color: Colors.transparent,
+                          borderRadius: BorderRadius.circular(30),
+                          border: Border.all(
+                            color: Colors.black,
+                            width: 1,
                           ),
-                        ],
-                      ),
-                      child: Form(
-                        key: _formKey,
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(
-                              "Welcome to Shilpo Sathi!",
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: Color(0xFF213555),
-                              ),
-                            ),
-                            SizedBox(height: 14),
-                            TextFormField(
-                              controller: _emailController,
-                              decoration: InputDecoration(
-                                labelText: "Email",
-                                border: OutlineInputBorder(),
-                              ),
-                              style: TextStyle(fontSize: 12),
-                              validator: (value) => value!.isEmpty ? 'Enter your email' : null,
-                            ),
-                            SizedBox(height: 10),
-                            TextFormField(
-                              controller: _passwordController,
-                              obscureText: true,
-                              decoration: InputDecoration(
-                                labelText: "Password",
-                                border: OutlineInputBorder(),
-                              ),
-                              style: TextStyle(fontSize: 12),
-                              validator: (value) => value!.isEmpty ? 'Enter your password' : null,
-                            ),
-                            SizedBox(height: 10),
-                            _isLoading
-                                ? CircularProgressIndicator()
-                                : ElevatedButton(
-                              onPressed: _signIn,
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.blue,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(30),
-                                ),
-                                padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
-                              ),
-                              child: Text(
-                                "Sign In",
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  color: Colors.white,
-                                ),
-                              ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.white.withOpacity(0.2),
+                              blurRadius: 5,
+                              spreadRadius: 2,
                             ),
                           ],
                         ),
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Padding(
-                        padding: EdgeInsets.only(top: 1, right: 50),
-                        child: TextButton(
-                          onPressed: () {
-                            //pore krbo
-                          },
-                          child: Text(
-                            "Forgot Password?",
-                            style: TextStyle(color: Colors.blue),
+                        child: Form(
+                          key: _formKey,
+                          child: Column(
+                            children: [
+                              TextFormField(
+                                controller: _emailController,
+                                decoration: InputDecoration(
+                                  labelText: "Email",
+                                  prefixIcon: Icon(Icons.email, color: Colors.blueGrey,size: 22,),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                ),
+                                validator: (value) => value!.isEmpty ? 'Enter your email' : null,
+                              ),
+                              SizedBox(height: 10),
+                              TextFormField(
+                                controller: _passwordController,
+                                obscureText: true,
+                                decoration: InputDecoration(
+                                  labelText: "Password",
+                                  prefixIcon: Icon(Icons.lock, color: Colors.blueGrey,size: 22,),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                ),
+                                validator: (value) => value!.isEmpty ? 'Enter your password' : null,
+                              ),
+                              SizedBox(height: 2),
+                              Align(
+                                alignment: Alignment.centerRight,
+                                child: TextButton(
+                                  onPressed: () {},
+                                  child: Text("Forgot Password?", style: TextStyle(color: Colors.blue)),
+                                ),
+                              ),
+                              _isLoading
+                                  ? CircularProgressIndicator()
+                                  : ElevatedButton(
+                                onPressed: _signIn,
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.blue,
+                                  padding: EdgeInsets.symmetric(horizontal: 30, vertical: 8),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30),
+                                  ),
+                                ),
+                                child: Text(
+                                  "Sign In",
+                                  style: TextStyle(fontSize: 16, color: Colors.white),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
                     ),
-                    SizedBox(height: 15),
+                    SizedBox(height: 50),
                     Text("Or sign in with"),
-                    SizedBox(height: 8),
+                    SizedBox(height: 10),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         SizedBox(
-                          width: 40,
-                          height: 40,
-                          child: IconButton(
-                            icon: Image.asset(
-                              "assets/icons/google.png",
-                              fit: BoxFit.contain,
-                            ),
-                            onPressed: () {
-                              // pore krbo
-                            },
-                          ),
+                          width: 30,
+                          height: 30,
+                          child: Image.asset("assets/icons/google.png"),
                         ),
+                        SizedBox(width: 10),
                         SizedBox(
-                          width: 40,
-                          height: 40,
-                          child: IconButton(
-                            icon: Image.asset(
-                              "assets/icons/facebook.png",
-                              fit: BoxFit.contain,
-                            ),
-                            onPressed: () {
-                              // pore krbo
-                            },
-                          ),
+                          width: 30,
+                          height: 30,
+                          child: Image.asset("assets/icons/facebook.png"),
                         ),
+                        SizedBox(width: 10),
                         SizedBox(
-                          width: 40,
-                          height: 40,
-                          child: IconButton(
-                            icon: Image.asset(
-                              "assets/icons/x.png",
-                              fit: BoxFit.contain,
-                            ),
-                            onPressed: () {
-                              // pore krbo
-                            },
-                          ),
+                          width: 30,
+                          height: 30,
+                          child: Image.asset("assets/icons/x.png"),
                         ),
                       ],
                     ),
@@ -208,24 +227,21 @@ class _SignInPageState extends State<SignInPage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text("Not have an account?"),
+                        Text("Don't have an account?"),
                         TextButton(
                           onPressed: () {
                             Navigator.pushNamed(context, '/sign_up');
                           },
-                          child: Text(
-                            "Signup!",
-                            style: TextStyle(color: Colors.blue),
-                          ),
+                          child: Text("Sign Up", style: TextStyle(color: Colors.blue)),
                         ),
                       ],
                     ),
                   ],
                 ),
               ),
-            ],
-          ),
-        ),
+            ),
+          );
+        },
       ),
     );
   }
