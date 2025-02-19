@@ -66,7 +66,6 @@ class ARVirtualShowroomPage extends StatelessWidget {
                 itemBuilder: (context, index) {
                   return GestureDetector(
                     onTap: () {
-                      // Navigate to AR view for the selected product
                     },
                     child: Container(
                       width: 150,
@@ -144,11 +143,10 @@ class ARVirtualShowroomPage extends StatelessWidget {
                 mainAxisSpacing: 16,
                 childAspectRatio: 1.5,
               ),
-              itemCount: 6, // Number of categories
+              itemCount: 6,
               itemBuilder: (context, index) {
                 return GestureDetector(
                   onTap: () {
-                    // Navigate to category products
                   },
                   child: Container(
                     decoration: BoxDecoration(
@@ -186,7 +184,6 @@ class ARVirtualShowroomPage extends StatelessWidget {
             ),
             SizedBox(height: 20),
 
-            // AR Experience Section
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Text(

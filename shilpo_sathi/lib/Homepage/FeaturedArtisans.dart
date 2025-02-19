@@ -5,13 +5,13 @@ class FeaturedArtisans extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 150,
-      margin: EdgeInsets.symmetric(horizontal: 20),
+      margin: EdgeInsets.symmetric(horizontal: 5),
       child: ListView(
         scrollDirection: Axis.horizontal,
         children: [
-          _buildArtisanCard('Nakshi Kantha Weaver', 'assets/nakshikatha1.png'),
-          _buildArtisanCard('Jamdani Craftsman', 'assets/nakshikatha2.jpg'),
-          _buildArtisanCard('Terracotta Potter', 'assets/nakshikatha3.jpg'),
+          _buildArtisanCard('Nakshi Kantha Weaver', 'assets/images/nakshikatha1.png'),
+          _buildArtisanCard('Jamdani Craftsman', 'assets/images/nakshikatha2.jpg'),
+          _buildArtisanCard('Terracotta Potter', 'assets/images/nakshikantha3.jpg'),
         ],
       ),
     );
@@ -20,7 +20,7 @@ class FeaturedArtisans extends StatelessWidget {
   Widget _buildArtisanCard(String title, String imagePath) {
     return Container(
       width: 120,
-      margin: EdgeInsets.only(right: 10),
+      margin: EdgeInsets.only(right: 12),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         image: DecorationImage(
@@ -35,18 +35,18 @@ class FeaturedArtisans extends StatelessWidget {
             begin: Alignment.bottomCenter,
             end: Alignment.topCenter,
             colors: [
-              Colors.black.withOpacity(0.7),
-              Colors.transparent,
+              Color(0xFF93DFD0).withOpacity(0.0),
+              Color(0xFFEAF1F1),
             ],
           ),
         ),
         padding: EdgeInsets.all(10),
         child: Align(
-          alignment: Alignment.bottomLeft,
+          alignment: Alignment.topLeft,
           child: Text(
             title,
             style: TextStyle(
-              color: Colors.white,
+              color: Color(0xFF26547D),
               fontSize: 14,
               fontWeight: FontWeight.bold,
             ),

@@ -31,7 +31,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFBDD0F3),
+      backgroundColor: const Color(0xFFE4F2E8),
       body: SingleChildScrollView(
         child: Container(
           height: MediaQuery.of(context).size.height,

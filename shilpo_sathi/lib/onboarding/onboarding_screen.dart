@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lottie/lottie.dart';
 import 'package:shilpo_sathi/MainScreen.dart';
 import 'package:shilpo_sathi/Signing/sign_in_page.dart';
 
@@ -28,21 +29,21 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
 
     final List<OnboardingPage> pages = [
       OnboardingPage(
-        image: 'assets/images/ar_showroom.png',
+        lottieAsset: 'assets/animations/ar.json',
         title: 'Experience Crafts in AR',
         description:
         'Visualize Nakshi Kantha or Jamdani sarees in your space using augmented reality',
-        bgColor: const Color(0xFFF5E6D3),
+        bgColor: const Color(0xFFE4F2E8),
       ),
       OnboardingPage(
-        image: 'assets/images/artisan_story.png',
+        lottieAsset: 'assets/animations/makers.json',
         title: 'Meet the Makers',
         description:
         'Discover stories of Pabna weavers and Rajshahi silk artisans through voice narratives',
-        bgColor: const Color(0xFFDCEBF4),
+        bgColor: const Color(0xFFE4F2E8),
       ),
       OnboardingPage(
-        image: 'assets/images/fair_trade.png',
+        lottieAsset: 'assets/animations/payment.json',
         title: 'Ethical Shopping',
         description:
         'Directly support artisans with 90% profit going to creators via bKash/Nagad',
@@ -51,6 +52,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
     ];
 
     return Scaffold(
+      backgroundColor: Color(0xFFE4F2E8),
       body: SafeArea(
         child: Stack(
           children: [
@@ -72,12 +74,9 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                             maxHeight: 150,
                             maxWidth: 200,
                           ),
-                          child: Image.asset(
-                            pages[index].image,
+                          child: Lottie.asset(
+                            pages[index].lottieAsset,
                             fit: BoxFit.contain,
-                            filterQuality: FilterQuality.high,
-                            errorBuilder: (context, error, stackTrace) =>
-                            const Icon(Icons.image_not_supported, size: 100),
                           ),
                         ),
                       ),
@@ -180,12 +179,12 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                         });
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF2A5934),
+                        backgroundColor: const Color(0xFF2A5934).withOpacity(0.8),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(24),
                         ),
                         padding:
-                        const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                         elevation: 4,
                       ),
                       child: const Text(
@@ -218,13 +217,13 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
 }
 
 class OnboardingPage {
-  final String image;
+  final String lottieAsset;
   final String title;
   final String description;
   final Color bgColor;
 
   const OnboardingPage({
-    required this.image,
+    required this.lottieAsset,
     required this.title,
     required this.description,
     required this.bgColor,

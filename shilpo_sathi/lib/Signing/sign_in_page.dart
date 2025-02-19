@@ -74,6 +74,10 @@ class _SignInPageState extends State<SignInPage> with SingleTickerProviderStateM
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+    final isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: AnimatedBuilder(
@@ -82,7 +86,7 @@ class _SignInPageState extends State<SignInPage> with SingleTickerProviderStateM
           return SingleChildScrollView(
             child: ConstrainedBox(
               constraints: BoxConstraints(
-                minHeight: MediaQuery.of(context).size.height,
+                minHeight: screenHeight,
               ),
               child: Container(
                 decoration: BoxDecoration(
@@ -93,8 +97,9 @@ class _SignInPageState extends State<SignInPage> with SingleTickerProviderStateM
                 ),
                 child: Column(
                   children: [
+                    // Top Section (Logo and Welcome Text)
                     Container(
-                      height: MediaQuery.of(context).size.height * 0.38,
+                      height: screenHeight * 0.30,
                       child: Opacity(
                         opacity: _opacityAnimation.value,
                         child: Center(
@@ -103,29 +108,23 @@ class _SignInPageState extends State<SignInPage> with SingleTickerProviderStateM
                             children: [
                               Image.asset(
                                 "assets/images/shilpo.png",
-                                width: 150,
-                                height: 150,
+                                width: isPortrait ? 150 : 100,
+                                height: isPortrait ? 70 : 70,
                               ),
                               SizedBox(height: 10),
-                              Text(
-                                "Welcome Back!",
-                                style: TextStyle(
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.blueGrey,
-                                ),
-                              ),
                             ],
                           ),
                         ),
                       ),
                     ),
+
+                    // Middle Section (Form)
                     Transform.translate(
                       offset: Offset(0, _translateAnimation.value),
                       child: Container(
-                        width: MediaQuery.of(context).size.width * 0.90,
-                        height: MediaQuery.of(context).size.height * 0.31,
-                        padding: EdgeInsets.fromLTRB(12, 15, 12, 0),
+                        width: screenWidth * 0.90,
+                        height: isPortrait ? screenHeight * 0.37 : screenHeight * 0.82,
+                        padding: EdgeInsets.fromLTRB(15, 30, 15, 0),
                         decoration: BoxDecoration(
                           color: Colors.transparent,
                           borderRadius: BorderRadius.circular(30),
@@ -149,7 +148,7 @@ class _SignInPageState extends State<SignInPage> with SingleTickerProviderStateM
                                 controller: _emailController,
                                 decoration: InputDecoration(
                                   labelText: "Email",
-                                  prefixIcon: Icon(Icons.email, color: Colors.blueGrey,size: 22,),
+                                  prefixIcon: Icon(Icons.email, color: Colors.blueGrey, size: 22),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
                                   ),
@@ -162,14 +161,14 @@ class _SignInPageState extends State<SignInPage> with SingleTickerProviderStateM
                                 obscureText: true,
                                 decoration: InputDecoration(
                                   labelText: "Password",
-                                  prefixIcon: Icon(Icons.lock, color: Colors.blueGrey,size: 22,),
+                                  prefixIcon: Icon(Icons.lock, color: Colors.blueGrey, size: 22),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                 ),
                                 validator: (value) => value!.isEmpty ? 'Enter your password' : null,
                               ),
-                              SizedBox(height: 2),
+                              SizedBox(height: 5),
                               Align(
                                 alignment: Alignment.centerRight,
                                 child: TextButton(
@@ -198,7 +197,9 @@ class _SignInPageState extends State<SignInPage> with SingleTickerProviderStateM
                         ),
                       ),
                     ),
-                    SizedBox(height: 50),
+
+                    // Bottom Section (Social Icons and Sign Up)
+                    SizedBox(height: 40),
                     Text("Or sign in with"),
                     SizedBox(height: 10),
                     Row(
@@ -236,6 +237,7 @@ class _SignInPageState extends State<SignInPage> with SingleTickerProviderStateM
                         ),
                       ],
                     ),
+                    SizedBox(height: 20),
                   ],
                 ),
               ),

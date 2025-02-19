@@ -12,7 +12,8 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   int _currentIndex = 0;
-  final Color primaryColor = Color(0xFF26547D);
+  //final Color primaryColor = Color(0xFF26547D);
+  final Color primaryColor = Color(0xFF6ECAB8);
   final List<Widget> _pages = [
     HomePage(),
     MarketplacePage(),
