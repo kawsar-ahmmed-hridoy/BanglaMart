@@ -124,7 +124,7 @@ class _HomePageState extends State<HomePage> {
       }
     } catch (e) {
       setState(() {
-        _currentAddress = "Akhaliya, Sylhet: $e";
+        _currentAddress = "Akhaliya, Sylhet: (default address)";
         _isLoading = false;
       });
     }
@@ -133,7 +133,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFE4F2E8),
+      backgroundColor: Colors.white,
       appBar: _buildAppBar(context),
       body: LayoutBuilder(
         builder: (context, constraints) {

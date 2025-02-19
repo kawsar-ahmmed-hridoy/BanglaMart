@@ -59,7 +59,8 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                   'শিল্পসাথী',
                   style: TextStyle(
                     fontSize: 50,
-                    color: Colors.amber[700],
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF2A5934),
                     fontFamily: 'Kalpurush',
                   ),
                 ),
@@ -69,6 +70,8 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                     'Crafting Heritage, Empowering Artisans',
                     textAlign: TextAlign.center,
                     style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
                       color: Colors.black,
                     ),
                   ),

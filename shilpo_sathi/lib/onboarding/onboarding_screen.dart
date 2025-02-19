@@ -72,7 +72,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                         child: Container(
                           constraints: const BoxConstraints(
                             maxHeight: 150,
-                            maxWidth: 200,
+                            maxWidth: 250,
                           ),
                           child: Lottie.asset(
                             pages[index].lottieAsset,
