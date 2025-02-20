@@ -3,12 +3,14 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
+import 'package:shilpo_sathi/Homepage/DIYCraftWorkshopsPage.dart';
 import 'BannerSection.dart';
 import 'CategorySection.dart';
 import 'FeaturedArtisans.dart';
 import 'LocationSection.dart';
 import 'RecentlyAddedSection.dart';
 import 'TrendingWorkshopsSection.dart';
+import 'VirtualShowroom.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -149,64 +151,16 @@ class _HomePageState extends State<HomePage> {
                   SizedBox(height: 10),
                   BannerSection(pageController: _pageController),
                   SizedBox(height: 20),
-
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text("Featured Artisans", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: primaryColor)),
-                      TextButton(
-                        onPressed: () {
-                        },
-                        child: Text("View all", style: TextStyle(color: secondaryColor)),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 10),
-                  FeaturedArtisans(),
-
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text("Categories", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: primaryColor)),
-                      TextButton(
-                        onPressed: () {
-                        },
-                        child: Text("View all", style: TextStyle(color: secondaryColor)),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 10),
-                  CategorySection(),
-                  SizedBox(height: 20),
-
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text("Trending Workshops", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: primaryColor)),
-                      TextButton(
-                        onPressed: () {
-                        },
-                        child: Text("View all", style: TextStyle(color: secondaryColor)),
-                      ),
-                    ],
-                  ),
                   SizedBox(height: 10),
                   TrendingWorkshops(),
                   SizedBox(height: 20),
-
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text("Recently Added", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: primaryColor)),
-                      TextButton(
-                        onPressed: () {
-                        },
-                        child: Text("View all", style: TextStyle(color: secondaryColor)),
-                      ),
-                    ],
-                  ),
+                  CategorySection(),
+                  SizedBox(height: 20),
+                  VirtualShowroom(),
                   SizedBox(height: 10),
                   RecentlyAdded(),
+                  SizedBox(height: 20),
+                  DIYCraftWorkshopsPage(),
                   SizedBox(height: 20),
                 ],
               ),

@@ -3,17 +3,45 @@ import 'package:flutter/material.dart';
 class FeaturedArtisans extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 150,
-      margin: EdgeInsets.symmetric(horizontal: 5),
-      child: ListView(
-        scrollDirection: Axis.horizontal,
-        children: [
-          _buildArtisanCard('Nakshi Kantha Weaver', 'assets/images/nakshikatha1.png'),
-          _buildArtisanCard('Jamdani Craftsman', 'assets/images/nakshikatha2.jpg'),
-          _buildArtisanCard('Terracotta Potter', 'assets/images/nakshikantha3.jpg'),
-        ],
-      ),
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              "Featured Artisans",
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Color(0xFF26547D),
+              ),
+            ),
+            TextButton(
+              onPressed: () {},
+              child: Text(
+                "View all",
+                style: TextStyle(color: Colors.blue),
+              ),
+            ),
+          ],
+        ),
+        SizedBox(height: 10),
+        Container(
+          height: 150,
+          margin: EdgeInsets.symmetric(horizontal: 5),
+          child: ListView(
+            scrollDirection: Axis.horizontal,
+            children: [
+              _buildArtisanCard(
+                  'Nakshi Kantha Weaver', 'assets/images/nakshikatha1.png'),
+              _buildArtisanCard(
+                  'Jamdani Craftsman', 'assets/images/nakshikatha2.jpg'),
+              _buildArtisanCard(
+                  'Terracotta Potter', 'assets/images/nakshikantha3.jpg'),
+            ],
+          ),
+        ),
+      ],
     );
   }
 

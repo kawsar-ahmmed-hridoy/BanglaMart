@@ -40,7 +40,7 @@ class BannerSection extends StatelessWidget {
 
   Widget _bannerPage({required String title, required String discount, required String imagePath}) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 10),
+      margin: EdgeInsets.symmetric(horizontal: 5),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         color: Color(0xFF05C793).withOpacity(0.1),
