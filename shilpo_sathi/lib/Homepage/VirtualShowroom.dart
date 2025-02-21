@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 
 class VirtualShowroom extends StatefulWidget {
@@ -10,24 +9,29 @@ class VirtualShowroom extends StatefulWidget {
 class _VirtualShowroomState extends State<VirtualShowroom> {
   final List<Map<String, String>> banners = [
     {
-      "image": "assets/images/pottery.jpg",
-      "name": "Handmade Pottery",
-      "description": "Explore exquisite handmade pottery crafted by skilled artisans.",
+      "image": "assets/showroom/aarong.jpg",
+      "name": "Aarong",
+      "description": "Aarong – Bengali for 'village fair' – is Bangladesh's most popular lifestyle retail chain.",
     },
     {
-      "image": "assets/images/textiles.jpg",
-      "name": "Traditional Textiles",
-      "description": "Discover the beauty of traditional woven fabrics and patterns.",
+      "image": "assets/showroom/evaly.jpg",
+      "name": "Evaly",
+      "description": "E-valy is capable of providing every kind of goods and products from every sector to every consumer located in Bangladesh.",
     },
     {
-      "image": "assets/images/jewelry.jpg",
-      "name": "Artisan Jewelry",
-      "description": "Adorn yourself with unique, handcrafted jewelry pieces.",
+      "image": "assets/showroom/lereve.jpg",
+      "name": "Le reve",
+      "description": "Le Reve, the leading fashion brand in Bangladesh, is synonymous with trendy and effortless style.",
+    },
+    {
+      "image": "assets/showroom/sailor.jpg",
+      "name": "Sailor",
+      "description": "Sailor is an eminent lifestyle brand in the retail fashion industry of Bangladesh with the purpose of Sailing life.",
     },
   ];
 
   int _currentBannerIndex = 0;
-  bool _isVisible = true;
+  bool _isForward = true;
   late Timer _timer;
 
   @override
@@ -45,14 +49,17 @@ class _VirtualShowroomState extends State<VirtualShowroom> {
   void _startBannerTimer() {
     _timer = Timer.periodic(Duration(seconds: 4), (timer) {
       setState(() {
-        _isVisible = false;
-      });
-
-      Future.delayed(Duration(milliseconds: 500), () {
-        setState(() {
+        if (_isForward) {
           _currentBannerIndex = (_currentBannerIndex + 1) % banners.length;
-          _isVisible = true;
-        });
+          if (_currentBannerIndex == banners.length - 1) {
+            _isForward = false;
+          }
+        } else {
+          _currentBannerIndex = (_currentBannerIndex - 1) % banners.length;
+          if (_currentBannerIndex == 0) {
+            _isForward = true;
+          }
+        }
       });
     });
   }
@@ -74,21 +81,26 @@ class _VirtualShowroomState extends State<VirtualShowroom> {
           ),
         ),
         SizedBox(height: 10),
-        Container(
-          height: 180,
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              AnimatedOpacity(
-                opacity: _isVisible ? 1.0 : 0.0,
-                duration: Duration(milliseconds: 500),
-                child: _buildBanner(
-                  banners[_currentBannerIndex]["image"]!,
-                  banners[_currentBannerIndex]["name"]!,
-                  banners[_currentBannerIndex]["description"]!,
-                ),
+        AspectRatio(
+          aspectRatio: 16 / 9,
+          child: AnimatedSwitcher(
+            duration: Duration(milliseconds: 500),
+            transitionBuilder: (Widget child, Animation<double> animation) {
+              Offset begin = _isForward ? Offset(1.0, 0.0) : Offset(-1.0, 0.0);
+              Offset end = Offset.zero;
+              return SlideTransition(
+                position: Tween<Offset>(begin: begin, end: end).animate(animation),
+                child: child,
+              );
+            },
+            child: KeyedSubtree(
+              key: ValueKey<int>(_currentBannerIndex),
+              child: _buildBanner(
+                banners[_currentBannerIndex]["image"]!,
+                banners[_currentBannerIndex]["name"]!,
+                banners[_currentBannerIndex]["description"]!,
               ),
-            ],
+            ),
           ),
         ),
         SizedBox(height: 10),
@@ -117,15 +129,15 @@ class _VirtualShowroomState extends State<VirtualShowroom> {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
           gradient: LinearGradient(
-            begin: Alignment.bottomCenter,
-            end: Alignment.topCenter,
+            begin: Alignment.center,
+            end: Alignment.center,
             colors: [
-              Color(0xFF93DFD0).withOpacity(0.3),
-              Colors.black.withOpacity(0.4),
+              Color(0xFFD3E6E3).withOpacity(0.7),
+              Colors.white.withOpacity(0.4),
             ],
           ),
         ),
-        padding: EdgeInsets.all(16),
+        padding: EdgeInsets.all(15),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -133,24 +145,26 @@ class _VirtualShowroomState extends State<VirtualShowroom> {
             Text(
               name,
               style: TextStyle(
-                fontSize: 20,
+                fontSize: 17,
                 fontWeight: FontWeight.bold,
-                color: Colors.white,
+                color: Color(0xFF26547D),
               ),
             ),
             SizedBox(height: 8),
             Text(
               description,
               style: TextStyle(
-                fontSize: 14,
-                color: Colors.white,
+                fontSize: 13,
+                color: Color(0xFF046048),
+                fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 16),
+            SizedBox(height: 15),
             ElevatedButton(
               onPressed: () {
               },
               style: ElevatedButton.styleFrom(
+                minimumSize: Size(50, 30),
                 backgroundColor: Color(0xFFEF436B),
                 padding: EdgeInsets.symmetric(horizontal: 15, vertical: 3),
                 shape: RoundedRectangleBorder(
@@ -158,9 +172,9 @@ class _VirtualShowroomState extends State<VirtualShowroom> {
                 ),
               ),
               child: Text(
-                "View Details",
+                "Go Website",
                 style: TextStyle(
-                  fontSize: 10,
+                  fontSize: 12,
                   color: Colors.white,
                 ),
               ),
