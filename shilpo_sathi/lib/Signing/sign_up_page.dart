@@ -73,13 +73,19 @@ class _SignUpPageState extends State<SignUpPage> with SingleTickerProviderStateM
           password: _passwordController.text.trim(),
         );
 
+        List<String> nameParts = _nameController.text.trim().split(' ');
+        String firstName = nameParts.isNotEmpty ? nameParts.first : '';
+        String lastName = nameParts.length > 1 ? nameParts.sublist(1).join(' ') : '';
+
         await FirebaseFirestore.instance.collection('users').doc(userCredential.user!.uid).set({
-          'name': _nameController.text.trim(),
+          'firstName': firstName,
+          'lastName': lastName,
           'email': _emailController.text.trim(),
           'gender': _selectedGender,
           'dateOfBirth': _selectedDate,
           'createdAt': Timestamp.now(),
         });
+
         Navigator.pushReplacementNamed(context, '/sign_in');
       } on FirebaseAuthException catch (e) {
         setState(() {
@@ -91,7 +97,6 @@ class _SignUpPageState extends State<SignUpPage> with SingleTickerProviderStateM
       }
     }
   }
-
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,

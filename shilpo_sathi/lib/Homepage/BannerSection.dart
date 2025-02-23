@@ -1,5 +1,10 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:provider/provider.dart';
+import 'banner_provider.dart';
+import 'banner_details.dart';
 
 class BannerSection extends StatefulWidget {
   @override
@@ -7,26 +12,46 @@ class BannerSection extends StatefulWidget {
 }
 
 class _BannerSectionState extends State<BannerSection> {
-  final List<Map<String, String>> banners = [
+  final List<Map<String, dynamic>> banners = [
     {
       "title": "পহেলা বৈশাখ উৎসব",
       "location": "রমনা, ঢাকা",
       "imagePath": 'assets/images/nakshikatha2.jpg',
+      "description": "Experience the vibrant celebrations of Pohela Boishakh, the Bengali New Year, with cultural programs, traditional food, and music.",
+      "address": "Ramna Park, Dhaka",
+      "startDate": "April 14, 2025",
+      "endDate": "April 14, 2025",
+      "mapLocation": LatLng(23.7333, 90.4066),
     },
     {
       "title": "বাণিজ্য মেলা ২০২৫",
       "location": "আগারগাঁও, ঢাকা",
       "imagePath": 'assets/images/nakshikantha3.jpg',
+      "description": "Explore the largest trade fair in Bangladesh, showcasing products from various industries.",
+      "address": "Agargaon, Dhaka",
+      "startDate": "January 1, 2025",
+      "endDate": "January 31, 2025",
+      "mapLocation": LatLng(23.7772, 90.3995),
     },
     {
       "title": "কুটিরশিল্প উৎসব ২০২৫",
       "location": "বন্দরবাজার, সিলেট",
       "imagePath": 'assets/images/nakshikantha3.jpg',
+      "description": "Discover the beauty of traditional cottage industries and handmade crafts.",
+      "address": "Bandarbazar, Sylhet",
+      "startDate": "March 1, 2025",
+      "endDate": "March 7, 2025",
+      "mapLocation": LatLng(24.8949, 91.8687),
     },
     {
       "title": "গ্রামীণ শিল্প মেলা ২০২৫",
       "location": "কুষ্টিয়া সদর",
       "imagePath": 'assets/images/nakshikatha2.jpg',
+      "description": "A fair dedicated to rural arts and crafts, promoting local artisans.",
+      "address": "Kushtia Sadar, Kushtia",
+      "startDate": "February 10, 2025",
+      "endDate": "February 20, 2025",
+      "mapLocation": LatLng(23.9015, 89.1228),
     },
   ];
 
@@ -63,41 +88,49 @@ class _BannerSectionState extends State<BannerSection> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text("Events Nearby You",style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF26547D)),),
-        SizedBox(height: 10),
-        AspectRatio(
-          aspectRatio: 16 / 8,
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              AnimatedOpacity(
-                opacity: _isVisible ? 1.0 : 0.0,
-                duration: Duration(milliseconds: 500),
-                child: _bannerPage(
-                  title: banners[_currentBannerIndex]["title"]!,
-                  location: banners[_currentBannerIndex]["location"]!,
-                  imagePath: banners[_currentBannerIndex]["imagePath"]!,
+    return ChangeNotifierProvider(
+      create: (_) => BannerProvider(),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text("Events Nearby You", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF26547D))),
+          SizedBox(height: 10),
+          AspectRatio(
+            aspectRatio: 16 / 8,
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                AnimatedOpacity(
+                  opacity: _isVisible ? 1.0 : 0.0,
+                  duration: Duration(milliseconds: 500),
+                  child: _bannerPage(
+                    title: banners[_currentBannerIndex]["title"],
+                    location: banners[_currentBannerIndex]["location"],
+                    imagePath: banners[_currentBannerIndex]["imagePath"],
+                    onPressed: () {
+                      final bannerProvider = Provider.of<BannerProvider>(context, listen: false);
+                      bannerProvider.setSelectedBanner(banners[_currentBannerIndex]);
+                      bannerProvider.navigateToBannerDetails(context);
+                    },
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-        SizedBox(height: 10),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: List.generate(
-            banners.length,
-                (index) => _buildIndicator(index == _currentBannerIndex),
+          SizedBox(height: 10),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: List.generate(
+              banners.length,
+                  (index) => _buildIndicator(index == _currentBannerIndex),
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
-  Widget _bannerPage({required String title, required String location, required String imagePath}) {
+  Widget _bannerPage({required String title, required String location, required String imagePath, required VoidCallback onPressed}) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 5),
       decoration: BoxDecoration(
@@ -123,7 +156,7 @@ class _BannerSectionState extends State<BannerSection> {
                 ),
                 SizedBox(height: 6),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: onPressed,
                   child: Text("View details", style: TextStyle(color: Colors.white, fontSize: 12)),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color(0xFFEF436B),

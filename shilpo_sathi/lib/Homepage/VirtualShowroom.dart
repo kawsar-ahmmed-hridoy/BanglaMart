@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class VirtualShowroom extends StatefulWidget {
   @override
@@ -12,21 +13,25 @@ class _VirtualShowroomState extends State<VirtualShowroom> {
       "image": "assets/showroom/aarong.jpg",
       "name": "Aarong",
       "description": "Aarong – Bengali for 'village fair' – is Bangladesh's most popular lifestyle retail chain.",
+      "url": "https://www.aarong.com/",
     },
     {
       "image": "assets/showroom/evaly.jpg",
       "name": "Evaly",
       "description": "E-valy is capable of providing every kind of goods and products from every sector to every consumer located in Bangladesh.",
+      "url": "https://www.evaly.com.bd/",
     },
     {
       "image": "assets/showroom/lereve.jpg",
       "name": "Le reve",
       "description": "Le Reve, the leading fashion brand in Bangladesh, is synonymous with trendy and effortless style.",
+      "url": "https://www.lerevecraze.com/",
     },
     {
       "image": "assets/showroom/sailor.jpg",
       "name": "Sailor",
       "description": "Sailor is an eminent lifestyle brand in the retail fashion industry of Bangladesh with the purpose of Sailing life.",
+      "url": "https://www.sailor.clothing/",
     },
   ];
 
@@ -66,6 +71,16 @@ class _VirtualShowroomState extends State<VirtualShowroom> {
 
   @override
   Widget build(BuildContext context) {
+    if (banners.isEmpty) {
+      return Center(child: Text("No banners available"));
+    }
+
+    final currentBanner = banners[_currentBannerIndex];
+    final imagePath = currentBanner["image"] ?? "assets/default_image.jpg";
+    final name = currentBanner["name"] ?? "Unknown";
+    final description = currentBanner["description"] ?? "No description available";
+    final url = currentBanner["url"] ?? "https://example.com";
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -95,11 +110,7 @@ class _VirtualShowroomState extends State<VirtualShowroom> {
             },
             child: KeyedSubtree(
               key: ValueKey<int>(_currentBannerIndex),
-              child: _buildBanner(
-                banners[_currentBannerIndex]["image"]!,
-                banners[_currentBannerIndex]["name"]!,
-                banners[_currentBannerIndex]["description"]!,
-              ),
+              child: _buildBanner(imagePath, name, description, url),
             ),
           ),
         ),
@@ -115,7 +126,7 @@ class _VirtualShowroomState extends State<VirtualShowroom> {
     );
   }
 
-  Widget _buildBanner(String imagePath, String name, String description) {
+  Widget _buildBanner(String imagePath, String name, String description, String url) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 0.0),
       decoration: BoxDecoration(
@@ -162,6 +173,7 @@ class _VirtualShowroomState extends State<VirtualShowroom> {
             SizedBox(height: 15),
             ElevatedButton(
               onPressed: () {
+                _navigateToWebsite(url);
               },
               style: ElevatedButton.styleFrom(
                 minimumSize: Size(50, 30),
@@ -195,5 +207,10 @@ class _VirtualShowroomState extends State<VirtualShowroom> {
         color: isActive ? Color(0xFFEF436B) : Colors.grey[400],
       ),
     );
+  }
+
+  void _navigateToWebsite(String url) {
+    //print("Navigating to: $url");
+    launch(url);
   }
 }
