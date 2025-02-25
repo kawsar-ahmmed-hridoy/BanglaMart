@@ -58,7 +58,7 @@ class _AccountPageState extends State<AccountPage> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text('Account'),
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: Color(0xFF6ECAB8),
       ),
       body: isLoading
           ? Center(child: CircularProgressIndicator())
@@ -237,7 +237,9 @@ class _AccountPageState extends State<AccountPage> {
             ListTile(
               leading: Icon(Icons.work, color: Colors.deepPurple),
               title: Text('Tell us what you think?'),
-              onTap: () {},
+              onTap: () {
+                Navigator.pushNamed(context, '/what_u_think');
+              },
             ),
             ListTile(
               leading: Icon(Icons.manage_accounts, color: Colors.deepPurple),

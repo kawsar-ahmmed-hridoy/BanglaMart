@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shilpo_sathi/Account/MyProfilePage.dart';
+import 'package:shilpo_sathi/Account/WhatUThinkPage.dart';
 import 'package:shilpo_sathi/Homepage/NotificationsPage.dart';
 import 'package:shilpo_sathi/MainScreen.dart';
 import 'Signing/sign_in_page.dart';
@@ -38,6 +39,7 @@ class MyApp extends StatelessWidget {
         '/home': (context) => MainScreen(),
         '/notification': (context) => NotificationsPage(),
         '/my_profile': (context) => MyProfilePage(),
+        '/what_u_think': (context) => WhatUThinkPage(),
       },
     );
   }
