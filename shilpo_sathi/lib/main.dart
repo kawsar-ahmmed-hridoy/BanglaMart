@@ -2,9 +2,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shilpo_sathi/Account/MyProfilePage.dart';
-import 'package:shilpo_sathi/Account/WhatUThinkPage.dart';
 import 'package:shilpo_sathi/Homepage/NotificationsPage.dart';
 import 'package:shilpo_sathi/MainScreen.dart';
+import 'Account/ManageAccountPage.dart';
 import 'Signing/sign_in_page.dart';
 import 'Signing/sign_up_page.dart';
 import 'firebase_options.dart';
@@ -22,14 +22,18 @@ void main() async {
   );
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final themeMode = ref.watch(themeProvider);
+
     return MaterialApp(
       title: 'ShilpoSathi',
       theme: _buildAppTheme(),
+      darkTheme: _buildDarkAppTheme(),
+      themeMode: themeMode,
       debugShowCheckedModeBanner: false,
       onGenerateRoute: AppRouter.generateRoute,
       initialRoute: '/',
@@ -39,7 +43,7 @@ class MyApp extends StatelessWidget {
         '/home': (context) => MainScreen(),
         '/notification': (context) => NotificationsPage(),
         '/my_profile': (context) => MyProfilePage(),
-        '/what_u_think': (context) => WhatUThinkPage(),
+        '/manage_account': (context) => ManageAccountPage(), // Add ManageAccountPage route
       },
     );
   }
@@ -55,6 +59,18 @@ class MyApp extends StatelessWidget {
       appBarTheme: const AppBarTheme(
         color: Color(0xFF2A5934),
         iconTheme: IconThemeData(color: Colors.white),
+      ),
+    );
+  }
+
+  ThemeData _buildDarkAppTheme() {
+    return ThemeData.dark().copyWith(
+      colorScheme: ColorScheme.dark(
+        primary: const Color(0xFF2A5934),
+        secondary: const Color(0xFFF5A623),
+      ),
+      appBarTheme: const AppBarTheme(
+        color: Color(0xFF1E1E1E),
       ),
     );
   }

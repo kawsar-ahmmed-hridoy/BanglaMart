@@ -244,7 +244,9 @@ class _AccountPageState extends State<AccountPage> {
             ListTile(
               leading: Icon(Icons.manage_accounts, color: Colors.deepPurple),
               title: Text('Manage শিল্পসাথী account'),
-              onTap: () {},
+              onTap: () {
+                Navigator.pushNamed(context, '/manage_account');
+              },
             ),
             SignOutSection(),
             Text("©2025 শিল্পসাথী (version 1.0) || All rights reserved", style: TextStyle(fontSize: 8)),
