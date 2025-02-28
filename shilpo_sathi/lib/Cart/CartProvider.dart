@@ -1,23 +1,54 @@
-import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class CartProvider with ChangeNotifier {
-  List<Map<String, dynamic>> _cartItems = [];
+import '../Marketplace/MarketplacePage.dart';
 
-  List<Map<String, dynamic>> get cartItems => _cartItems;
+class CartItem {
+  final Product product;
+  int quantity;
 
-  void addToCart(Map<String, dynamic> item) {
-    _cartItems.add(item);
-    notifyListeners();
+  CartItem({required this.product, this.quantity = 1});
+}
+
+class CartNotifier extends StateNotifier<List<CartItem>> {
+  CartNotifier() : super([]);
+
+  void addToCart(Product product) {
+    final existingItem = state.firstWhere(
+          (item) => item.product.name == product.name,
+      orElse: () => CartItem(product: product, quantity: 0),
+    );
+    if (existingItem.quantity > 0) {
+      existingItem.quantity++;
+    } else {
+      state = [...state, CartItem(product: product)];
+    }
   }
 
-  void removeFromCart(int index) {
-    _cartItems.removeAt(index);
-    notifyListeners();
+  void removeFromCart(CartItem item) {
+    state = state.where((cartItem) => cartItem != item).toList();
   }
 
-  double calculateTotal() {
-    return _cartItems.fold(0, (sum, item) {
-      return sum + (item['price'] * item['quantity']);
-    });
+  void incrementQuantity(CartItem item) {
+    item.quantity++;
+    state = [...state];
+  }
+
+  void decrementQuantity(CartItem item) {
+    if (item.quantity > 1) {
+      item.quantity--;
+    } else {
+      state = state.where((cartItem) => cartItem != item).toList();
+    }
+  }
+
+  double get totalPrice {
+    return state.fold(
+      0,
+          (sum, item) => sum + (double.parse(item.product.price.replaceAll('\$', '')) * item.quantity),
+    );
   }
 }
+
+final cartProvider = StateNotifierProvider<CartNotifier, List<CartItem>>((ref) {
+  return CartNotifier();
+});

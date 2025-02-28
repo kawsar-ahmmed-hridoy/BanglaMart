@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../Cart/CartPage.dart';
+import '../Cart/CartProvider.dart';
+import '../Cart/FilteredProductsProvider.dart';
 import 'AddPostPage.dart';
 import 'ProductDescriptionPage.dart';
 
-class MarketplacePage extends StatefulWidget {
-  @override
-  _MarketplacePageState createState() => _MarketplacePageState();
-}
-
-class _MarketplacePageState extends State<MarketplacePage> {
-  List<Product> products = [
+class MarketplacePage extends ConsumerWidget {
+  final List<Product> products = [
     Product(
       name: 'Nakshi Katha',
       price: '\$20',
@@ -31,123 +30,32 @@ class _MarketplacePageState extends State<MarketplacePage> {
     ),
   ];
 
-  List<Product> filteredProducts = [];
   final TextEditingController _searchController = TextEditingController();
   String _selectedCategory = 'All';
 
   @override
-  void initState() {
-    super.initState();
-    filteredProducts = products;
-  }
-
-  void filterProducts(String query) {
-    setState(() {
-      filteredProducts = products
-          .where((product) =>
-      product.name.toLowerCase().contains(query.toLowerCase()) &&
-          (_selectedCategory == 'All' || product.category == _selectedCategory))
-          .toList();
-    });
-  }
-
-  void _showFilterOptions() {
-    showModalBottomSheet(
-      context: context,
-      builder: (context) {
-        return Container(
-          padding: EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text('Filter Options', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-              Divider(),
-              ListTile(
-                title: Text('Price: Low to High'),
-                onTap: () {
-                  setState(() {
-                    filteredProducts.sort((a, b) => a.price.compareTo(b.price));
-                  });
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                title: Text('Price: High to Low'),
-                onTap: () {
-                  setState(() {
-                    filteredProducts.sort((a, b) => b.price.compareTo(a.price));
-                  });
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                title: Text('Sort by Name'),
-                onTap: () {
-                  setState(() {
-                    filteredProducts.sort((a, b) => a.name.compareTo(b.name));
-                  });
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                title: Text('Reset Filters'),
-                onTap: () {
-                  setState(() {
-                    filteredProducts = products;
-                    _selectedCategory = 'All';
-                  });
-                  Navigator.pop(context);
-                },
-              ),
-              Divider(),
-              Text('Categories', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-              DropdownButton<String>(
-                value: _selectedCategory,
-                onChanged: (String? newValue) {
-                  setState(() {
-                    _selectedCategory = newValue!;
-                    filterProducts(_searchController.text);
-                  });
-                  Navigator.pop(context);
-                },
-                items: <String>['All', 'Handicraft', 'Clothing']
-                    .map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
-  void _addNewPost(Product newProduct) {
-    setState(() {
-      products.add(newProduct);
-      filteredProducts = products;
-    });
-  }
-
-  Future<void> _refreshProducts() async {
-    await Future.delayed(Duration(seconds: 2));
-    setState(() {
-      filteredProducts = products;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    List<Product> filteredProducts = ref.watch(filteredProductsProvider(products));
     final isMobile = MediaQuery.of(context).size.width < 600;
 
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xFF6ECAB8),
-        title: Text('Marketplace',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold)),
+        title: Text('Marketplace', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
         centerTitle: true,
+        actions: [
+          IconButton(
+            icon: Icon(Icons.shopping_cart),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => CartPage(),
+                ),
+              );
+            },
+          ),
+        ],
       ),
       body: Column(
         children: [
@@ -167,27 +75,32 @@ class _MarketplacePageState extends State<MarketplacePage> {
                       suffixIcon: IconButton(
                         icon: Icon(Icons.clear),
                         onPressed: () {
-                          setState(() {
-                            _searchController.clear();
-                            filterProducts('');
-                          });
+                          _searchController.clear();
+                          ref.read(filteredProductsProvider(products).notifier).filterProducts('');
                         },
                       ),
                     ),
-                    onChanged: filterProducts,
+                    onChanged: (query) {
+                      ref.read(filteredProductsProvider(products).notifier).filterProducts(query);
+                    },
                   ),
                 ),
                 SizedBox(width: 8.0),
                 IconButton(
                   icon: Icon(Icons.filter_list),
-                  onPressed: _showFilterOptions,
+                  onPressed: () {
+                    _showFilterOptions(context, ref);
+                  },
                 ),
               ],
             ),
           ),
           Expanded(
             child: RefreshIndicator(
-              onRefresh: _refreshProducts,
+              onRefresh: () async {
+                await Future.delayed(Duration(seconds: 2));
+                ref.read(filteredProductsProvider(products).notifier).resetFilters();
+              },
               child: LayoutBuilder(
                 builder: (context, constraints) {
                   return GridView.builder(
@@ -200,7 +113,9 @@ class _MarketplacePageState extends State<MarketplacePage> {
                     ),
                     itemCount: filteredProducts.length,
                     itemBuilder: (context, index) {
-                      return ProductCard(product: filteredProducts[index]);
+                      return ProductCard(
+                        product: filteredProducts[index],
+                      );
                     },
                   );
                 },
@@ -217,7 +132,9 @@ class _MarketplacePageState extends State<MarketplacePage> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => AddPostPage(onPostAdded: _addNewPost),
+                builder: (context) => AddPostPage(onPostAdded: (newProduct) {
+                  ref.read(filteredProductsProvider(products).notifier).addProduct(newProduct);
+                }),
               ),
             );
           },
@@ -227,7 +144,109 @@ class _MarketplacePageState extends State<MarketplacePage> {
       ),
     );
   }
+
+  void _showFilterOptions(BuildContext context, WidgetRef ref) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return Container(
+          padding: EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text('Filter Options', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              Divider(),
+              ListTile(
+                title: Text('Price: Low to High'),
+                onTap: () {
+                  ref.read(filteredProductsProvider(products).notifier).sortByPriceLowToHigh();
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                title: Text('Price: High to Low'),
+                onTap: () {
+                  ref.read(filteredProductsProvider(products).notifier).sortByPriceHighToLow();
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                title: Text('Sort by Name'),
+                onTap: () {
+                  ref.read(filteredProductsProvider(products).notifier).sortByName();
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                title: Text('Reset Filters'),
+                onTap: () {
+                  ref.read(filteredProductsProvider(products).notifier).resetFilters();
+                  Navigator.pop(context);
+                },
+              ),
+              Divider(),
+              Text('Categories', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+              DropdownButton<String>(
+                value: _selectedCategory,
+                onChanged: (String? newValue) {
+                  _selectedCategory = newValue!;
+                  ref.read(filteredProductsProvider(products).notifier).filterByCategory(_selectedCategory);
+                  Navigator.pop(context);
+                },
+                items: <String>['All', 'Handicraft', 'Clothing']
+                    .map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
 }
+
+class ProductCard extends ConsumerWidget {
+  final Product product;
+
+  ProductCard({required this.product});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ProductDescriptionPage(product: product),
+          ),
+        );
+      },
+      child: Card(
+        elevation: 2.0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                ref.read(cartProvider.notifier).addToCart(product);
+              },
+              child: Text('Add to Cart'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+
 
 class Product {
   final String name;
@@ -249,76 +268,4 @@ class Product {
     required this.location,
     required this.category,
   });
-}
-
-class ProductCard extends StatelessWidget {
-  final Product product;
-
-  ProductCard({required this.product});
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => ProductDescriptionPage(product: product),
-          ),
-        );
-      },
-      child: Card(
-        elevation: 2.0,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8.0),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              child: ClipRRect(
-                borderRadius: BorderRadius.vertical(top: Radius.circular(8.0)),
-                child: Image.network(
-                  product.imageUrl,
-                  fit: BoxFit.cover,
-                  width: double.infinity,
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    product.name,
-                    style: TextStyle(
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: 4.0),
-                  Text(
-                    product.price,
-                    style: TextStyle(
-                      fontSize: 14.0,
-                      color: Color(0xFF6ECAB8),
-                    ),
-                  ),
-                  SizedBox(height: 4.0),
-                  Text(
-                    product.category,
-                    style: TextStyle(
-                      fontSize: 12.0,
-                      color: Colors.grey,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
 }

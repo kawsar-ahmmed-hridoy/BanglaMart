@@ -1,43 +1,66 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'CartProvider.dart';
 
-class CartPage extends StatelessWidget {
+class CartPage extends ConsumerWidget {
   @override
-  Widget build(BuildContext context) {
-    final cartProvider = Provider.of<CartProvider>(context);
-    final cartItems = cartProvider.cartItems;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final cartItems = ref.watch(cartProvider);
+    final totalPrice = ref.watch(cartProvider.notifier).totalPrice;
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xFF6ECAB8),
-        title: Text('Shopping Cart'),
+        backgroundColor: const Color(0xFF6ECAB8),
+        title: const Text(
+          'Cart',
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        ),
         centerTitle: true,
       ),
       body: Column(
         children: [
           Expanded(
-            child: ListView.builder(
+            child: cartItems.isEmpty
+                ? Center(
+              child: Text(
+                'Your cart is empty.',
+                style: TextStyle(fontSize: 18, color: Colors.grey),
+              ),
+            )
+                : ListView.builder(
               itemCount: cartItems.length,
               itemBuilder: (context, index) {
                 final item = cartItems[index];
                 return Card(
-                  margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                  margin: const EdgeInsets.all(8.0),
                   child: ListTile(
-                    leading: ClipRRect(
-                      borderRadius: BorderRadius.circular(8.0),
-                      child: Image.network(
-                        item['imageUrl'],
-                        width: 50,
-                        height: 50,
-                        fit: BoxFit.cover,
-                      ),
+                    leading: Image.network(
+                      item.product.imageUrl,
+                      width: 50,
+                      height: 50,
+                      fit: BoxFit.cover,
                     ),
-                    title: Text(item['name']),
-                    subtitle: Text('\$${item['price'].toStringAsFixed(2)}'),
-                    trailing: IconButton(
-                      icon: Icon(Icons.delete, color: Colors.red),
-                      onPressed: () => cartProvider.removeFromCart(index),
+                    title: Text(item.product.name),
+                    subtitle: Text(
+                      '\$${(double.parse(item.product.price.replaceAll('\$', '')) * item.quantity).toStringAsFixed(2)}',
+                    ),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        IconButton(
+                          icon: const Icon(Icons.remove),
+                          onPressed: () {
+                            ref.read(cartProvider.notifier).decrementQuantity(item);
+                          },
+                        ),
+                        Text(item.quantity.toString()),
+                        IconButton(
+                          icon: const Icon(Icons.add),
+                          onPressed: () {
+                            ref.read(cartProvider.notifier).incrementQuantity(item);
+                          },
+                        ),
+                      ],
                     ),
                   ),
                 );
@@ -49,19 +72,16 @@ class CartPage extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
+                const Text(
                   'Total:',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
                 Text(
-                  '\$${cartProvider.calculateTotal().toStringAsFixed(2)}',
-                  style: TextStyle(
-                    fontSize: 20,
+                  '\$${totalPrice.toStringAsFixed(2)}',
+                  style: const TextStyle(
+                    fontSize: 18,
                     fontWeight: FontWeight.bold,
-                    color: Colors.green,
+                    color: Color(0xFF6ECAB8),
                   ),
                 ),
               ],
@@ -69,21 +89,22 @@ class CartPage extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.all(16.0),
-            child: ElevatedButton(
-              onPressed: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Checkout functionality not implemented yet.')),
-                );
-              },
-              child: Text(
-                'Checkout',
-                style: TextStyle(fontSize: 18),
-              ),
-              style: ElevatedButton.styleFrom(
-                padding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 32.0), backgroundColor: Color(0xFF6ECAB8),
+            child: SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF6ECAB8),
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                ),
+                onPressed: () {},
+                child: const Text(
+                  'Checkout',
+                  style: TextStyle(color: Colors.white, fontSize: 18,fontWeight: FontWeight.bold),
+                ),
               ),
             ),
           ),
+          SizedBox(height: 50,),
         ],
       ),
     );

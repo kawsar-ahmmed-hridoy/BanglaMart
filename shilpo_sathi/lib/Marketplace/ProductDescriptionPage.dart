@@ -1,59 +1,52 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../Cart/CartPage.dart';
+import '../Cart/CartProvider.dart';
 import 'MarketplacePage.dart' show Product;
 
-class ProductDescriptionPage extends StatefulWidget {
+class ProductDescriptionPage extends ConsumerWidget {
   final Product product;
 
   ProductDescriptionPage({required this.product});
 
   @override
-  _ProductDescriptionPageState createState() => _ProductDescriptionPageState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final TextEditingController _reviewController = TextEditingController();
+    double _userRating = 0.0;
 
-class _ProductDescriptionPageState extends State<ProductDescriptionPage> {
-  final TextEditingController _reviewController = TextEditingController();
-  double _userRating = 0.0;
-
-  void _submitReview() {
-    if (_reviewController.text.isNotEmpty && _userRating > 0) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Review submitted successfully!')),
-      );
-      _reviewController.clear();
-      setState(() {
+    void _submitReview() {
+      if (_reviewController.text.isNotEmpty && _userRating > 0) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Review submitted successfully!')),
+        );
+        _reviewController.clear();
         _userRating = 0.0;
-      });
-    } else {
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Please write a review and provide a rating.')),
+        );
+      }
+    }
+
+    void _callSeller() async {
+      final Uri phoneUri = Uri(scheme: 'tel', path: product.sellerContact);
+      if (await canLaunch(phoneUri.toString())) {
+        await launch(phoneUri.toString());
+      } else {
+        throw 'Could not launch $phoneUri';
+      }
+    }
+
+    void _shareProduct() async {
+      final String shareText =
+          'Check out this product: ${product.name} - ${product.price}\n${product.description}';
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Please write a review and provide a rating.')),
+        SnackBar(content: Text('Share functionality not implemented yet.')),
       );
     }
-  }
 
-  void _callSeller() async {
-    final Uri phoneUri = Uri(scheme: 'tel', path: widget.product.sellerContact);
-    if (await canLaunch(phoneUri.toString())) {
-      await launch(phoneUri.toString());
-    } else {
-      throw 'Could not launch $phoneUri';
-    }
-  }
-
-  void _shareProduct() async {
-    final String shareText =
-        'Check out this product: ${widget.product.name} - ${widget.product.price}\n${widget.product.description}';
-    // Use a package like `share_plus` for sharing functionality
-    // await Share.share(shareText);
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Share functionality not implemented yet.')),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
     final String locationImageUrl = 'https://via.placeholder.com/400x200';
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xFF6ECAB8),
@@ -70,7 +63,6 @@ class _ProductDescriptionPageState extends State<ProductDescriptionPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Image Carousel
             Container(
               height: 200,
               child: PageView.builder(
@@ -81,7 +73,7 @@ class _ProductDescriptionPageState extends State<ProductDescriptionPage> {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(10.0),
                       child: Image.network(
-                        widget.product.imageUrl,
+                        product.imageUrl,
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -94,9 +86,8 @@ class _ProductDescriptionPageState extends State<ProductDescriptionPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Product Name and Price
                   Text(
-                    widget.product.name,
+                    product.name,
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
@@ -104,15 +95,13 @@ class _ProductDescriptionPageState extends State<ProductDescriptionPage> {
                   ),
                   SizedBox(height: 8.0),
                   Text(
-                    widget.product.price,
+                    product.price,
                     style: TextStyle(
                       fontSize: 20,
                       color: Colors.green,
                     ),
                   ),
                   SizedBox(height: 16.0),
-
-                  // Product Description
                   Text(
                     'Product Description',
                     style: TextStyle(
@@ -122,7 +111,7 @@ class _ProductDescriptionPageState extends State<ProductDescriptionPage> {
                   ),
                   SizedBox(height: 8.0),
                   Text(
-                    widget.product.description,
+                    product.description,
                     style: TextStyle(
                       fontSize: 16,
                       color: Colors.grey[700],
@@ -135,6 +124,10 @@ class _ProductDescriptionPageState extends State<ProductDescriptionPage> {
                       Expanded(
                         child: ElevatedButton(
                           onPressed: () {
+                            ref.read(cartProvider.notifier).addToCart(product);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text('${product.name} added to cart!')),
+                            );
                           },
                           child: Text('Add to Cart'),
                           style: ElevatedButton.styleFrom(
@@ -145,8 +138,7 @@ class _ProductDescriptionPageState extends State<ProductDescriptionPage> {
                       SizedBox(width: 8.0),
                       Expanded(
                         child: OutlinedButton(
-                          onPressed: () {
-                          },
+                          onPressed: () {},
                           child: Text('Artisan Story'),
                           style: OutlinedButton.styleFrom(
                             padding: EdgeInsets.symmetric(vertical: 16.0),
@@ -156,8 +148,6 @@ class _ProductDescriptionPageState extends State<ProductDescriptionPage> {
                     ],
                   ),
                   SizedBox(height: 16.0),
-
-                  // Location Section
                   Text(
                     'Location',
                     style: TextStyle(
@@ -168,7 +158,7 @@ class _ProductDescriptionPageState extends State<ProductDescriptionPage> {
                   SizedBox(height: 8.0),
                   GestureDetector(
                     onTap: () async {
-                      final String googleMapsUrl = 'https://www.google.com/maps/search/?api=1&query=${Uri.encodeComponent(widget.product.location)}';
+                      final String googleMapsUrl = 'https://www.google.com/maps/search/?api=1&query=${Uri.encodeComponent(product.location)}';
                       if (await canLaunch(googleMapsUrl)) {
                         await launch(googleMapsUrl);
                       } else {
@@ -200,7 +190,7 @@ class _ProductDescriptionPageState extends State<ProductDescriptionPage> {
                             borderRadius: BorderRadius.circular(8.0),
                           ),
                           child: Text(
-                            widget.product.location,
+                            product.location,
                             style: TextStyle(
                               fontSize: 16,
                               color: Colors.white,
@@ -212,8 +202,6 @@ class _ProductDescriptionPageState extends State<ProductDescriptionPage> {
                     ),
                   ),
                   SizedBox(height: 16.0),
-
-                  // Seller Information
                   Text(
                     'Seller Information',
                     style: TextStyle(
@@ -226,16 +214,14 @@ class _ProductDescriptionPageState extends State<ProductDescriptionPage> {
                     leading: CircleAvatar(
                       backgroundImage: NetworkImage('https://via.placeholder.com/150'),
                     ),
-                    title: Text(widget.product.sellerName),
-                    subtitle: Text('Contact: ${widget.product.sellerContact}'),
+                    title: Text(product.sellerName),
+                    subtitle: Text('Contact: ${product.sellerContact}'),
                     trailing: IconButton(
                       icon: Icon(Icons.call, color: Colors.green),
                       onPressed: _callSeller,
                     ),
                   ),
                   SizedBox(height: 16.0),
-
-                  // Customer Reviews
                   Text(
                     'Customer Reviews',
                     style: TextStyle(
@@ -271,8 +257,6 @@ class _ProductDescriptionPageState extends State<ProductDescriptionPage> {
                     },
                   ),
                   SizedBox(height: 16.0),
-
-                  // Write a Review Section
                   Text(
                     'Write a Review',
                     style: TextStyle(
@@ -292,9 +276,7 @@ class _ProductDescriptionPageState extends State<ProductDescriptionPage> {
                             color: Colors.amber,
                           ),
                           onPressed: () {
-                            setState(() {
-                              _userRating = index + 1.0;
-                            });
+                            _userRating = index + 1.0;
                           },
                         );
                       }),
