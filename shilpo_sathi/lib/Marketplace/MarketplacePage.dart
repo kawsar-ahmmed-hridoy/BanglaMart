@@ -40,7 +40,7 @@ class MarketplacePage extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xFF6ECAB8),
+        backgroundColor: Color(0xFF252C35),
         title: Text('Marketplace', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
         centerTitle: true,
         actions: [
@@ -127,7 +127,7 @@ class MarketplacePage extends ConsumerWidget {
       floatingActionButton: Padding(
         padding: EdgeInsets.only(bottom: 50),
         child: FloatingActionButton(
-          backgroundColor: Color(0xFF6ECAB8),
+          backgroundColor: Color(0xFF252C35),
           onPressed: () {
             Navigator.push(
               context,

@@ -10,7 +10,7 @@ class CartPage extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color(0xFF6ECAB8),
+        backgroundColor: const Color(0xFF252C35),
         title: const Text(
           'Cart',
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
@@ -81,7 +81,7 @@ class CartPage extends ConsumerWidget {
                   style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
-                    color: Color(0xFF6ECAB8),
+                    color: Color(0xFF252C35),
                   ),
                 ),
               ],
@@ -93,7 +93,7 @@ class CartPage extends ConsumerWidget {
               width: double.infinity,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF6ECAB8),
+                  backgroundColor: const Color(0xFF252C35),
                   padding: const EdgeInsets.symmetric(vertical: 16),
                 ),
                 onPressed: () {},

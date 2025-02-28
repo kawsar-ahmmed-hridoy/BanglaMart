@@ -57,7 +57,7 @@ class _AccountPageState extends State<AccountPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Account'),
-        backgroundColor: Color(0xFF6ECAB8),
+        backgroundColor: Color(0xFF252C35),
       ),
       body: isLoading
           ? Center(child: CircularProgressIndicator())

@@ -50,7 +50,7 @@ class _HomePageState extends State<HomePage> {
 
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     return AppBar(
-      backgroundColor: Color(0xFF6ECAB8),
+      backgroundColor: Color(0xFF252C35),
       title: Text(
         "Shilpo Sathi",
         style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
