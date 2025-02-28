@@ -16,7 +16,6 @@ class CategorySection extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
-                  color: Color(0xFF26547D),
                 ),
               ),
               TextButton(
@@ -49,13 +48,13 @@ class CategorySection extends StatelessWidget {
       child: Column(
         children: [
           CircleAvatar(
-            backgroundColor: const Color(0xFFFFCE5C).withOpacity(0.2),
-            child: Icon(icon, color: const Color(0xFF26547D)),
+            backgroundColor: const Color(0xFFFF93E7).withOpacity(0.2),
+            child: Icon(icon),
           ),
           const SizedBox(height: 8),
           Text(
             label,
-            style: const TextStyle(fontSize: 14, color: Color(0xFF26547D)),
+            style: const TextStyle(fontSize: 14),
           ),
         ],
       ),

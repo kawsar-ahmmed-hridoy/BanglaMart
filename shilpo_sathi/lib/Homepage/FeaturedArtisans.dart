@@ -13,7 +13,6 @@ class FeaturedArtisans extends StatelessWidget {
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
-                color: Color(0xFF26547D),
               ),
             ),
             TextButton(
@@ -74,7 +73,6 @@ class FeaturedArtisans extends StatelessWidget {
           child: Text(
             title,
             style: TextStyle(
-              color: Color(0xFF26547D),
               fontSize: 14,
               fontWeight: FontWeight.bold,
             ),

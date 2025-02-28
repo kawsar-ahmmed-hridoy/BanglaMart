@@ -93,7 +93,7 @@ class _BannerSectionState extends State<BannerSection> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("Events Nearby You", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF26547D))),
+          Text("Events Nearby You", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
           SizedBox(height: 10),
           AspectRatio(
             aspectRatio: 16 / 8,
@@ -147,7 +147,7 @@ class _BannerSectionState extends State<BannerSection> {
               children: [
                 Text(
                   title,
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Color(0xFF26547D)),
+                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                 ),
                 SizedBox(height: 6),
                 Text(

@@ -10,7 +10,8 @@ class CartPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Cart'),
+        backgroundColor: Color(0xFF6ECAB8),
+        title: Text('Shopping Cart'),
         centerTitle: true,
       ),
       body: Column(
@@ -21,40 +22,28 @@ class CartPage extends StatelessWidget {
               itemBuilder: (context, index) {
                 final item = cartItems[index];
                 return Card(
-                  margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                   child: ListTile(
-                    leading: Image.network(
-                      item.imageUrl,
-                      width: 50,
-                      height: 50,
-                      fit: BoxFit.cover,
+                    leading: ClipRRect(
+                      borderRadius: BorderRadius.circular(8.0),
+                      child: Image.network(
+                        item['imageUrl'],
+                        width: 50,
+                        height: 50,
+                        fit: BoxFit.cover,
+                      ),
                     ),
-                    title: Text(item.name),
-                    subtitle: Text('\$${item.price.toStringAsFixed(2)}'),
-                    trailing: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        IconButton(
-                          icon: Icon(Icons.remove),
-                          onPressed: () => cartProvider.decreaseQuantity(item.id),
-                        ),
-                        Text(item.quantity.toString()),
-                        IconButton(
-                          icon: Icon(Icons.add),
-                          onPressed: () => cartProvider.increaseQuantity(item.id),
-                        ),
-                        IconButton(
-                          icon: Icon(Icons.delete),
-                          onPressed: () => cartProvider.removeItem(item.id),
-                        ),
-                      ],
+                    title: Text(item['name']),
+                    subtitle: Text('\$${item['price'].toStringAsFixed(2)}'),
+                    trailing: IconButton(
+                      icon: Icon(Icons.delete, color: Colors.red),
+                      onPressed: () => cartProvider.removeFromCart(index),
                     ),
                   ),
                 );
               },
             ),
           ),
-          Divider(),
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Row(
@@ -63,14 +52,14 @@ class CartPage extends StatelessWidget {
                 Text(
                   'Total:',
                   style: TextStyle(
-                    fontSize: 18,
+                    fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 Text(
-                  '\$${cartProvider.totalPrice.toStringAsFixed(2)}',
+                  '\$${cartProvider.calculateTotal().toStringAsFixed(2)}',
                   style: TextStyle(
-                    fontSize: 18,
+                    fontSize: 20,
                     fontWeight: FontWeight.bold,
                     color: Colors.green,
                   ),
@@ -80,18 +69,18 @@ class CartPage extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.all(16.0),
-            child: SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () {
-                },
-                child: Text(
-                  'Checkout',
-                  style: TextStyle(fontSize: 18),
-                ),
-                style: ElevatedButton.styleFrom(
-                  padding: EdgeInsets.symmetric(vertical: 16),
-                ),
+            child: ElevatedButton(
+              onPressed: () {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Checkout functionality not implemented yet.')),
+                );
+              },
+              child: Text(
+                'Checkout',
+                style: TextStyle(fontSize: 18),
+              ),
+              style: ElevatedButton.styleFrom(
+                padding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 32.0), backgroundColor: Color(0xFF6ECAB8),
               ),
             ),
           ),

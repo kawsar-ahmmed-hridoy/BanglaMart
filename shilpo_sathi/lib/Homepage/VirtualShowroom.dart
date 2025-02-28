@@ -91,7 +91,6 @@ class _VirtualShowroomState extends State<VirtualShowroom> {
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
-              color: Color(0xFF26547D),
             ),
           ),
         ),
@@ -158,7 +157,6 @@ class _VirtualShowroomState extends State<VirtualShowroom> {
               style: TextStyle(
                 fontSize: 17,
                 fontWeight: FontWeight.bold,
-                color: Color(0xFF26547D),
               ),
             ),
             SizedBox(height: 8),

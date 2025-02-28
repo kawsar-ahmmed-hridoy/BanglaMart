@@ -40,6 +40,7 @@ class _AddPostPageState extends State<AddPostPage> {
     if (_formKey.currentState!.validate() && _selectedImage != null) {
       Product newProduct = Product(
         name: _nameController.text,
+        category: "Clothing",
         price: _priceController.text,
         description: _descriptionController.text,
         imageUrl: _selectedImage!.path,

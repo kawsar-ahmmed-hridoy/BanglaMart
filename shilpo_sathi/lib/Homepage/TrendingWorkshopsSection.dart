@@ -16,7 +16,6 @@ class TrendingWorkshops extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
-                  color: Color(0xFF26547D),
                 ),
               ),
               TextButton(
@@ -71,9 +70,8 @@ class TrendingWorkshops extends StatelessWidget {
           Text(
             title,
             style: const TextStyle(
-              fontSize: 16,
+              fontSize: 14,
               fontWeight: FontWeight.bold,
-              color: Color(0xFF26547D),
             ),
           ),
           const SizedBox(height: 10),
@@ -99,7 +97,7 @@ class TrendingWorkshops extends StatelessWidget {
               const SizedBox(width: 5),
               Text(
                 rating,
-                style: const TextStyle(fontSize: 14, color: Color(0xFF26547D)),
+                style: const TextStyle(fontSize: 14),
               ),
             ],
           ),

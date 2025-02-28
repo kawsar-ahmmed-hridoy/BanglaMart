@@ -81,12 +81,12 @@ class _LocationSectionState extends State<LocationSection> {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Icon(Icons.location_on, color: Color(0xFF26547D)),
+        Icon(Icons.location_on),
         SizedBox(width: 5),
         Expanded(
           child: Text(
             _isLoading ? "Fetching location..." : _currentAddress,
-            style: TextStyle(fontSize: 16, color: Colors.grey[800]),
+            style: TextStyle(fontSize: 16),
             overflow: TextOverflow.ellipsis,
           ),
         ),

@@ -5,6 +5,7 @@ import 'package:shilpo_sathi/Account/MyProfilePage.dart';
 import 'package:shilpo_sathi/Homepage/NotificationsPage.dart';
 import 'package:shilpo_sathi/MainScreen.dart';
 import 'Account/ManageAccountPage.dart';
+import 'Cart/CartPage.dart';
 import 'Signing/sign_in_page.dart';
 import 'Signing/sign_up_page.dart';
 import 'firebase_options.dart';
@@ -43,7 +44,8 @@ class MyApp extends ConsumerWidget {
         '/home': (context) => MainScreen(),
         '/notification': (context) => NotificationsPage(),
         '/my_profile': (context) => MyProfilePage(),
-        '/manage_account': (context) => ManageAccountPage(), // Add ManageAccountPage route
+        '/manage_account': (context) => ManageAccountPage(),
+        '/cart': (context) => CartPage(),
       },
     );
   }

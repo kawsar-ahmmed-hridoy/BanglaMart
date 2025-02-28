@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../Cart/CartPage.dart';
 import 'MarketplacePage.dart' show Product;
 
 class ProductDescriptionPage extends StatefulWidget {
@@ -13,18 +14,41 @@ class ProductDescriptionPage extends StatefulWidget {
 
 class _ProductDescriptionPageState extends State<ProductDescriptionPage> {
   final TextEditingController _reviewController = TextEditingController();
+  double _userRating = 0.0;
 
   void _submitReview() {
-    if (_reviewController.text.isNotEmpty) {
+    if (_reviewController.text.isNotEmpty && _userRating > 0) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Review submitted successfully!')),
       );
       _reviewController.clear();
+      setState(() {
+        _userRating = 0.0;
+      });
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Please write a review before submitting.')),
+        SnackBar(content: Text('Please write a review and provide a rating.')),
       );
     }
+  }
+
+  void _callSeller() async {
+    final Uri phoneUri = Uri(scheme: 'tel', path: widget.product.sellerContact);
+    if (await canLaunch(phoneUri.toString())) {
+      await launch(phoneUri.toString());
+    } else {
+      throw 'Could not launch $phoneUri';
+    }
+  }
+
+  void _shareProduct() async {
+    final String shareText =
+        'Check out this product: ${widget.product.name} - ${widget.product.price}\n${widget.product.description}';
+    // Use a package like `share_plus` for sharing functionality
+    // await Share.share(shareText);
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Share functionality not implemented yet.')),
+    );
   }
 
   @override
@@ -32,27 +56,33 @@ class _ProductDescriptionPageState extends State<ProductDescriptionPage> {
     final String locationImageUrl = 'https://via.placeholder.com/400x200';
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color(0xFF6ECAB8),
         title: Text('Product Details'),
         centerTitle: true,
+        actions: [
+          IconButton(
+            icon: Icon(Icons.share),
+            onPressed: _shareProduct,
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // Image Carousel
             Container(
-              height: 250,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
+              height: 200,
+              child: PageView.builder(
                 itemCount: 3,
                 itemBuilder: (context, index) {
                   return Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(16.0),
                     child: ClipRRect(
-                      borderRadius: BorderRadius.circular(8.0),
+                      borderRadius: BorderRadius.circular(10.0),
                       child: Image.network(
                         widget.product.imageUrl,
                         fit: BoxFit.cover,
-                        width: MediaQuery.of(context).size.width - 32,
                       ),
                     ),
                   );
@@ -64,6 +94,7 @@ class _ProductDescriptionPageState extends State<ProductDescriptionPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  // Product Name and Price
                   Text(
                     widget.product.name,
                     style: TextStyle(
@@ -80,6 +111,8 @@ class _ProductDescriptionPageState extends State<ProductDescriptionPage> {
                     ),
                   ),
                   SizedBox(height: 16.0),
+
+                  // Product Description
                   Text(
                     'Product Description',
                     style: TextStyle(
@@ -96,31 +129,35 @@ class _ProductDescriptionPageState extends State<ProductDescriptionPage> {
                     ),
                   ),
                   SizedBox(height: 16.0),
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: () {
-                      },
-                      child: Text('Add to Cart'),
-                      style: ElevatedButton.styleFrom(
-                        padding: EdgeInsets.symmetric(vertical: 16.0),
+
+                  Row(
+                    children: [
+                      Expanded(
+                        child: ElevatedButton(
+                          onPressed: () {
+                          },
+                          child: Text('Add to Cart'),
+                          style: ElevatedButton.styleFrom(
+                            padding: EdgeInsets.symmetric(vertical: 16.0),
+                          ),
+                        ),
                       ),
-                    ),
+                      SizedBox(width: 8.0),
+                      Expanded(
+                        child: OutlinedButton(
+                          onPressed: () {
+                          },
+                          child: Text('Artisan Story'),
+                          style: OutlinedButton.styleFrom(
+                            padding: EdgeInsets.symmetric(vertical: 16.0),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                   SizedBox(height: 16.0),
-                  SizedBox(
-                    width: double.infinity,
-                    child: OutlinedButton(
-                      onPressed: () {
-                      },
-                      child: Text('Artisan Story'),
-                      style: OutlinedButton.styleFrom(
-                        padding: EdgeInsets.symmetric(vertical: 16.0),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 16.0),
-                  // Location
+
+                  // Location Section
                   Text(
                     'Location',
                     style: TextStyle(
@@ -139,10 +176,17 @@ class _ProductDescriptionPageState extends State<ProductDescriptionPage> {
                       }
                     },
                     child: Container(
-                      height: 200,
+                      height: 150,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8.0),
-                        border: Border.all(color: Colors.grey),
+                        borderRadius: BorderRadius.circular(20.0),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 2,
+                            blurRadius: 5,
+                            offset: Offset(0, 3),
+                          ),
+                        ],
                         image: DecorationImage(
                           image: NetworkImage(locationImageUrl),
                           fit: BoxFit.cover,
@@ -168,6 +212,8 @@ class _ProductDescriptionPageState extends State<ProductDescriptionPage> {
                     ),
                   ),
                   SizedBox(height: 16.0),
+
+                  // Seller Information
                   Text(
                     'Seller Information',
                     style: TextStyle(
@@ -182,9 +228,14 @@ class _ProductDescriptionPageState extends State<ProductDescriptionPage> {
                     ),
                     title: Text(widget.product.sellerName),
                     subtitle: Text('Contact: ${widget.product.sellerContact}'),
-                    trailing: Icon(Icons.star, color: Colors.amber),
+                    trailing: IconButton(
+                      icon: Icon(Icons.call, color: Colors.green),
+                      onPressed: _callSeller,
+                    ),
                   ),
                   SizedBox(height: 16.0),
+
+                  // Customer Reviews
                   Text(
                     'Customer Reviews',
                     style: TextStyle(
@@ -198,23 +249,56 @@ class _ProductDescriptionPageState extends State<ProductDescriptionPage> {
                     physics: NeverScrollableScrollPhysics(),
                     itemCount: 3,
                     itemBuilder: (context, index) {
-                      return ListTile(
-                        leading: CircleAvatar(
-                          backgroundImage: NetworkImage('https://via.placeholder.com/150'),
+                      return Card(
+                        margin: EdgeInsets.symmetric(vertical: 4.0),
+                        child: ListTile(
+                          leading: CircleAvatar(
+                            backgroundImage: NetworkImage('https://via.placeholder.com/150'),
+                          ),
+                          title: Text('Rahimul Hassan'),
+                          subtitle: Text('Great product! Highly recommended.'),
+                          trailing: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: List.generate(5, (i) {
+                              return Icon(
+                                i < 4 ? Icons.star : Icons.star_border,
+                                color: Colors.amber,
+                              );
+                            }),
+                          ),
                         ),
-                        title: Text('Customer Name'),
-                        subtitle: Text('Great product! Highly recommended.'),
-                        trailing: Icon(Icons.star, color: Colors.amber),
                       );
                     },
                   ),
                   SizedBox(height: 16.0),
+
+                  // Write a Review Section
                   Text(
                     'Write a Review',
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
+                  ),
+                  SizedBox(height: 8.0),
+                  Row(
+                    children: [
+                      Text('Your Rating: '),
+                      SizedBox(width: 8.0),
+                      ...List.generate(5, (index) {
+                        return IconButton(
+                          icon: Icon(
+                            index < _userRating ? Icons.star : Icons.star_border,
+                            color: Colors.amber,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              _userRating = index + 1.0;
+                            });
+                          },
+                        );
+                      }),
+                    ],
                   ),
                   SizedBox(height: 8.0),
                   TextField(
@@ -232,7 +316,7 @@ class _ProductDescriptionPageState extends State<ProductDescriptionPage> {
                     onPressed: _submitReview,
                     child: Text('Submit Review'),
                     style: ElevatedButton.styleFrom(
-                      padding: EdgeInsets.symmetric(vertical: 10.0,horizontal: 10),
+                      padding: EdgeInsets.symmetric(vertical: 16.0),
                     ),
                   ),
                 ],

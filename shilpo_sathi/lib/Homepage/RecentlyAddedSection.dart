@@ -16,7 +16,6 @@ class RecentlyAdded extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
-                  color: Color(0xFF26547D),
                 ),
               ),
               TextButton(
@@ -52,7 +51,6 @@ class RecentlyAdded extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
-                  color: Color(0xFF26547D),
                 ),
               ),
               const SizedBox(height: 5),
