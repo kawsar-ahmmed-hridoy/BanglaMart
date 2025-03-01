@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shilpo_sathi/Account/MyProfilePage.dart';
+import 'package:shilpo_sathi/Cart/CheckoutPage.dart';
 import 'package:shilpo_sathi/Homepage/NotificationsPage.dart';
 import 'package:shilpo_sathi/MainScreen.dart';
 import 'Account/ManageAccountPage.dart';
@@ -46,6 +47,7 @@ class MyApp extends ConsumerWidget {
         '/my_profile': (context) => MyProfilePage(),
         '/manage_account': (context) => ManageAccountPage(),
         '/cart': (context) => CartPage(),
+        '/checkout': (context) => CheckoutPage(),
       },
     );
   }

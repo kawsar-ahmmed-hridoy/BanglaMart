@@ -4,49 +4,62 @@ import 'package:url_launcher/url_launcher.dart';
 import '../Cart/CartProvider.dart';
 import 'MarketplacePage.dart' show Product;
 
-class ProductDescriptionPage extends ConsumerWidget {
+class ProductDescriptionPage extends ConsumerStatefulWidget {
   final Product product;
 
   ProductDescriptionPage({required this.product});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final TextEditingController _reviewController = TextEditingController();
-    double _userRating = 0.0;
+  ConsumerState<ProductDescriptionPage> createState() => _ProductDescriptionPageState();
+}
 
-    void _submitReview() {
-      if (_reviewController.text.isNotEmpty && _userRating > 0) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Review submitted successfully!')),
-        );
-        _reviewController.clear();
-        _userRating = 0.0;
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Please write a review and provide a rating.')),
-        );
-      }
-    }
+class _ProductDescriptionPageState extends ConsumerState<ProductDescriptionPage> {
+  final TextEditingController _reviewController = TextEditingController();
+  double _userRating = 0.0;
+  final List<Map<String, dynamic>> _reviews = [];
 
-    void _callSeller() async {
-      final Uri phoneUri = Uri(scheme: 'tel', path: product.sellerContact);
-      if (await canLaunch(phoneUri.toString())) {
-        await launch(phoneUri.toString());
-      } else {
-        throw 'Could not launch $phoneUri';
-      }
-    }
-
-    void _shareProduct() async {
-      final String shareText =
-          'Check out this product: ${product.name} - ${product.price}\n${product.description}';
+  void _submitReview() {
+    if (_reviewController.text.isNotEmpty && _userRating > 0) {
+      setState(() {
+        _reviews.add({
+          'name': 'You',
+          'rating': _userRating,
+          'review': _reviewController.text,
+        });
+      });
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Share functionality not implemented yet.')),
+        SnackBar(content: Text('Review submitted successfully!')),
+      );
+      _reviewController.clear();
+      _userRating = 0.0;
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Please write a review and provide a rating.')),
       );
     }
+  }
 
-    final String locationImageUrl = 'https://via.placeholder.com/400x200';
+  void _callSeller() async {
+    final Uri phoneUri = Uri(scheme: 'tel', path: widget.product.sellerContact);
+    if (await canLaunch(phoneUri.toString())) {
+      await launch(phoneUri.toString());
+    } else {
+      throw 'Could not launch $phoneUri';
+    }
+  }
 
+  void _shareProduct() async {
+    final String shareText =
+        'Check out this product: ${widget.product.name} - ${widget.product.price}\n${widget.product.description}';
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Share functionality not implemented yet.')),
+    );
+  }
+
+  final String locationImageUrl = 'https://via.placeholder.com/400x200';
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xFF6ECAB8),
@@ -73,7 +86,7 @@ class ProductDescriptionPage extends ConsumerWidget {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(10.0),
                       child: Image.network(
-                        product.imageUrl,
+                        widget.product.imageUrl,
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -81,13 +94,14 @@ class ProductDescriptionPage extends ConsumerWidget {
                 },
               ),
             ),
+            // Product Details
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    product.name,
+                    widget.product.name,
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
@@ -95,7 +109,7 @@ class ProductDescriptionPage extends ConsumerWidget {
                   ),
                   SizedBox(height: 8.0),
                   Text(
-                    product.price,
+                    widget.product.price,
                     style: TextStyle(
                       fontSize: 20,
                       color: Colors.green,
@@ -111,22 +125,21 @@ class ProductDescriptionPage extends ConsumerWidget {
                   ),
                   SizedBox(height: 8.0),
                   Text(
-                    product.description,
+                    widget.product.description,
                     style: TextStyle(
                       fontSize: 16,
                       color: Colors.grey[700],
                     ),
                   ),
                   SizedBox(height: 16.0),
-
                   Row(
                     children: [
                       Expanded(
                         child: ElevatedButton(
                           onPressed: () {
-                            ref.read(cartProvider.notifier).addToCart(product);
+                            ref.read(cartProvider.notifier).addToCart(widget.product);
                             ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text('${product.name} added to cart!')),
+                              SnackBar(content: Text('${widget.product.name} added to cart!')),
                             );
                           },
                           child: Text('Add to Cart'),
@@ -158,7 +171,7 @@ class ProductDescriptionPage extends ConsumerWidget {
                   SizedBox(height: 8.0),
                   GestureDetector(
                     onTap: () async {
-                      final String googleMapsUrl = 'https://www.google.com/maps/search/?api=1&query=${Uri.encodeComponent(product.location)}';
+                      final String googleMapsUrl = 'https://www.google.com/maps/search/?api=1&query=${Uri.encodeComponent(widget.product.location)}';
                       if (await canLaunch(googleMapsUrl)) {
                         await launch(googleMapsUrl);
                       } else {
@@ -190,7 +203,7 @@ class ProductDescriptionPage extends ConsumerWidget {
                             borderRadius: BorderRadius.circular(8.0),
                           ),
                           child: Text(
-                            product.location,
+                            widget.product.location,
                             style: TextStyle(
                               fontSize: 16,
                               color: Colors.white,
@@ -214,8 +227,8 @@ class ProductDescriptionPage extends ConsumerWidget {
                     leading: CircleAvatar(
                       backgroundImage: NetworkImage('https://via.placeholder.com/150'),
                     ),
-                    title: Text(product.sellerName),
-                    subtitle: Text('Contact: ${product.sellerContact}'),
+                    title: Text(widget.product.sellerName),
+                    subtitle: Text('Contact: ${widget.product.sellerContact}'),
                     trailing: IconButton(
                       icon: Icon(Icons.call, color: Colors.green),
                       onPressed: _callSeller,
@@ -233,21 +246,22 @@ class ProductDescriptionPage extends ConsumerWidget {
                   ListView.builder(
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
-                    itemCount: 3,
+                    itemCount: _reviews.length,
                     itemBuilder: (context, index) {
+                      final review = _reviews[index];
                       return Card(
                         margin: EdgeInsets.symmetric(vertical: 4.0),
                         child: ListTile(
                           leading: CircleAvatar(
                             backgroundImage: NetworkImage('https://via.placeholder.com/150'),
                           ),
-                          title: Text('Rahimul Hassan'),
-                          subtitle: Text('Great product! Highly recommended.'),
+                          title: Text(review['name']),
+                          subtitle: Text(review['review']),
                           trailing: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: List.generate(5, (i) {
                               return Icon(
-                                i < 4 ? Icons.star : Icons.star_border,
+                                i < review['rating'] ? Icons.star : Icons.star_border,
                                 color: Colors.amber,
                               );
                             }),
@@ -268,7 +282,7 @@ class ProductDescriptionPage extends ConsumerWidget {
                   Row(
                     children: [
                       Text('Your Rating: '),
-                      SizedBox(width: 8.0),
+                      SizedBox(width: 5.0),
                       ...List.generate(5, (index) {
                         return IconButton(
                           icon: Icon(
@@ -276,7 +290,9 @@ class ProductDescriptionPage extends ConsumerWidget {
                             color: Colors.amber,
                           ),
                           onPressed: () {
-                            _userRating = index + 1.0;
+                            setState(() {
+                              _userRating = index + 1.0;
+                            });
                           },
                         );
                       }),
@@ -285,7 +301,7 @@ class ProductDescriptionPage extends ConsumerWidget {
                   SizedBox(height: 8.0),
                   TextField(
                     controller: _reviewController,
-                    maxLines: 3,
+                    maxLines: 2,
                     decoration: InputDecoration(
                       hintText: 'Write your review here...',
                       border: OutlineInputBorder(
@@ -298,7 +314,8 @@ class ProductDescriptionPage extends ConsumerWidget {
                     onPressed: _submitReview,
                     child: Text('Submit Review'),
                     style: ElevatedButton.styleFrom(
-                      padding: EdgeInsets.symmetric(vertical: 16.0),
+                      padding: EdgeInsets.symmetric(vertical: 10.0,horizontal: 10),
+                      backgroundColor: Colors.grey,
                     ),
                   ),
                 ],

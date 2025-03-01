@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../Cart/CartPage.dart';
 import '../Cart/CartProvider.dart';
 import '../Cart/FilteredProductsProvider.dart';
 import 'AddPostPage.dart';
@@ -28,6 +27,7 @@ class MarketplacePage extends ConsumerWidget {
       location: 'Tangail, Dhaka, Bangladesh',
       category: 'Clothing',
     ),
+
   ];
 
   final TextEditingController _searchController = TextEditingController();
@@ -40,22 +40,9 @@ class MarketplacePage extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xFF252C35),
-        title: Text('Marketplace', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+        backgroundColor: const Color(0xFF252C35),
+        title: const Text('Marketplace', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
         centerTitle: true,
-        actions: [
-          IconButton(
-            icon: Icon(Icons.shopping_cart),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => CartPage(),
-                ),
-              );
-            },
-          ),
-        ],
       ),
       body: Column(
         children: [
@@ -68,12 +55,12 @@ class MarketplacePage extends ConsumerWidget {
                     controller: _searchController,
                     decoration: InputDecoration(
                       hintText: 'Search products...',
-                      prefixIcon: Icon(Icons.search),
+                      prefixIcon: const Icon(Icons.search),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8.0),
                       ),
                       suffixIcon: IconButton(
-                        icon: Icon(Icons.clear),
+                        icon: const Icon(Icons.clear),
                         onPressed: () {
                           _searchController.clear();
                           ref.read(filteredProductsProvider(products).notifier).filterProducts('');
@@ -85,9 +72,9 @@ class MarketplacePage extends ConsumerWidget {
                     },
                   ),
                 ),
-                SizedBox(width: 8.0),
+                const SizedBox(width: 8.0),
                 IconButton(
-                  icon: Icon(Icons.filter_list),
+                  icon: const Icon(Icons.filter_list),
                   onPressed: () {
                     _showFilterOptions(context, ref);
                   },
@@ -98,13 +85,13 @@ class MarketplacePage extends ConsumerWidget {
           Expanded(
             child: RefreshIndicator(
               onRefresh: () async {
-                await Future.delayed(Duration(seconds: 2));
+                await Future.delayed(const Duration(seconds: 2));
                 ref.read(filteredProductsProvider(products).notifier).resetFilters();
               },
               child: LayoutBuilder(
                 builder: (context, constraints) {
                   return GridView.builder(
-                    padding: EdgeInsets.fromLTRB(8, 8, 8, 55),
+                    padding: const EdgeInsets.fromLTRB(8, 8, 8, 55),
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: isMobile ? 1 : 3,
                       crossAxisSpacing: 8.0,
@@ -125,9 +112,9 @@ class MarketplacePage extends ConsumerWidget {
         ],
       ),
       floatingActionButton: Padding(
-        padding: EdgeInsets.only(bottom: 50),
+        padding: const EdgeInsets.only(bottom: 50),
         child: FloatingActionButton(
-          backgroundColor: Color(0xFF252C35),
+          backgroundColor: const Color(0xFF252C35),
           onPressed: () {
             Navigator.push(
               context,
@@ -138,7 +125,7 @@ class MarketplacePage extends ConsumerWidget {
               ),
             );
           },
-          child: Icon(Icons.add, color: Colors.white),
+          child: const Icon(Icons.add, color: Colors.white),
           tooltip: 'Add Post',
         ),
       ),
@@ -150,42 +137,42 @@ class MarketplacePage extends ConsumerWidget {
       context: context,
       builder: (context) {
         return Container(
-          padding: EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(16.0),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text('Filter Options', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-              Divider(),
+              const Text('Filter Options', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              const Divider(),
               ListTile(
-                title: Text('Price: Low to High'),
+                title: const Text('Price: Low to High'),
                 onTap: () {
                   ref.read(filteredProductsProvider(products).notifier).sortByPriceLowToHigh();
                   Navigator.pop(context);
                 },
               ),
               ListTile(
-                title: Text('Price: High to Low'),
+                title: const Text('Price: High to Low'),
                 onTap: () {
                   ref.read(filteredProductsProvider(products).notifier).sortByPriceHighToLow();
                   Navigator.pop(context);
                 },
               ),
               ListTile(
-                title: Text('Sort by Name'),
+                title: const Text('Sort by Name'),
                 onTap: () {
                   ref.read(filteredProductsProvider(products).notifier).sortByName();
                   Navigator.pop(context);
                 },
               ),
               ListTile(
-                title: Text('Reset Filters'),
+                title: const Text('Reset Filters'),
                 onTap: () {
                   ref.read(filteredProductsProvider(products).notifier).resetFilters();
                   Navigator.pop(context);
                 },
               ),
-              Divider(),
-              Text('Categories', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+              const Divider(),
+              const Text('Categories', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
               DropdownButton<String>(
                 value: _selectedCategory,
                 onChanged: (String? newValue) {
@@ -212,7 +199,7 @@ class MarketplacePage extends ConsumerWidget {
 class ProductCard extends ConsumerWidget {
   final Product product;
 
-  ProductCard({required this.product});
+  const ProductCard({required this.product});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -226,18 +213,70 @@ class ProductCard extends ConsumerWidget {
         );
       },
       child: Card(
-        elevation: 2.0,
+        elevation: 4.0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8.0),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ElevatedButton(
-              onPressed: () {
-                ref.read(cartProvider.notifier).addToCart(product);
-              },
-              child: Text('Add to Cart'),
+            // Product Image
+            ClipRRect(
+              borderRadius: const BorderRadius.vertical(top: Radius.circular(8.0)),
+              child: Image.network(
+                product.imageUrl,
+                height: 150,
+                width: double.infinity,
+                fit: BoxFit.cover,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  // Product Name and Price (Left Side)
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        product.name,
+                        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        product.price,
+                        style: const TextStyle(fontSize: 16, color: Colors.green),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.favorite_border, color: Colors.red),
+                        onPressed: () {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('${product.name} added to favorites!'),
+                            ),
+                          );
+                        },
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.shopping_cart),
+                        onPressed: () {
+                          ref.read(cartProvider.notifier).addToCart(product);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('${product.name} added to cart!'),
+                            ),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ],
         ),
@@ -245,8 +284,6 @@ class ProductCard extends ConsumerWidget {
     );
   }
 }
-
-
 
 class Product {
   final String name;
