@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../Cart/CartProvider.dart';
+import 'ArtisanStoryPage.dart';
 import 'MarketplacePage.dart' show Product;
 
 class ProductDescriptionPage extends ConsumerStatefulWidget {
@@ -94,7 +95,6 @@ class _ProductDescriptionPageState extends ConsumerState<ProductDescriptionPage>
                 },
               ),
             ),
-            // Product Details
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
@@ -151,7 +151,23 @@ class _ProductDescriptionPageState extends ConsumerState<ProductDescriptionPage>
                       SizedBox(width: 8.0),
                       Expanded(
                         child: OutlinedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ArtisanStoryPage(
+                                  artisanName: widget.product.sellerName,
+                                  artisanContact: widget.product.sellerContact,
+                                  artisanLocation: widget.product.location,
+                                  artisanImageUrl: 'https://phantomhands.in/imager/media/the-practical-magic-of-the-nakshi-kantha-a-brief-introduction/23599/9-1_515cffaa34c7b727c9423a5db08aae1f.jpg',
+                                  artisanHistory:
+                                  'Meet ${widget.product.sellerName}, a skilled artisan from ${widget.product.location}. With years of experience in ${widget.product.category}, ${widget.product.sellerName} creates unique and high-quality products that reflect the rich cultural heritage of Bangladesh. Their work has been featured in numerous exhibitions and documentaries.',
+                                  videoLink: 'https://youtu.be/zQrVKTnxMqo?si=rWcUoThnoazKJwAU',
+                                  relatedLink: 'https://bn.wikipedia.org/wiki/%E0%A6%A8%E0%A6%95%E0%A6%B6%E0%A6%BF_%E0%A6%95%E0%A6%BE%E0%A6%81%E0%A6%A5%E0%A6%BE',
+                                ),
+                              ),
+                            );
+                          },
                           child: Text('Artisan Story'),
                           style: OutlinedButton.styleFrom(
                             padding: EdgeInsets.symmetric(vertical: 16.0),

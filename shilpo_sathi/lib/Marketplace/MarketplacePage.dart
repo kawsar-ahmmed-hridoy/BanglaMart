@@ -8,11 +8,11 @@ import 'ProductDescriptionPage.dart';
 class MarketplacePage extends ConsumerWidget {
   final List<Product> products = [
     Product(
-      name: 'Nakshi Katha',
+      name: 'নকশি কাঁথা',
       price: '\$20',
       imageUrl: 'https://phantomhands.in/imager/media/the-practical-magic-of-the-nakshi-kantha-a-brief-introduction/23599/9-1_515cffaa34c7b727c9423a5db08aae1f.jpg',
-      description: 'A beautiful katha.',
-      sellerName: 'Artisan 1',
+      description: 'নকশি কাঁথা হলো সাধারণ কাঁথার উপর নানা ধরনের নকশা করে বানানো বিশেষ প্রকারের কাঁথা। নকশি কাঁথা শত শত বছরের পুরনো ভারতের পশ্চিমবঙ্গ ও বাংলাদেশের সংস্কৃতির একটা অংশ।',
+      sellerName: 'Rahimul',
       sellerContact: '+880123456789',
       location: 'Natore, Rajshahi, Bangladesh',
       category: 'Handicraft',
@@ -220,7 +220,6 @@ class ProductCard extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Product Image
             ClipRRect(
               borderRadius: const BorderRadius.vertical(top: Radius.circular(8.0)),
               child: Image.network(
@@ -235,7 +234,6 @@ class ProductCard extends ConsumerWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  // Product Name and Price (Left Side)
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

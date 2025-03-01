@@ -40,24 +40,37 @@ class _MyProfilePageState extends State<MyProfilePage> {
       try {
         DocumentSnapshot userDoc = await _firestore.collection('users').doc(user.uid).get();
         if (userDoc.exists) {
+          // Debug: Print the entire document data
+          print("User Document Data: ${userDoc.data()}");
+
           setState(() {
-            firstName = userDoc['firstName'] ?? "";
-            lastName = userDoc['lastName'] ?? "";
-            email = user.email ?? "";
-            aboutInfo = userDoc['aboutInfo'] ?? "";
+            firstName = userDoc['firstName'] ?? "First Name Not Found";
+            lastName = userDoc['lastName'] ?? "Last Name Not Found";
+            email = user.email ?? "Email Not Found";
+            aboutInfo = userDoc['aboutInfo'] ?? "No information provided.";
             _firstNameController.text = firstName;
             _lastNameController.text = lastName;
             _aboutInfoController.text = aboutInfo;
             isLoading = false;
           });
+        } else {
+          setState(() {
+            isLoading = false;
+          });
+          print("User document does not exist.");
         }
       } catch (e) {
+        setState(() {
+          isLoading = false;
+        });
         print("Error fetching user data: $e");
       }
+    } else {
+      setState(() {
+        isLoading = false;
+      });
+      print("No user is currently logged in.");
     }
-    setState(() {
-      isLoading = false;
-    });
   }
 
   Future<void> _updateProfile() async {
@@ -228,7 +241,13 @@ class _MyProfilePageState extends State<MyProfilePage> {
             Center(
               child: ElevatedButton(
                 onPressed: _updateProfile,
-                child: Text('Update Profile',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold)),
+                child: Text(
+                  'Update Profile',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blue,
                   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
@@ -271,7 +290,13 @@ class _MyProfilePageState extends State<MyProfilePage> {
             Center(
               child: ElevatedButton(
                 onPressed: _updatePassword,
-                child: Text('Update Password',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold)),
+                child: Text(
+                  'Update Password',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blue,
                   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
@@ -326,7 +351,10 @@ class _MyProfilePageState extends State<MyProfilePage> {
   }) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 8),
-      child: Text("Email: "+value,style: TextStyle(fontSize: 16),)
+      child: Text(
+        "$label: $value",
+        style: TextStyle(fontSize: 16),
+      ),
     );
   }
 }

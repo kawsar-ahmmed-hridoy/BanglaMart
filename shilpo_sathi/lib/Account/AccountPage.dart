@@ -10,7 +10,7 @@ class AccountPage extends StatefulWidget {
 }
 
 class _AccountPageState extends State<AccountPage> {
-  String firstName = "Loading...";
+  String firstName = "";
   String lastName = "";
   bool isLoading = true;
 
@@ -28,16 +28,22 @@ class _AccountPageState extends State<AccountPage> {
             .collection('users')
             .doc(user.uid)
             .get();
+
         if (userDoc.exists) {
+          // Debug: Print the entire document data
+          print("User Document Data: ${userDoc.data()}");
+
+          // Check if the fields exist and are not null
           setState(() {
-            firstName = userDoc['firstName'] ?? "";
-            lastName = userDoc['lastName'] ?? "";
+            firstName = userDoc['firstName'] ?? "First Name Not Found";
+            lastName = userDoc['lastName'] ?? "Last Name Not Found";
             isLoading = false;
           });
         } else {
           setState(() {
             isLoading = false;
           });
+          print("User document does not exist.");
         }
       } catch (e) {
         setState(() {
@@ -49,6 +55,7 @@ class _AccountPageState extends State<AccountPage> {
       setState(() {
         isLoading = false;
       });
+      print("No user is currently logged in.");
     }
   }
 

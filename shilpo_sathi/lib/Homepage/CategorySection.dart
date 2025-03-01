@@ -48,7 +48,7 @@ class CategorySection extends StatelessWidget {
       child: Column(
         children: [
           CircleAvatar(
-            backgroundColor: const Color(0xFFFF93E7).withOpacity(0.2),
+            backgroundColor: Colors.grey.withOpacity(0.8),
             child: Icon(icon),
           ),
           const SizedBox(height: 8),
