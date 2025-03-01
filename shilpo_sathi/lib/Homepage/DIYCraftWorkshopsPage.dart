@@ -76,8 +76,8 @@ class DIYCraftWorkshopsPage extends StatelessWidget {
             begin: Alignment.bottomCenter,
             end: Alignment.topCenter,
             colors: [
-              Color(0xFF93DFD0).withOpacity(0.8),
-              Colors.grey,
+              Colors.grey.withOpacity(0.4),
+              Colors.grey.withOpacity(0.8),
             ],
           ),
         ),

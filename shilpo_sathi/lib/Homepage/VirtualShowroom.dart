@@ -142,8 +142,8 @@ class _VirtualShowroomState extends State<VirtualShowroom> {
             begin: Alignment.center,
             end: Alignment.center,
             colors: [
-              Color(0xFFD3E6E3).withOpacity(0.7),
-              Colors.white.withOpacity(0.4),
+              Colors.white.withOpacity(0.6),
+              Colors.grey.withOpacity(0.4),
             ],
           ),
         ),

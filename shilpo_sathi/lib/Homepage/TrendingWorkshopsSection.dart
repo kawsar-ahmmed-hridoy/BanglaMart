@@ -54,7 +54,7 @@ class TrendingWorkshops extends StatelessWidget {
       width: 150,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        color: const Color(0xFF05C793).withOpacity(0.1),
+        color: Colors.grey.withOpacity(0.2),
         boxShadow: [
           BoxShadow(
             color: Colors.grey.withOpacity(0.2),

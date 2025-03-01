@@ -135,7 +135,7 @@ class _BannerSectionState extends State<BannerSection> {
       margin: EdgeInsets.symmetric(horizontal: 5),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        color: Color(0xFF05C793).withOpacity(0.1),
+        color: Colors.grey.withOpacity(0.3),
       ),
       padding: EdgeInsets.all(12),
       child: Row(

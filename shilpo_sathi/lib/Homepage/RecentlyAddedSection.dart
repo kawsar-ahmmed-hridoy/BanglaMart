@@ -33,7 +33,7 @@ class RecentlyAdded extends StatelessWidget {
           padding: const EdgeInsets.all(15),
           margin: const EdgeInsets.symmetric(horizontal: 5),
           decoration: BoxDecoration(
-            color: const Color(0xFF05C793).withOpacity(0.1),
+            color: Colors.grey.withOpacity(0.2),
             borderRadius: BorderRadius.circular(10),
             boxShadow: [
               BoxShadow(
