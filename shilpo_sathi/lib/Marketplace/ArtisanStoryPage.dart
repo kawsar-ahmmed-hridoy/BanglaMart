@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
-class ArtisanStoryPage extends StatelessWidget {
+class ArtisanStoryPage extends StatefulWidget {
   final String artisanName;
   final String artisanContact;
   final String artisanLocation;
@@ -20,6 +21,34 @@ class ArtisanStoryPage extends StatelessWidget {
     required this.videoLink,
     required this.relatedLink,
   });
+
+  @override
+  _ArtisanStoryPageState createState() => _ArtisanStoryPageState();
+}
+
+class _ArtisanStoryPageState extends State<ArtisanStoryPage> {
+  late YoutubePlayerController _controller;
+  late String videoId;
+
+  @override
+  void initState() {
+    super.initState();
+    videoId = YoutubePlayer.convertUrlToId(widget.videoLink) ?? '';
+    _controller = YoutubePlayerController(
+      initialVideoId: videoId,
+      flags: YoutubePlayerFlags(
+        autoPlay: false,
+        mute: false,
+        enableCaption: true,
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +71,7 @@ class ArtisanStoryPage extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
                 child: CachedNetworkImage(
-                  imageUrl: artisanImageUrl,
+                  imageUrl: widget.artisanImageUrl,
                   fit: BoxFit.cover,
                   placeholder: (context, url) => Center(
                     child: CircularProgressIndicator(),
@@ -60,7 +89,7 @@ class ArtisanStoryPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    artisanName,
+                    widget.artisanName,
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
@@ -72,7 +101,7 @@ class ArtisanStoryPage extends StatelessWidget {
                       Icon(Icons.phone, color: Colors.green),
                       SizedBox(width: 8.0),
                       Text(
-                        artisanContact,
+                        widget.artisanContact,
                         style: TextStyle(
                           fontSize: 16,
                           color: Colors.grey[700],
@@ -86,7 +115,7 @@ class ArtisanStoryPage extends StatelessWidget {
                       Icon(Icons.location_on, color: Colors.red),
                       SizedBox(width: 8.0),
                       Text(
-                        artisanLocation,
+                        widget.artisanLocation,
                         style: TextStyle(
                           fontSize: 16,
                           color: Colors.grey[700],
@@ -104,7 +133,7 @@ class ArtisanStoryPage extends StatelessWidget {
                   ),
                   SizedBox(height: 8.0),
                   Text(
-                    artisanHistory,
+                    widget.artisanHistory,
                     style: TextStyle(
                       fontSize: 16,
                       color: Colors.grey[700],
@@ -119,25 +148,38 @@ class ArtisanStoryPage extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 8.0),
-                  GestureDetector(
-                    onTap: () async {
-                      if (await canLaunch(videoLink)) {
-                        await launch(videoLink);
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('Could not launch the video link.')),
-                        );
-                      }
-                    },
-                    child: Text(
-                      videoLink,
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.blue,
-                        decoration: TextDecoration.underline,
+                  if (videoId.isNotEmpty)
+                    Container(
+                      margin: EdgeInsets.symmetric(vertical: 8.0),
+                      child: YoutubePlayer(
+                        controller: _controller,
+                        showVideoProgressIndicator: true,
+                        progressIndicatorColor: Color(0xFF6ECAB8),
+                        onReady: () {
+                          print('Player is ready.');
+                        },
+                      ),
+                    )
+                  else
+                    GestureDetector(
+                      onTap: () async {
+                        if (await canLaunch(widget.videoLink)) {
+                          await launch(widget.videoLink);
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('Error Occured.')),
+                          );
+                        }
+                      },
+                      child: Text(
+                        widget.videoLink,
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.blue,
+                          decoration: TextDecoration.underline,
+                        ),
                       ),
                     ),
-                  ),
                   SizedBox(height: 16.0),
                   Text(
                     'Related Links',
@@ -149,8 +191,8 @@ class ArtisanStoryPage extends StatelessWidget {
                   SizedBox(height: 8.0),
                   GestureDetector(
                     onTap: () async {
-                      if (await canLaunch(relatedLink)) {
-                        await launch(relatedLink);
+                      if (await canLaunch(widget.relatedLink)) {
+                        await launch(widget.relatedLink);
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Text('Could not launch the related link.')),
@@ -158,7 +200,7 @@ class ArtisanStoryPage extends StatelessWidget {
                       }
                     },
                     child: Text(
-                      relatedLink,
+                      widget.relatedLink,
                       style: TextStyle(
                         fontSize: 16,
                         color: Colors.blue,
@@ -171,7 +213,7 @@ class ArtisanStoryPage extends StatelessWidget {
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: () {
-                        final Uri phoneUri = Uri(scheme: 'tel', path: artisanContact);
+                        final Uri phoneUri = Uri(scheme: 'tel', path: widget.artisanContact);
                         launch(phoneUri.toString());
                       },
                       child: Text('Call Artisan'),
