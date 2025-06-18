@@ -63,7 +63,12 @@ class _ArtisanStoryPageState extends State<ArtisanStoryPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              height: 250,
+              margin: EdgeInsets.all(8),
+              width: double.infinity,
+              constraints: BoxConstraints(
+                maxHeight: 350,
+                minHeight: 250,
+              ),
               decoration: BoxDecoration(
                 color: Colors.grey[200],
                 borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
@@ -150,14 +155,25 @@ class _ArtisanStoryPageState extends State<ArtisanStoryPage> {
                   SizedBox(height: 8.0),
                   if (videoId.isNotEmpty)
                     Container(
-                      margin: EdgeInsets.symmetric(vertical: 8.0),
-                      child: YoutubePlayer(
-                        controller: _controller,
-                        showVideoProgressIndicator: true,
-                        progressIndicatorColor: Color(0xFF6ECAB8),
-                        onReady: () {
-                          print('Player is ready.');
-                        },
+                      margin: EdgeInsets.all(8.0),
+                      decoration: BoxDecoration(
+                        color: Colors.black,
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(
+                          color: Colors.grey,
+                          width: 1.0,
+                        ),
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: YoutubePlayer(
+                          controller: _controller,
+                          showVideoProgressIndicator: true,
+                          progressIndicatorColor: Color(0xFF6ECAB8),
+                          onReady: () {
+                            print('Player is ready.');
+                          },
+                        ),
                       ),
                     )
                   else
@@ -209,20 +225,6 @@ class _ArtisanStoryPageState extends State<ArtisanStoryPage> {
                     ),
                   ),
                   SizedBox(height: 16.0),
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        final Uri phoneUri = Uri(scheme: 'tel', path: widget.artisanContact);
-                        launch(phoneUri.toString());
-                      },
-                      child: Text('Call Artisan'),
-                      style: ElevatedButton.styleFrom(
-                        padding: EdgeInsets.symmetric(vertical: 16.0),
-                        backgroundColor: Color(0xFF6ECAB8),
-                      ),
-                    ),
-                  ),
                 ],
               ),
             ),

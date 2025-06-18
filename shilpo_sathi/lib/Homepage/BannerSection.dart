@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'banner_provider.dart';
-import 'banner_details.dart';
 
 class BannerSection extends StatefulWidget {
   @override
@@ -156,12 +155,19 @@ class _BannerSectionState extends State<BannerSection> {
                 ),
                 SizedBox(height: 6),
                 ElevatedButton(
-                  onPressed: onPressed,
-                  child: Text("View details", style: TextStyle(color: Colors.white, fontSize: 12)),
+                  onPressed: () {
+                    final bannerProvider = Provider.of<BannerProvider>(context, listen: false);
+                    bannerProvider.setSelectedBanner(banners[_currentBannerIndex]);
+                    bannerProvider.navigateToBannerDetails(context);
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color(0xFFEF436B),
                     minimumSize: Size(70, 15),
                     padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  ),
+                  child: Text(
+                    "View details",
+                    style: TextStyle(color: Colors.white, fontSize: 12),
                   ),
                 ),
               ],

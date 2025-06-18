@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'CategoryListPage.dart';
+
 class CategorySection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -19,7 +21,14 @@ class CategorySection extends StatelessWidget {
                 ),
               ),
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => CategoryListPage(),
+                    ),
+                  );
+                },
                 child: const Text(
                   "View all",
                   style: TextStyle(color: Colors.blue),

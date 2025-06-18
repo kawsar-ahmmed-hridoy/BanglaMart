@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+
 import 'banner_details.dart';
 
 class BannerProvider with ChangeNotifier {
@@ -13,13 +13,9 @@ class BannerProvider with ChangeNotifier {
   }
 
   void navigateToBannerDetails(BuildContext context) {
-    if (_selectedBanner != null) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => BannerDetails(),
-        ),
-      );
-    }
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => BannerDetailsPage()),
+    );
   }
 }
