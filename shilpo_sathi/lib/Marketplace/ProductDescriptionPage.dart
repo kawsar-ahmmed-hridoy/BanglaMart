@@ -18,6 +18,7 @@ class _ProductDescriptionPageState extends ConsumerState<ProductDescriptionPage>
   final TextEditingController _reviewController = TextEditingController();
   double _userRating = 0.0;
   final List<Map<String, dynamic>> _reviews = [];
+  final String locationImageUrl = 'https://via.placeholder.com/400x200';
 
   void _submitReview() {
     if (_reviewController.text.isNotEmpty && _userRating > 0) {
@@ -29,23 +30,21 @@ class _ProductDescriptionPageState extends ConsumerState<ProductDescriptionPage>
         });
       });
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Review submitted successfully!')),
+        const SnackBar(content: Text('Review submitted successfully!')),
       );
       _reviewController.clear();
       _userRating = 0.0;
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Please write a review and provide a rating.')),
+        const SnackBar(content: Text('Please write a review and provide a rating.')),
       );
     }
   }
 
   void _callSeller() async {
     final Uri phoneUri = Uri(scheme: 'tel', path: widget.product.sellerContact);
-    if (await canLaunch(phoneUri.toString())) {
-      await launch(phoneUri.toString());
-    } else {
-      throw 'Could not launch $phoneUri';
+    if (await canLaunchUrl(phoneUri)) {
+      await launchUrl(phoneUri);
     }
   }
 
@@ -53,290 +52,217 @@ class _ProductDescriptionPageState extends ConsumerState<ProductDescriptionPage>
     final String shareText =
         'Check out this product: ${widget.product.name} - ${widget.product.price}\n${widget.product.description}';
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Share functionality not implemented yet.')),
+      const SnackBar(content: Text('Share functionality not implemented yet.')),
     );
   }
-
-  final String locationImageUrl = 'https://via.placeholder.com/400x200';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFF5F5F5),
       appBar: AppBar(
-        backgroundColor: Color(0xFF6ECAB8),
-        title: Text('Product Details'),
+        backgroundColor: const Color(0xFF252C35),
+        title: const Text('Product Details', style: TextStyle(fontWeight: FontWeight.bold)),
         centerTitle: true,
         actions: [
-          IconButton(
-            icon: Icon(Icons.share),
-            onPressed: _shareProduct,
-          ),
+          IconButton(icon: const Icon(Icons.share), onPressed: _shareProduct),
         ],
       ),
       body: SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              height: 200,
-              child: PageView.builder(
-                itemCount: 3,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(10.0),
-                      child: Image.network(
-                        widget.product.imageUrl,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              height: 230,
+              child: Stack(
+                alignment: Alignment.bottomCenter,
                 children: [
-                  Text(
-                    widget.product.name,
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: 8.0),
-                  Text(
-                    widget.product.price,
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.green,
-                    ),
-                  ),
-                  SizedBox(height: 16.0),
-                  Text(
-                    'Product Description',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: 8.0),
-                  Text(
-                    widget.product.description,
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.grey[700],
-                    ),
-                  ),
-                  SizedBox(height: 16.0),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: ElevatedButton(
-                          onPressed: () {
-                            ref.read(cartProvider.notifier).addToCart(widget.product);
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text('${widget.product.name} added to cart!')),
-                            );
-                          },
-                          child: Text('Add to Cart'),
-                          style: ElevatedButton.styleFrom(
-                            padding: EdgeInsets.symmetric(vertical: 16.0),
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 8.0),
-                      Expanded(
-                        child: OutlinedButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => ArtisanStoryPage(
-                                  artisanName: widget.product.sellerName,
-                                  artisanContact: widget.product.sellerContact,
-                                  artisanLocation: widget.product.location,
-                                  artisanImageUrl: 'https://phantomhands.in/imager/media/the-practical-magic-of-the-nakshi-kantha-a-brief-introduction/23599/9-1_515cffaa34c7b727c9423a5db08aae1f.jpg',
-                                  artisanHistory:
-                                  'Meet ${widget.product.sellerName}, a skilled artisan from ${widget.product.location}. With years of experience in ${widget.product.category}, ${widget.product.sellerName} creates unique and high-quality products that reflect the rich cultural heritage of Bangladesh. Their work has been featured in numerous exhibitions and documentaries.',
-                                  videoLink: 'https://youtu.be/zQrVKTnxMqo?si=rWcUoThnoazKJwAU',
-                                  relatedLink: 'https://bn.wikipedia.org/wiki/%E0%A6%A8%E0%A6%95%E0%A6%B6%E0%A6%BF_%E0%A6%95%E0%A6%BE%E0%A6%81%E0%A6%A5%E0%A6%BE',
-                                ),
-                              ),
-                            );
-                          },
-                          child: Text('Artisan Story'),
-                          style: OutlinedButton.styleFrom(
-                            padding: EdgeInsets.symmetric(vertical: 16.0),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 16.0),
-                  Text(
-                    'Location',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: 8.0),
-                  GestureDetector(
-                    onTap: () async {
-                      final String googleMapsUrl = 'https://www.google.com/maps/search/?api=1&query=${Uri.encodeComponent(widget.product.location)}';
-                      if (await canLaunch(googleMapsUrl)) {
-                        await launch(googleMapsUrl);
-                      } else {
-                        throw 'Could not launch $googleMapsUrl';
-                      }
-                    },
-                    child: Container(
-                      height: 150,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20.0),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 2,
-                            blurRadius: 5,
-                            offset: Offset(0, 3),
-                          ),
-                        ],
-                        image: DecorationImage(
-                          image: NetworkImage(locationImageUrl),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                      child: Center(
-                        child: Container(
-                          padding: EdgeInsets.all(8.0),
-                          decoration: BoxDecoration(
-                            color: Colors.black54,
-                            borderRadius: BorderRadius.circular(8.0),
-                          ),
-                          child: Text(
-                            widget.product.location,
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
+                  PageView.builder(
+                    itemCount: 3,
+                    itemBuilder: (context, index) => Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(16.0),
+                        child: Image.network(widget.product.imageUrl, fit: BoxFit.cover),
                       ),
                     ),
                   ),
-                  SizedBox(height: 16.0),
-                  Text(
-                    'Seller Information',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: 8.0),
-                  ListTile(
-                    leading: CircleAvatar(
-                      backgroundImage: NetworkImage('https://via.placeholder.com/150'),
-                    ),
-                    title: Text(widget.product.sellerName),
-                    subtitle: Text('Contact: ${widget.product.sellerContact}'),
-                    trailing: IconButton(
-                      icon: Icon(Icons.call, color: Colors.green),
-                      onPressed: _callSeller,
-                    ),
-                  ),
-                  SizedBox(height: 16.0),
-                  Text(
-                    'Customer Reviews',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: 8.0),
-                  ListView.builder(
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemCount: _reviews.length,
-                    itemBuilder: (context, index) {
-                      final review = _reviews[index];
-                      return Card(
-                        margin: EdgeInsets.symmetric(vertical: 4.0),
-                        child: ListTile(
-                          leading: CircleAvatar(
-                            backgroundImage: NetworkImage('https://via.placeholder.com/150'),
-                          ),
-                          title: Text(review['name']),
-                          subtitle: Text(review['review']),
-                          trailing: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: List.generate(5, (i) {
-                              return Icon(
-                                i < review['rating'] ? Icons.star : Icons.star_border,
-                                color: Colors.amber,
-                              );
-                            }),
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                  SizedBox(height: 16.0),
-                  Text(
-                    'Write a Review',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: 8.0),
-                  Row(
-                    children: [
-                      Text('Your Rating: '),
-                      SizedBox(width: 5.0),
-                      ...List.generate(5, (index) {
-                        return IconButton(
-                          icon: Icon(
-                            index < _userRating ? Icons.star : Icons.star_border,
-                            color: Colors.amber,
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              _userRating = index + 1.0;
-                            });
-                          },
-                        );
-                      }),
-                    ],
-                  ),
-                  SizedBox(height: 8.0),
-                  TextField(
-                    controller: _reviewController,
-                    maxLines: 2,
-                    decoration: InputDecoration(
-                      hintText: 'Write your review here...',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.0),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 16.0),
-                  ElevatedButton(
-                    onPressed: _submitReview,
-                    child: Text('Submit Review'),
-                    style: ElevatedButton.styleFrom(
-                      padding: EdgeInsets.symmetric(vertical: 10.0,horizontal: 10),
-                      backgroundColor: Colors.grey,
+                  const Padding(
+                    padding: EdgeInsets.only(bottom: 10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.circle, size: 8, color: Colors.white70),
+                        SizedBox(width: 4),
+                        Icon(Icons.circle, size: 8, color: Colors.white38),
+                        SizedBox(width: 4),
+                        Icon(Icons.circle, size: 8, color: Colors.white38),
+                      ],
                     ),
                   ),
                 ],
               ),
             ),
+            const SizedBox(height: 16),
+            Text(widget.product.name, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+            const SizedBox(height: 6),
+            Text(widget.product.price, style: const TextStyle(fontSize: 20, color: Colors.teal)),
+            const SizedBox(height: 16),
+            const Text('Product Description', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
+            const SizedBox(height: 8),
+            Text(widget.product.description, style: TextStyle(fontSize: 16, color: Colors.grey[700])),
+            const SizedBox(height: 16),
+
+            Row(
+              children: [
+                Expanded(
+                  child: ElevatedButton.icon(
+                    icon: const Icon(Icons.shopping_cart_outlined),
+                    label: const Text('Add to Cart'),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.teal,
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                    ),
+                    onPressed: () {
+                      ref.read(cartProvider.notifier).addToCart(widget.product);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('${widget.product.name} added to cart!')),
+                      );
+                    },
+                  ),
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: OutlinedButton.icon(
+                    icon: const Icon(Icons.person),
+                    label: const Text('Artisan Story'),
+                    style: OutlinedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      side: const BorderSide(color: Colors.teal),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => ArtisanStoryPage(
+                          artisanName: widget.product.sellerName,
+                          artisanContact: widget.product.sellerContact,
+                          artisanLocation: widget.product.location,
+                          artisanImageUrl: widget.product.imageUrl,
+                          artisanHistory: 'Meet ${widget.product.sellerName}, a skilled artisan from ${widget.product.location}...',
+                          videoLink: 'https://youtu.be/zQrVKTnxMqo?si=rWcUoThnoazKJwAU',
+                          relatedLink: 'https://bn.wikipedia.org/wiki/%E0%A6%A8%E0%A6%95%E0%A6%B6%E0%A6%BF_%E0%A6%95%E0%A6%BE%E0%A6%81%E0%A6%A5%E0%A6%BE',
+                        )),
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 20),
+            const Text('Location', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
+            const SizedBox(height: 8),
+            GestureDetector(
+              onTap: () async {
+                final String googleMapsUrl =
+                    'https://www.google.com/maps/search/?api=1&query=${Uri.encodeComponent(widget.product.location)}';
+                if (await canLaunchUrl(Uri.parse(googleMapsUrl))) {
+                  await launchUrl(Uri.parse(googleMapsUrl));
+                }
+              },
+              child: Container(
+                height: 160,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16),
+                  image: DecorationImage(image: NetworkImage(locationImageUrl), fit: BoxFit.cover),
+                  boxShadow: [BoxShadow(color: Colors.black26, blurRadius: 6)],
+                ),
+                child: Align(
+                  alignment: Alignment.bottomLeft,
+                  child: Container(
+                    margin: const EdgeInsets.all(12),
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                    decoration: BoxDecoration(color: Colors.black54, borderRadius: BorderRadius.circular(8)),
+                    child: Text(
+                      widget.product.location,
+                      style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 20),
+            const Text('Seller Information', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
+            const SizedBox(height: 8),
+            ListTile(
+              leading: const CircleAvatar(backgroundImage: NetworkImage('https://via.placeholder.com/150')),
+              title: Text(widget.product.sellerName),
+              subtitle: Text('Contact: ${widget.product.sellerContact}'),
+              trailing: IconButton(icon: const Icon(Icons.call, color: Colors.green), onPressed: _callSeller),
+            ),
+            const SizedBox(height: 20),
+            const Text('Customer Reviews', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
+            const SizedBox(height: 8),
+            ..._reviews.map((review) => Card(
+              margin: const EdgeInsets.symmetric(vertical: 4.0),
+              child: ListTile(
+                leading: const CircleAvatar(backgroundImage: NetworkImage('https://via.placeholder.com/150')),
+                title: Text(review['name']),
+                subtitle: Text(review['review']),
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: List.generate(5, (i) => Icon(
+                    i < review['rating'] ? Icons.star : Icons.star_border,
+                    color: Colors.amber,
+                    size: 20,
+                  )),
+                ),
+              ),
+            )),
+            const SizedBox(height: 20),
+            const Text('Write a Review', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
+            const SizedBox(height: 10),
+            Row(
+              children: [
+                const Text('Your Rating: ', style: TextStyle(fontWeight: FontWeight.w500)),
+                ...List.generate(5, (index) => IconButton(
+                  icon: Icon(
+                    index < _userRating ? Icons.star : Icons.star_border,
+                    color: Colors.amber,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      _userRating = index + 1.0;
+                    });
+                  },
+                )),
+              ],
+            ),
+            const SizedBox(height: 8),
+            TextField(
+              controller: _reviewController,
+              maxLines: 3,
+              decoration: InputDecoration(
+                hintText: 'Write your thoughts...',
+                border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                filled: true,
+                fillColor: Colors.grey[100],
+              ),
+            ),
+            const SizedBox(height: 12),
+            ElevatedButton.icon(
+              icon: const Icon(Icons.send),
+              label: const Text('Submit Review'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.teal,
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              ),
+              onPressed: _submitReview,
+            ),
+            const SizedBox(height: 30),
           ],
         ),
       ),

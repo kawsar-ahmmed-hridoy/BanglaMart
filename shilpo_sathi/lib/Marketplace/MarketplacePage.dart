@@ -40,25 +40,32 @@ class MarketplacePage extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color(0xFF252C35),
-        title: const Text('Marketplace', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+        backgroundColor: const Color(0xFF1E252B),
+        elevation: 0,
+        title: const Text(
+          'Marketplace',
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            letterSpacing: 0.5,
+          ),
+        ),
         centerTitle: true,
       ),
       body: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(12.0),
             child: Row(
               children: [
                 Expanded(
                   child: TextField(
                     controller: _searchController,
                     decoration: InputDecoration(
-                      hintText: 'Search products...',
-                      prefixIcon: const Icon(Icons.search),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.0),
-                      ),
+                      filled: true,
+                      fillColor: Colors.white,
+                      hintText: 'Search artisan products...',
+                      prefixIcon: const Icon(Icons.search, color: Colors.grey),
                       suffixIcon: IconButton(
                         icon: const Icon(Icons.clear),
                         onPressed: () {
@@ -66,18 +73,26 @@ class MarketplacePage extends ConsumerWidget {
                           ref.read(filteredProductsProvider(products).notifier).filterProducts('');
                         },
                       ),
+                      contentPadding: const EdgeInsets.symmetric(vertical: 0),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30),
+                        borderSide: BorderSide.none,
+                      ),
                     ),
                     onChanged: (query) {
                       ref.read(filteredProductsProvider(products).notifier).filterProducts(query);
                     },
                   ),
                 ),
-                const SizedBox(width: 8.0),
-                IconButton(
-                  icon: const Icon(Icons.filter_list),
-                  onPressed: () {
-                    _showFilterOptions(context, ref);
-                  },
+                const SizedBox(width: 10),
+                ClipOval(
+                  child: Material(
+                    color: Colors.blue.shade100,
+                    child: IconButton(
+                      icon: const Icon(Icons.filter_list, color: Colors.blue),
+                      onPressed: () => _showFilterOptions(context, ref),
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -113,20 +128,28 @@ class MarketplacePage extends ConsumerWidget {
       ),
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(bottom: 50),
-        child: FloatingActionButton(
-          backgroundColor: const Color(0xFF252C35),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => AddPostPage(onPostAdded: (newProduct) {
-                  ref.read(filteredProductsProvider(products).notifier).addProduct(newProduct);
-                }),
-              ),
-            );
-          },
-          child: const Icon(Icons.add, color: Colors.white),
-          tooltip: 'Add Post',
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.white.withOpacity(0.2),
+            shape: BoxShape.circle,
+            boxShadow: [
+              BoxShadow(color: Colors.black26, blurRadius: 10, offset: Offset(0, 4))
+            ],
+          ),
+          child: FloatingActionButton(
+            backgroundColor: const Color(0xFF252C35),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => AddPostPage(onPostAdded: (newProduct) {
+                    ref.read(filteredProductsProvider(products).notifier).addProduct(newProduct);
+                  }),
+                ),
+              );
+            },
+            child: const Icon(Icons.add, color: Colors.white),
+          ),
         ),
       ),
     );
@@ -213,15 +236,15 @@ class ProductCard extends ConsumerWidget {
         );
       },
       child: Card(
-        elevation: 4.0,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8.0),
-        ),
+        elevation: 6,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+        color: Colors.white,
+        shadowColor: Colors.black.withOpacity(0.1),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ClipRRect(
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(8.0)),
+              borderRadius: const BorderRadius.vertical(top: Radius.circular(15)),
               child: Image.network(
                 product.imageUrl,
                 height: 150,
@@ -230,44 +253,41 @@ class ProductCard extends ConsumerWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(10),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        product.name,
-                        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        product.price,
-                        style: const TextStyle(fontSize: 16, color: Colors.green),
-                      ),
-                    ],
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(product.name,
+                          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        const SizedBox(height: 4),
+                        Text(product.price,
+                          style: const TextStyle(fontSize: 14, color: Colors.teal),
+                        ),
+                      ],
+                    ),
                   ),
                   Row(
                     children: [
                       IconButton(
-                        icon: const Icon(Icons.favorite_border, color: Colors.red),
+                        icon: const Icon(Icons.favorite_border, color: Colors.redAccent),
                         onPressed: () {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('${product.name} added to favorites!'),
-                            ),
+                            SnackBar(content: Text('${product.name} added to favorites!')),
                           );
                         },
                       ),
                       IconButton(
-                        icon: const Icon(Icons.shopping_cart),
+                        icon: const Icon(Icons.shopping_cart_outlined),
                         onPressed: () {
                           ref.read(cartProvider.notifier).addToCart(product);
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('${product.name} added to cart!'),
-                            ),
+                            SnackBar(content: Text('${product.name} added to cart!')),
                           );
                         },
                       ),
