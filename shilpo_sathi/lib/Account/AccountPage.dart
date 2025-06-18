@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'SignOutSection.dart';
+import 'SocialAccountsPage.dart';
 
 class AccountPage extends StatefulWidget {
   @override
@@ -10,8 +11,8 @@ class AccountPage extends StatefulWidget {
 }
 
 class _AccountPageState extends State<AccountPage> {
-  String firstName = "";
-  String lastName = "";
+  String firstName = "Kawsar Ahmmed";
+  String lastName = "Hridoy";
   bool isLoading = true;
 
   @override
@@ -149,7 +150,9 @@ class _AccountPageState extends State<AccountPage> {
                   child: MouseRegion(
                     cursor: SystemMouseCursors.click,
                     child: GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.pushNamed(context, '/need_help');
+                      },
                       child: Card(
                         elevation: 2,
                         shape: RoundedRectangleBorder(
@@ -189,7 +192,9 @@ class _AccountPageState extends State<AccountPage> {
                   child: MouseRegion(
                     cursor: SystemMouseCursors.click,
                     child: GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.pushNamed(context, '/privacy_checkup');
+                      },
                       child: Card(
                         elevation: 2,
                         shape: RoundedRectangleBorder(
@@ -238,7 +243,12 @@ class _AccountPageState extends State<AccountPage> {
             ListTile(
               leading: Icon(Icons.share, color: Colors.deepPurple),
               title: Text('Social Accounts'),
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SocialAccountsPage()),
+                );
+              },
             ),
             ListTile(
               leading: Icon(Icons.work, color: Colors.deepPurple),

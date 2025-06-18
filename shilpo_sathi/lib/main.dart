@@ -2,10 +2,12 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shilpo_sathi/Account/MyProfilePage.dart';
+import 'package:shilpo_sathi/Account/NeedHelpPage.dart';
 import 'package:shilpo_sathi/Cart/CheckoutPage.dart';
 import 'package:shilpo_sathi/Homepage/NotificationsPage.dart';
 import 'package:shilpo_sathi/MainScreen.dart';
 import 'Account/ManageAccountPage.dart';
+import 'Account/PrivacyCheckupPage.dart';
 import 'Cart/CartPage.dart';
 import 'Signing/sign_in_page.dart';
 import 'Signing/sign_up_page.dart';
@@ -48,6 +50,8 @@ class MyApp extends ConsumerWidget {
         '/manage_account': (context) => ManageAccountPage(),
         '/cart': (context) => CartPage(),
         '/checkout': (context) => CheckoutPage(),
+        '/privacy_checkup': (context) => PrivacyCheckupPage(),
+        '/need_help': (context) => NeedHelpPage(),
       },
     );
   }

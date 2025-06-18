@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class ArtisanStoryPage extends StatefulWidget {
@@ -11,6 +10,7 @@ class ArtisanStoryPage extends StatefulWidget {
   final String artisanHistory;
   final String videoLink;
   final String relatedLink;
+  final String sellerName;
 
   ArtisanStoryPage({
     required this.artisanName,
@@ -20,6 +20,7 @@ class ArtisanStoryPage extends StatefulWidget {
     required this.artisanHistory,
     required this.videoLink,
     required this.relatedLink,
+    required this.sellerName,
   });
 
   @override
@@ -50,6 +51,16 @@ class _ArtisanStoryPageState extends State<ArtisanStoryPage> {
     super.dispose();
   }
 
+  void _launchUrl(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Could not launch the link.')),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,178 +68,104 @@ class _ArtisanStoryPageState extends State<ArtisanStoryPage> {
         backgroundColor: Color(0xFF6ECAB8),
         title: Text('Artisan Story'),
         centerTitle: true,
+        elevation: 2,
       ),
       body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              margin: EdgeInsets.all(8),
-              width: double.infinity,
-              constraints: BoxConstraints(
-                maxHeight: 350,
-                minHeight: 250,
-              ),
-              decoration: BoxDecoration(
-                color: Colors.grey[200],
-                borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
-                child: CachedNetworkImage(
-                  imageUrl: widget.artisanImageUrl,
-                  fit: BoxFit.cover,
-                  placeholder: (context, url) => Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                  errorWidget: (context, url, error) => Icon(
-                    Icons.error,
-                    color: Colors.red,
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    widget.artisanName,
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: 8.0),
-                  Row(
-                    children: [
-                      Icon(Icons.phone, color: Colors.green),
-                      SizedBox(width: 8.0),
-                      Text(
-                        widget.artisanContact,
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.grey[700],
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 8.0),
-                  Row(
-                    children: [
-                      Icon(Icons.location_on, color: Colors.red),
-                      SizedBox(width: 8.0),
-                      Text(
-                        widget.artisanLocation,
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.grey[700],
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 16.0),
-                  Text(
-                    'History',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: 8.0),
-                  Text(
-                    widget.artisanHistory,
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.grey[700],
-                    ),
-                  ),
-                  SizedBox(height: 16.0),
-                  Text(
-                    'Video/Documentary',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: 8.0),
-                  if (videoId.isNotEmpty)
-                    Container(
-                      margin: EdgeInsets.all(8.0),
-                      decoration: BoxDecoration(
-                        color: Colors.black,
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                          color: Colors.grey,
-                          width: 1.0,
-                        ),
-                      ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: YoutubePlayer(
-                          controller: _controller,
-                          showVideoProgressIndicator: true,
-                          progressIndicatorColor: Color(0xFF6ECAB8),
-                          onReady: () {
-                            print('Player is ready.');
-                          },
-                        ),
-                      ),
-                    )
-                  else
-                    GestureDetector(
-                      onTap: () async {
-                        if (await canLaunch(widget.videoLink)) {
-                          await launch(widget.videoLink);
-                        } else {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('Error Occured.')),
-                          );
-                        }
-                      },
+        padding: EdgeInsets.all(16),
+        child: Card(
+          elevation: 5,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Icon(Icons.person, size: 28, color: Colors.teal),
+                    SizedBox(width: 10),
+                    Expanded(
                       child: Text(
-                        widget.videoLink,
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.blue,
-                          decoration: TextDecoration.underline,
-                        ),
+                        'Artisan: ${widget.artisanName}',
+                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                       ),
                     ),
-                  SizedBox(height: 16.0),
-                  Text(
-                    'Related Links',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
+                  ],
+                ),
+                SizedBox(height: 8),
+                Row(
+                  children: [
+                    Icon(Icons.storefront, color: Colors.deepPurple),
+                    SizedBox(width: 10),
+                    Text('Seller: ${widget.sellerName}', style: TextStyle(fontSize: 16)),
+                  ],
+                ),
+                SizedBox(height: 12),
+                Row(
+                  children: [
+                    Icon(Icons.phone, color: Colors.green),
+                    SizedBox(width: 10),
+                    Text(widget.artisanContact, style: TextStyle(fontSize: 16)),
+                  ],
+                ),
+                SizedBox(height: 8),
+                Row(
+                  children: [
+                    Icon(Icons.location_on, color: Colors.red),
+                    SizedBox(width: 10),
+                    Expanded(
+                      child: Text(widget.artisanLocation, style: TextStyle(fontSize: 16)),
                     ),
-                  ),
-                  SizedBox(height: 8.0),
-                  GestureDetector(
-                    onTap: () async {
-                      if (await canLaunch(widget.relatedLink)) {
-                        await launch(widget.relatedLink);
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('Could not launch the related link.')),
-                        );
-                      }
-                    },
-                    child: Text(
-                      widget.relatedLink,
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.blue,
-                        decoration: TextDecoration.underline,
+                  ],
+                ),
+                SizedBox(height: 20),
+                Divider(),
+                Text('History', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                SizedBox(height: 8),
+                Text(
+                  widget.artisanHistory,
+                  style: TextStyle(fontSize: 16, color: Colors.grey[800]),
+                ),
+                SizedBox(height: 20),
+                Divider(),
+                Text('Video/Documentary', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                SizedBox(height: 10),
+                if (videoId.isNotEmpty)
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(12),
+                    child: YoutubePlayer(
+                      controller: _controller,
+                      showVideoProgressIndicator: true,
+                      progressIndicatorColor: Color(0xFF6ECAB8),
+                    ),
+                  )
+                else
+                  Text('No video available.'),
+                SizedBox(height: 20),
+                Divider(),
+                Row(
+                  children: [
+                    Icon(Icons.language, color: Colors.blue),
+                    SizedBox(width: 10),
+                    InkWell(
+                      onTap: () => _launchUrl(widget.relatedLink),
+                      child: Text(
+                        'Browse Related Link',
+                        style: TextStyle(color: Colors.blue, fontSize: 16, decoration: TextDecoration.underline),
                       ),
                     ),
-                  ),
-                  SizedBox(height: 16.0),
-                ],
-              ),
+                  ],
+                ),
+                SizedBox(height: 10),
+                Divider(),
+                SizedBox(height: 10),
+                Text(
+                  'Thank you for exploring this artisan’s story. Supporting local craftsmanship helps preserve tradition and empower communities.',
+                  style: TextStyle(fontSize: 14, color: Colors.grey[600]),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );

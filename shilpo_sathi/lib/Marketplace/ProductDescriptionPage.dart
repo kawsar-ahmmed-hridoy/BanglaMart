@@ -147,10 +147,11 @@ class _ProductDescriptionPageState extends ConsumerState<ProductDescriptionPage>
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => ArtisanStoryPage(
-                          artisanName: widget.product.sellerName,
+                          artisanName: widget.product.name,
                           artisanContact: widget.product.sellerContact,
                           artisanLocation: widget.product.location,
                           artisanImageUrl: widget.product.imageUrl,
+                          sellerName: widget.product.sellerName,
                           artisanHistory: 'Meet ${widget.product.sellerName}, a skilled artisan from ${widget.product.location}...',
                           videoLink: 'https://youtu.be/zQrVKTnxMqo?si=rWcUoThnoazKJwAU',
                           relatedLink: 'https://bn.wikipedia.org/wiki/%E0%A6%A8%E0%A6%95%E0%A6%B6%E0%A6%BF_%E0%A6%95%E0%A6%BE%E0%A6%81%E0%A6%A5%E0%A6%BE',

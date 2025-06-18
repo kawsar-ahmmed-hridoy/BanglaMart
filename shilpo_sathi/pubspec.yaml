@@ -52,6 +52,8 @@ dependencies:
   location: ^8.0.0
   flutter_launcher_icons: ^0.14.3
   webview_flutter: ^4.10.0
+  flutter_map: ^8.1.1
+  latlong2: ^0.9.1
   cached_network_image: ^3.4.1
   youtube_player_flutter: ^9.1.1
 
