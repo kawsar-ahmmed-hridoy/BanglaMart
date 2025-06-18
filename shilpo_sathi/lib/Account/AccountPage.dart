@@ -31,10 +31,7 @@ class _AccountPageState extends State<AccountPage> {
             .get();
 
         if (userDoc.exists) {
-          // Debug: Print the entire document data
           print("User Document Data: ${userDoc.data()}");
-
-          // Check if the fields exist and are not null
           setState(() {
             firstName = userDoc['firstName'] ?? "First Name Not Found";
             lastName = userDoc['lastName'] ?? "Last Name Not Found";
