@@ -61,9 +61,11 @@ class _AccountPageState extends State<AccountPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Account'),
-        backgroundColor: Color(0xFF252C35),
+        title: Text('Account',style: TextStyle(fontWeight: FontWeight.bold)),
+        backgroundColor: Colors.white,
+        centerTitle: true,
       ),
+
       body: isLoading
           ? Center(child: CircularProgressIndicator())
           : SingleChildScrollView(

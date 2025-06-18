@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:shilpo_sathi/Homepage/DIYCraftWorkshopsPage.dart';
 import 'BannerSection.dart';
 import 'CategorySection.dart';
+import 'DIYCraftWorkshopsPage.dart';
 import 'LocationSection.dart';
-import 'TrendingWorkshopsSection.dart';
+import 'FeaturedArtisan.dart';
 import 'VirtualShowroom.dart';
 
 class HomePage extends StatefulWidget {
@@ -28,7 +28,7 @@ class _HomePageState extends State<HomePage> {
                   SizedBox(height: 20),
                   BannerSection(),
                   SizedBox(height: 20),
-                  TrendingWorkshops(),
+                  Featuredartisan(),
                   SizedBox(height: 20),
                   CategorySection(),
                   SizedBox(height: 20),
@@ -47,20 +47,21 @@ class _HomePageState extends State<HomePage> {
 
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     return AppBar(
-      backgroundColor: Color(0xFF252C35),
+      backgroundColor: Colors.white,
       title: Text(
-        "Shilpo Sathi",
-        style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+        "Homepage",
+        style: TextStyle(fontWeight: FontWeight.bold),
       ),
       actions: [
         IconButton(
-          icon: Icon(Icons.notifications, color: Colors.white),
+          icon: Icon(Icons.notifications, color: Colors.blue),
           onPressed: () {
             Navigator.pushNamed(context, '/notification');
           },
         ),
         SizedBox(width: 20),
       ],
+      centerTitle: true,
     );
   }
 }

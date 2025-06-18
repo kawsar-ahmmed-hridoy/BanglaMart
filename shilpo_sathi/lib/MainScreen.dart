@@ -12,8 +12,7 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   int _currentIndex = 0;
-  //final Color primaryColor = Color(0xFF26547D);
-  final Color primaryColor = Color(0xFF252C35);
+
   final List<Widget> _pages = [
     HomePage(),
     MarketplacePage(),
@@ -23,42 +22,32 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
+    final Color navBarColor = isDarkMode ? Colors.grey[900]! : Colors.white;
+    final Color iconColor = isDarkMode ? Colors.white : Colors.black87;
+
     return Scaffold(
       extendBody: true,
       body: _pages[_currentIndex],
       bottomNavigationBar: CurvedNavigationBar(
         backgroundColor: Colors.transparent,
-        color: primaryColor,
-        buttonBackgroundColor: primaryColor,
+        color: navBarColor,
+        buttonBackgroundColor: Theme.of(context).colorScheme.primary,
         height: 60,
         index: _currentIndex,
-        animationDuration: Duration(milliseconds: 300),
+        animationDuration: const Duration(milliseconds: 300),
         items: <Widget>[
-          Icon(Icons.home, size: 30, color: Colors.white),
-          Icon(Icons.storefront , size: 30, color: Colors.white),
-          Icon(Icons.shopping_cart, size: 30, color: Colors.white),
-          Icon(Icons.person, size: 30, color: Colors.white),
+          Icon(Icons.home, size: 30, color: iconColor),
+          Icon(Icons.storefront, size: 30, color: iconColor),
+          Icon(Icons.shopping_cart, size: 30, color: iconColor),
+          Icon(Icons.person, size: 30, color: iconColor),
         ],
         onTap: (index) {
           setState(() {
             _currentIndex = index;
           });
         },
-      ),
-    );
-  }
-}
-
-
-class ArtisanStorytellingPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Artisan Storytelling'),
-      ),
-      body: Center(
-        child: Text('Artisan Storytelling Content'),
       ),
     );
   }

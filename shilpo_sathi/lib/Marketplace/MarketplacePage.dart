@@ -40,12 +40,11 @@ class MarketplacePage extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color(0xFF1E252B),
+        backgroundColor: Colors.white,
         elevation: 0,
         title: const Text(
           'Marketplace',
           style: TextStyle(
-            color: Colors.white,
             fontWeight: FontWeight.bold,
             letterSpacing: 0.5,
           ),

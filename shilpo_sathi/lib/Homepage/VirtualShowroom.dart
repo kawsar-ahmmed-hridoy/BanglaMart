@@ -79,7 +79,7 @@ class _VirtualShowroomState extends State<VirtualShowroom> {
             children: [
               Text(
                 "Verified Store",
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Colors.black87),
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
               ),
             ],
           ),
