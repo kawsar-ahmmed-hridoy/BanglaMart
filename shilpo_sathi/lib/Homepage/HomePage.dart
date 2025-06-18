@@ -3,7 +3,6 @@ import 'package:shilpo_sathi/Homepage/DIYCraftWorkshopsPage.dart';
 import 'BannerSection.dart';
 import 'CategorySection.dart';
 import 'LocationSection.dart';
-import 'RecentlyAddedSection.dart';
 import 'TrendingWorkshopsSection.dart';
 import 'VirtualShowroom.dart';
 
@@ -34,11 +33,9 @@ class _HomePageState extends State<HomePage> {
                   CategorySection(),
                   SizedBox(height: 20),
                   VirtualShowroom(),
-                  SizedBox(height: 10),
-                  RecentlyAdded(),
                   SizedBox(height: 20),
                   DIYCraftWorkshopsPage(),
-                  SizedBox(height: 20),
+                  SizedBox(height: 30),
                 ],
               ),
             ),

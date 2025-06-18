@@ -13,16 +13,15 @@ class DIYCraftWorkshopsPage extends StatelessWidget {
           child: Text(
             "DIY Craft Workshops",
             style: TextStyle(
-              fontSize: 22,
+              fontSize: 16,
               fontWeight: FontWeight.bold,
-              color: Color(0xFF333333),
               letterSpacing: 0.5,
             ),
           ),
         ),
         const SizedBox(height: 15),
         SizedBox(
-          height: 240,
+          height: 200,
           child: ListView(
             scrollDirection: Axis.horizontal,
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
@@ -63,7 +62,7 @@ class DIYCraftWorkshopsPage extends StatelessWidget {
       String facebookLink,
       ) {
     return Container(
-      width: 180,
+      width: 160,
       margin: const EdgeInsets.symmetric(horizontal: 8.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
@@ -73,9 +72,9 @@ class DIYCraftWorkshopsPage extends StatelessWidget {
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.2),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
+            color: Colors.indigoAccent.withOpacity(0.3),
+            blurRadius: 1,
+            offset: const Offset(0, 2),
           ),
         ],
       ),
@@ -83,14 +82,13 @@ class DIYCraftWorkshopsPage extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
         child: Stack(
           children: [
-            // Blurred glass effect
             Positioned.fill(
               child: Container(
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
-                      Colors.black.withOpacity(0.5),
-                      Colors.black.withOpacity(0.2),
+                      Colors.black.withOpacity(0.4),
+                      Colors.black.withOpacity(0.1),
                     ],
                     begin: Alignment.bottomCenter,
                     end: Alignment.topCenter,
@@ -135,13 +133,13 @@ class DIYCraftWorkshopsPage extends StatelessWidget {
                       _iconButton(
                         Icons.ondemand_video,
                         youtubeLink,
-                        Colors.redAccent,
+                        Colors.yellow,
                       ),
                       const SizedBox(width: 10),
                       _iconButton(
                         Icons.group,
                         facebookLink,
-                        Colors.blueAccent,
+                        Colors.cyanAccent,
                       ),
                     ],
                   ),
@@ -169,7 +167,7 @@ class DIYCraftWorkshopsPage extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.white.withOpacity(0.2),
           shape: BoxShape.circle,
-          border: Border.all(color: Colors.white30),
+          border: Border.all(color: Colors.white),
         ),
         child: Icon(icon, color: color, size: 20),
       ),

@@ -12,25 +12,21 @@ class _VirtualShowroomState extends State<VirtualShowroom> {
     {
       "image": "assets/showroom/aarong.jpg",
       "name": "Aarong",
-      "description": "Aarong – Bengali for 'village fair' – is Bangladesh's most popular lifestyle retail chain.",
       "url": "https://www.aarong.com/",
     },
     {
       "image": "assets/showroom/evaly.jpg",
       "name": "Evaly",
-      "description": "E-valy is capable of providing every kind of goods and products from every sector to every consumer located in Bangladesh.",
       "url": "https://www.evaly.com.bd/",
     },
     {
       "image": "assets/showroom/lereve.jpg",
-      "name": "Le reve",
-      "description": "Le Reve, the leading fashion brand in Bangladesh, is synonymous with trendy and effortless style.",
+      "name": "Le Reve",
       "url": "https://www.lerevecraze.com/",
     },
     {
       "image": "assets/showroom/sailor.jpg",
       "name": "Sailor",
-      "description": "Sailor is an eminent lifestyle brand in the retail fashion industry of Bangladesh with the purpose of Sailing life.",
       "url": "https://www.sailor.clothing/",
     },
   ];
@@ -52,18 +48,14 @@ class _VirtualShowroomState extends State<VirtualShowroom> {
   }
 
   void _startBannerTimer() {
-    _timer = Timer.periodic(Duration(seconds: 4), (timer) {
+    _timer = Timer.periodic(Duration(seconds: 5), (timer) {
       setState(() {
         if (_isForward) {
           _currentBannerIndex = (_currentBannerIndex + 1) % banners.length;
-          if (_currentBannerIndex == banners.length - 1) {
-            _isForward = false;
-          }
+          if (_currentBannerIndex == banners.length - 1) _isForward = false;
         } else {
           _currentBannerIndex = (_currentBannerIndex - 1) % banners.length;
-          if (_currentBannerIndex == 0) {
-            _isForward = true;
-          }
+          if (_currentBannerIndex == 0) _isForward = true;
         }
       });
     });
@@ -75,41 +67,45 @@ class _VirtualShowroomState extends State<VirtualShowroom> {
       return Center(child: Text("No banners available"));
     }
 
-    final currentBanner = banners[_currentBannerIndex];
-    final imagePath = currentBanner["image"] ?? "assets/default_image.jpg";
-    final name = currentBanner["name"] ?? "Unknown";
-    final description = currentBanner["description"] ?? "No description available";
-    final url = currentBanner["url"] ?? "https://example.com";
+    final banner = banners[_currentBannerIndex];
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        Divider(height: 20),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 0.0),
-          child: Text(
-            "Virtual Showroom",
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            ),
+          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+          child: Row(
+            children: [
+              Text(
+                "Verified Store",
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Colors.black87),
+              ),
+            ],
           ),
         ),
-        SizedBox(height: 10),
+        SizedBox(height: 12),
         AspectRatio(
           aspectRatio: 16 / 9,
           child: AnimatedSwitcher(
-            duration: Duration(milliseconds: 500),
-            transitionBuilder: (Widget child, Animation<double> animation) {
-              Offset begin = _isForward ? Offset(1.0, 0.0) : Offset(-1.0, 0.0);
-              Offset end = Offset.zero;
+            duration: Duration(milliseconds: 700),
+            transitionBuilder: (child, animation) {
+              final slide = Tween<Offset>(
+                begin: _isForward ? Offset(1.0, 0.0) : Offset(-1.0, 0.0),
+                end: Offset.zero,
+              ).animate(animation);
               return SlideTransition(
-                position: Tween<Offset>(begin: begin, end: end).animate(animation),
-                child: child,
+                position: slide,
+                child: FadeTransition(opacity: animation, child: child),
               );
             },
             child: KeyedSubtree(
-              key: ValueKey<int>(_currentBannerIndex),
-              child: _buildBanner(imagePath, name, description, url),
+              key: ValueKey(_currentBannerIndex),
+              child: _buildBanner(
+                banner["image"]!,
+                banner["name"]!,
+                banner["url"]!,
+              ),
             ),
           ),
         ),
@@ -125,90 +121,85 @@ class _VirtualShowroomState extends State<VirtualShowroom> {
     );
   }
 
-  Widget _buildBanner(String imagePath, String name, String description, String url) {
+  Widget _buildBanner(String imagePath, String name, String url) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 0.0),
+      margin: EdgeInsets.symmetric(horizontal: 8),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
-        image: DecorationImage(
-          image: AssetImage(imagePath),
-          fit: BoxFit.cover,
-        ),
+        borderRadius: BorderRadius.circular(18),
+        boxShadow: [
+          BoxShadow(color: Colors.black12, blurRadius: 8, offset: Offset(0, 4)),
+        ],
+        image: DecorationImage(image: AssetImage(imagePath), fit: BoxFit.cover),
       ),
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
-          gradient: LinearGradient(
-            begin: Alignment.center,
-            end: Alignment.center,
-            colors: [
-              Colors.white.withOpacity(0.6),
-              Colors.grey.withOpacity(0.4),
-            ],
+      child: Stack(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(18),
+              gradient: LinearGradient(
+                begin: Alignment.bottomCenter,
+                end: Alignment.topCenter,
+                colors: [Colors.blueGrey.withOpacity(0.4), Colors.indigo.withOpacity(0.2)],
+              ),
+            ),
           ),
-        ),
-        padding: EdgeInsets.all(15),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              name,
-              style: TextStyle(
-                fontSize: 17,
-                fontWeight: FontWeight.bold,
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Align(
+              alignment: Alignment.bottomLeft,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Icon(Icons.store_rounded, color: Colors.white, size: 20),
+                      SizedBox(width: 6),
+                      Text(name,
+                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white)),
+                    ],
+                  ),
+                  SizedBox(height: 70),
+                  ElevatedButton.icon(
+                    onPressed: () => _navigateToWebsite(url),
+                    icon: Icon(Icons.link, size: 18, color: Colors.white),
+                    label: Text("Visit Website", style: TextStyle(fontSize: 13, color: Colors.white)),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color(0xFFEF436B),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                      elevation: 2,
+                    ),
+                  ),
+                ],
               ),
             ),
-            SizedBox(height: 8),
-            Text(
-              description,
-              style: TextStyle(
-                fontSize: 13,
-                color: Color(0xFF046048),
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(height: 15),
-            ElevatedButton(
-              onPressed: () {
-                _navigateToWebsite(url);
-              },
-              style: ElevatedButton.styleFrom(
-                minimumSize: Size(50, 30),
-                backgroundColor: Color(0xFFEF436B),
-                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 3),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(25),
-                ),
-              ),
-              child: Text(
-                "Go Website",
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
 
   Widget _buildIndicator(bool isActive) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 4),
-      width: 8,
-      height: 8,
+      margin: EdgeInsets.symmetric(horizontal: 3),
+      width: isActive ? 10 : 8,
+      height: isActive ? 10 : 8,
       decoration: BoxDecoration(
-        shape: BoxShape.circle,
         color: isActive ? Color(0xFFEF436B) : Colors.grey[400],
+        shape: BoxShape.circle,
       ),
     );
   }
 
-  void _navigateToWebsite(String url) {
-    //print("Navigating to: $url");
-    launch(url);
+  void _navigateToWebsite(String url) async {
+    Uri uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Could not launch website")),
+      );
+    }
   }
 }
