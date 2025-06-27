@@ -8,7 +8,7 @@ class Featuredartisan extends ConsumerWidget {
   final List<Product> featuredArtisans = [
     Product(
       name: 'Jamdani Sharee',
-      price: '\$50',
+      price: '\৳50',
       imageAsset: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTwrNhEl0ObNXh0IgGO7T3K5rQLVAz3U6sxwttLoTzwj5-AmGHW4lAJqV0XTU2jU8wBkiY&usqp=CAU',
       description: 'A Share.',
       sellerName: 'Artisan 2',
@@ -21,7 +21,7 @@ class Featuredartisan extends ConsumerWidget {
     ),
     Product(
       name: 'Jamdani Sharee',
-      price: '\$50',
+      price: '\৳3500',
       imageAsset: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTwrNhEl0ObNXh0IgGO7T3K5rQLVAz3U6sxwttLoTzwj5-AmGHW4lAJqV0XTU2jU8wBkiY&usqp=CAU',
       description: 'A Share.',
       sellerName: 'Artisan 2',
@@ -34,7 +34,7 @@ class Featuredartisan extends ConsumerWidget {
     ),
     Product(
       name: 'নকশি কাঁথা',
-      price: '\$20',
+      price: '\৳1200',
       imageAsset: 'https://phantomhands.in/imager/media/the-practical-magic-of-the-nakshi-kantha-a-brief-introduction/23599/9-1_515cffaa34c7b727c9423a5db08aae1f.jpg',
       description: 'নকশি কাঁথা হলো সাধারণ কাঁথার উপর নানা ধরনের নকশা করে বানানো বিশেষ প্রকারের কাঁথা। নকশি কাঁথা শত শত বছরের পুরনো ভারতের পশ্চিমবঙ্গ ও বাংলাদেশের সংস্কৃতির একটা অংশ।',
       sellerName: 'Rahimul',
@@ -47,7 +47,7 @@ class Featuredartisan extends ConsumerWidget {
     ),
     Product(
       name: 'Jamdani Sharee',
-      price: '\$50',
+      price: '\৳2550',
       imageAsset: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTwrNhEl0ObNXh0IgGO7T3K5rQLVAz3U6sxwttLoTzwj5-AmGHW4lAJqV0XTU2jU8wBkiY&usqp=CAU',
       description: 'A Share.',
       sellerName: 'Artisan 2',
@@ -84,7 +84,7 @@ class Featuredartisan extends ConsumerWidget {
         ),
         const SizedBox(height: 10),
         SizedBox(
-          height: 230, // increased height to accommodate full content
+          height: 210, // increased height to accommodate full content
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
             padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -109,81 +109,89 @@ class Featuredartisan extends ConsumerWidget {
         );
       },
       child: Container(
-        width: 180,
+        width: 170,
+        padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(14),
+          borderRadius: BorderRadius.circular(15),
           boxShadow: [
             BoxShadow(
-              color: Colors.black12,
-              blurRadius: 8,
-              offset: Offset(0, 4),
+              color: Colors.black26.withOpacity(0.1),
+              blurRadius: 1,
+              offset: Offset(0, 0),
             ),
           ],
         ),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            ClipRRect(
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(14)),
+            Container(
+              height: 110,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(14),
+                //color: Colors.grey[100],
+              ),
+              clipBehavior: Clip.antiAlias,
               child: product.imageAsset.startsWith('http')
                   ? Image.network(
                 product.imageAsset,
-                height: 80,
-                width: double.infinity,
                 fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) => Container(
-                  height: 80,
-                  color: Colors.grey[200],
-                  alignment: Alignment.center,
+                errorBuilder: (context, error, stackTrace) => Center(
                   child: Icon(Icons.broken_image, size: 40, color: Colors.grey),
                 ),
               )
                   : Image.asset(
                 product.imageAsset,
-                height: 80,
-                width: double.infinity,
                 fit: BoxFit.cover,
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(product.name,
-                      style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis),
-                  const SizedBox(height: 4),
-                  Text("👤 ${product.sellerName}",
-                      style: const TextStyle(fontSize: 12, color: Colors.black54)),
-                  const SizedBox(height: 2),
-                  Text("📍 ${product.location}",
-                      style: const TextStyle(fontSize: 11, color: Colors.black45),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis),
-                  const SizedBox(height: 4),
-                  Text(product.price,
-                      style: const TextStyle(fontSize: 14, color: Colors.teal, fontWeight: FontWeight.bold)),
-                  ElevatedButton.icon(
-                    onPressed: () {
-                      ref.read(cartProvider.notifier).addToCart(product);
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('${product.name} added to cart!')),
-                      );
-                    },
-                    icon: const Icon(Icons.shopping_cart_outlined, size: 13, color: Colors.white),
-                    label: const Text("Add to Cart", style: TextStyle(fontSize: 12, color: Colors.white)),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xFFEF436B),
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-                      minimumSize: Size(90, 30),
+            const SizedBox(height: 10),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Text(
+                    product.name,
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
                     ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                ],
-              ),
+                ),
+                const SizedBox(width: 5),
+                Text(
+                  product.price,
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.teal,
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                IconButton(
+                  icon: const Icon(Icons.favorite_border),
+                  iconSize: 20,
+                  color: Colors.red,
+                  onPressed: () {},
+                ),
+                IconButton(
+                  icon: const Icon(Icons.shopping_cart_outlined),
+                  iconSize: 20,
+                  color: Colors.grey[600],
+                  onPressed: () {
+                    ref.read(cartProvider.notifier).addToCart(product);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('${product.name} added to cart!')),
+                    );
+                  },
+                ),
+              ],
             ),
           ],
         ),

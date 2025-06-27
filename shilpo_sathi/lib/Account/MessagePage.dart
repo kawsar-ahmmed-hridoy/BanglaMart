@@ -96,7 +96,7 @@ class _MessagePageState extends State<MessagePage> {
                   ),
                   title: Text(userName, style: const TextStyle(fontWeight: FontWeight.w600)),
                   subtitle: const Text("Tap to message", style: TextStyle(color: Colors.grey)),
-                  trailing: const Icon(Icons.message_outlined, color: Colors.deepPurple),
+                  //trailing: const Icon(Icons.message_outlined, color: Colors.deepPurple),
                   onTap: () {
                     Navigator.push(
                       context,

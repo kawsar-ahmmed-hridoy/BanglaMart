@@ -24,7 +24,7 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     final bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
-    final Color navBarColor = isDarkMode ? Colors.white10! : Color(0xFFDEF4FB);
+    final Color navBarColor = isDarkMode ? Colors.white10! : Colors.white;
     final Color iconColor = isDarkMode ? Colors.white : Colors.black;
 
     return Scaffold(

@@ -9,6 +9,7 @@ import 'package:shilpo_sathi/MainScreen.dart';
 import 'Account/ManageAccountPage.dart';
 import 'Account/PrivacyCheckupPage.dart';
 import 'Cart/CartPage.dart';
+import 'Homepage/notification_service.dart';
 import 'Signing/sign_in_page.dart';
 import 'Signing/sign_up_page.dart';
 import 'firebase_options.dart';
@@ -16,6 +17,7 @@ import 'onboarding/app_router.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await NotificationService.initialize();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -59,13 +61,13 @@ class MyApp extends ConsumerWidget {
   ThemeData _buildAppTheme() {
     return ThemeData(
       colorScheme: ColorScheme.fromSeed(
-        seedColor: const Color(0xFFDEF4FB),
+        seedColor: Colors.white,
         secondary: const Color(0xFFF5A623),
       ),
       fontFamily: 'Kalpurush',
       useMaterial3: true,
       appBarTheme: const AppBarTheme(
-        color: Color(0xFFDEF4FB),
+        color: Colors.white,
         iconTheme: IconThemeData(color: Colors.white),
       ),
     );
@@ -74,7 +76,7 @@ class MyApp extends ConsumerWidget {
   ThemeData _buildDarkAppTheme() {
     return ThemeData.dark().copyWith(
       colorScheme: ColorScheme.dark(
-        primary: Colors.white10,
+        primary: Colors.white,
         secondary: const Color(0xFFF5A623),
       ),
       appBarTheme: const AppBarTheme(

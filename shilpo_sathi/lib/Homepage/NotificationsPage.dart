@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shilpo_sathi/Homepage/notification_data.dart';
 
 class NotificationsPage extends StatelessWidget {
   @override
@@ -23,21 +24,31 @@ class NotificationsPage extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 20),
+
+              // Show all login notifications dynamically
+              for (var notif in loginNotifications)
+                LoginNotification(
+                  message: notif['message']!,
+                  timestamp: notif['timestamp']!,
+                ),
+
+              SizedBox(height: 16),
+
+              // You can keep these or remove as you want
               DataNotification(
                 message: 'Your data usage has reached 80% of your limit.',
                 timestamp: '2 hours ago',
               ),
+
               SizedBox(height: 16),
-              LoginNotification(
-                message: 'You logged in from a new device.',
-                timestamp: '5 hours ago',
-              ),
-              SizedBox(height: 16),
+
               OrderNotification(
                 message: 'Your order #12345 has been shipped.',
                 timestamp: '1 day ago',
               ),
+
               SizedBox(height: 16),
+
               SuggestionNotification(
                 message: 'Check out our new collection of handmade crafts!',
                 timestamp: '2 days ago',

@@ -1,8 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:shilpo_sathi/Account/WhatUThinkPage.dart';
 
+import 'AddressBookPage.dart';
 import 'MessagePage.dart';
+import 'MyOrdersPage.dart';
 import 'SignOutSection.dart';
 import 'SocialAccountsPage.dart';
 
@@ -136,12 +139,22 @@ class _AccountPageState extends State<AccountPage> {
             ListTile(
               leading: Icon(Icons.shopping_bag_rounded, color: Colors.deepPurple),
               title: Text('My orders'),
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const MyOrdersPage()),
+                );
+              },
             ),
             ListTile(
               leading: Icon(Icons.edit_location_alt_rounded, color: Colors.deepPurple),
               title: Text('Address book'),
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => AddressBookPage()),
+                );
+              },
             ),
             ListTile(
               leading: Icon(Icons.card_giftcard_rounded, color: Colors.deepPurple),
@@ -259,18 +272,21 @@ class _AccountPageState extends State<AccountPage> {
               leading: Icon(Icons.work, color: Colors.deepPurple),
               title: Text('Tell us what you think?'),
               onTap: () {
-                Navigator.pushNamed(context, '/what_u_think');
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => WhatYouThinkPage()),
+                );
               },
             ),
             ListTile(
               leading: Icon(Icons.manage_accounts, color: Colors.deepPurple),
-              title: Text('Manage শিল্পসাথী account'),
+              title: Text('Manage Bangla Mart account'),
               onTap: () {
                 Navigator.pushNamed(context, '/manage_account');
               },
             ),
             SignOutSection(),
-            Text("©2025 শিল্পসাথী (version 1.0) || All rights reserved", style: TextStyle(fontSize: 8)),
+            Text("©2025 Bangla Mart (version 1.0) || All rights reserved", style: TextStyle(fontSize: 8)),
             SizedBox(height: 50),
           ],
         ),

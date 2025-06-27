@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
+import 'package:shilpo_sathi/Homepage/notification_data.dart';
+import '../Homepage/notification_service.dart';
+
+
 
 class SignInPage extends StatefulWidget {
   @override
@@ -8,6 +12,7 @@ class SignInPage extends StatefulWidget {
 }
 
 class _SignInPageState extends State<SignInPage> with SingleTickerProviderStateMixin {
+  List<Map<String, String>> loginNotifications = [];
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -60,6 +65,21 @@ class _SignInPageState extends State<SignInPage> with SingleTickerProviderStateM
           email: _emailController.text.trim(),
           password: _passwordController.text.trim(),
         );
+
+        final now = DateTime.now();
+        final timestamp = "${now.hour}:${now.minute} - ${now.day}/${now.month}/${now.year}";
+
+        await NotificationService.showNotification(
+          title: "Login Successful",
+          body: "You logged in at $timestamp",
+        );
+
+        loginNotifications.insert(0, {
+          'type': 'login',
+          'message': 'You logged in from a new device.',
+          'timestamp': timestamp,
+        });
+
         Navigator.pushReplacementNamed(context, '/home');
       } on FirebaseAuthException catch (e) {
         setState(() {
@@ -71,6 +91,7 @@ class _SignInPageState extends State<SignInPage> with SingleTickerProviderStateM
       }
     }
   }
+
 
   @override
   Widget build(BuildContext context) {

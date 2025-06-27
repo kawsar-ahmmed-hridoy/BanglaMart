@@ -34,12 +34,25 @@ class CartNotifier extends StateNotifier<List<CartItem>> {
   }
 
   void decrementQuantity(CartItem item) {
-    if (item.quantity > 1) {
-      item.quantity--;
-    } else {
-      state = state.where((cartItem) => cartItem != item).toList();
+    final index = state.indexWhere((element) => element.product == item.product);
+    if (index != -1) {
+      final current = state[index];
+      if (current.quantity > 1) {
+        state = [
+          ...state.sublist(0, index),
+          CartItem(product: current.product, quantity: current.quantity - 1),
+          ...state.sublist(index + 1),
+        ];
+      } else {
+        // Quantity is 1, so remove the item
+        state = [
+          ...state.sublist(0, index),
+          ...state.sublist(index + 1),
+        ];
+      }
     }
   }
+
 
   double get totalPrice {
     return state.fold(

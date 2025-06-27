@@ -2,6 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'dart:async';
 import 'CartProvider.dart';
+import 'MobileBankingPage.dart';
+
+// Helper: Parse string price to double, ignoring any non-numeric chars
+double parsePrice(String priceStr) {
+  final cleaned = priceStr.replaceAll(RegExp(r'[^0-9.]'), '');
+  return double.tryParse(cleaned) ?? 0.0;
+}
+
+// Helper: Format number as Taka currency
+String formatTaka(double amount) => '৳${amount.toStringAsFixed(2)}';
 
 class CheckoutPage extends ConsumerStatefulWidget {
   @override
@@ -15,12 +25,17 @@ class _CheckoutPageState extends ConsumerState<CheckoutPage> {
   String selectedPayment = '';
 
   @override
+  void initState() {
+    super.initState();
+    _addressController.text = '1233, Akhaliya, Sylhet';
+  }
+
+  @override
   Widget build(BuildContext context) {
     final totalPrice = ref.watch(cartProvider.notifier).totalPrice;
 
     return Scaffold(
       appBar: AppBar(
-        //backgroundColor: const Color(0xFF252C35),
         title: const Text('Checkout', style: TextStyle(fontWeight: FontWeight.bold)),
         centerTitle: true,
       ),
@@ -93,7 +108,25 @@ class _CheckoutPageState extends ConsumerState<CheckoutPage> {
               icon: Icons.mobile_friendly,
               title: 'Mobile Banking',
               selected: selectedPayment == 'mobile',
-              onTap: () => setState(() => selectedPayment = 'mobile'),
+              onTap: () async {
+                setState(() => selectedPayment = 'mobile');
+                final result = await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => MobileBankingPage(amount: totalPrice + 5.0),
+                  ),
+                );
+
+                if (result != null && result['success'] == true) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Payment successful! TrxID: ${result['trxId']}')),
+                  );
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Payment failed or cancelled')),
+                  );
+                }
+              },
             ),
             const SizedBox(height: 8),
             PaymentMethodCard(
@@ -120,77 +153,78 @@ class _CheckoutPageState extends ConsumerState<CheckoutPage> {
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
                   children: [
-                    summaryRow('Subtotal', '\$${totalPrice.toStringAsFixed(2)}'),
+                    summaryRow('Subtotal', formatTaka(totalPrice)),
                     const SizedBox(height: 8),
-                    summaryRow('Shipping', '\$5.00'),
+                    summaryRow('Shipping', formatTaka(5.0)),
                     const Divider(),
-                    summaryRow('Total', '\$${(totalPrice + 5.00).toStringAsFixed(2)}', bold: true),
+                    summaryRow('Total', formatTaka(totalPrice + 5.0), bold: true),
                   ],
                 ),
               ),
             ),
             const SizedBox(height: 24),
 
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF252C35),
-                  padding: const EdgeInsets.symmetric(vertical: 15),
-                ),
-                onPressed: () {
-                  final address = _addressController.text;
-                  if (address.isEmpty) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Please enter a delivery address.')),
-                    );
-                  } else {
-                    showDialog(
-                      context: context,
-                      barrierDismissible: false,
-                      builder: (context) {
-                        Future.delayed(const Duration(seconds: 2), () {
-                          Navigator.of(context).pop();
-                          setState(() {
-                            _addressController.clear();
-                            _promoCodeController.clear();
-                            selectedPayment = '';
-                          });
-                          ref.read(cartProvider.notifier).clearCart();
-                          showDialog(
-                            context: context,
-                            builder: (_) => AlertDialog(
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                              title: const Text('Order Confirmed!',textAlign: TextAlign.center,),
-                              content: const Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(Icons.check_circle, color: Colors.green, size: 50,),
-                                  SizedBox(height: 30,)
-                                ],
+            if (selectedPayment == 'cash')
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF252C35),
+                    padding: const EdgeInsets.symmetric(vertical: 15),
+                  ),
+                  onPressed: () {
+                    final address = _addressController.text;
+                    if (address.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Please enter a delivery address.')),
+                      );
+                    } else {
+                      showDialog(
+                        context: context,
+                        barrierDismissible: false,
+                        builder: (context) {
+                          Future.delayed(const Duration(seconds: 2), () {
+                            Navigator.of(context).pop();
+                            setState(() {
+                              _addressController.clear();
+                              _promoCodeController.clear();
+                              selectedPayment = '';
+                            });
+                            ref.read(cartProvider.notifier).clearCart();
+                            showDialog(
+                              context: context,
+                              builder: (_) => AlertDialog(
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                                title: const Text('Order Confirmed!', textAlign: TextAlign.center),
+                                content: const Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(Icons.check_circle, color: Colors.green, size: 50),
+                                    SizedBox(height: 30),
+                                  ],
+                                ),
                               ),
+                            );
+                          });
+
+                          return Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.min,
+                              children: const [
+                                CircularProgressIndicator(color: Colors.green),
+                                SizedBox(height: 16),
+                                Text('Placing your order...', style: TextStyle(fontSize: 16)),
+                              ],
                             ),
                           );
-                        });
-
-                        return Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            mainAxisSize: MainAxisSize.min,
-                            children: const [
-                              CircularProgressIndicator(color: Colors.green),
-                              SizedBox(height: 16),
-                              Text('Placing your order...', style: TextStyle(fontSize: 16)),
-                            ],
-                          ),
-                        );
-                      },
-                    );
-                  }
-                },
-                child: const Text('Place Order', style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
+                        },
+                      );
+                    }
+                  },
+                  child: const Text('Place Order', style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
+                ),
               ),
-            ),
           ],
         ),
       ),

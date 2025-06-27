@@ -2,6 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'CartProvider.dart';
 
+String getTotalPrice(String price, int quantity) {
+  final cleanPriceStr = price.replaceAll(RegExp(r'[^0-9.]'), '');
+  final priceValue = double.tryParse(cleanPriceStr) ?? 0.0;
+  return (priceValue * quantity).toStringAsFixed(2);
+}
+
+double parsePrice(String priceStr) {
+  final cleaned = priceStr.replaceAll(RegExp(r'[^0-9.]'), '');
+  return double.tryParse(cleaned) ?? 0.0;
+}
+
+
 class CartPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -10,7 +22,6 @@ class CartPage extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        //backgroundColor: Colors.white,
         title: const Text(
           'Cart',
           style: TextStyle(fontWeight: FontWeight.bold),
@@ -34,7 +45,7 @@ class CartPage extends ConsumerWidget {
                 return Card(
                   margin: const EdgeInsets.all(8.0),
                   child: ListTile(
-                    leading: Image.network(
+                    leading: Image.asset(
                       item.product.imageAsset,
                       width: 50,
                       height: 50,
@@ -42,7 +53,7 @@ class CartPage extends ConsumerWidget {
                     ),
                     title: Text(item.product.name),
                     subtitle: Text(
-                      '\$${(double.parse(item.product.price.replaceAll('\$', '')) * item.quantity).toStringAsFixed(2)}',
+                      '\$${getTotalPrice(item.product.price, item.quantity)}',
                     ),
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min,
@@ -77,7 +88,7 @@ class CartPage extends ConsumerWidget {
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
                 Text(
-                  '\$${totalPrice.toStringAsFixed(2)}',
+                  '\৳${totalPrice.toStringAsFixed(2)}',
                   style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -101,12 +112,12 @@ class CartPage extends ConsumerWidget {
                 },
                 child: const Text(
                   'Checkout',
-                  style: TextStyle(color: Colors.white, fontSize: 18,fontWeight: FontWeight.bold),
+                  style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
                 ),
               ),
             ),
           ),
-          SizedBox(height: 50,),
+          const SizedBox(height: 50),
         ],
       ),
     );

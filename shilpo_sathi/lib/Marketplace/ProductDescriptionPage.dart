@@ -91,11 +91,11 @@ class _ProductDescriptionPageState extends ConsumerState<ProductDescriptionPage>
             const SizedBox(height: 16),
             Text(widget.product.name, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
             const SizedBox(height: 6),
-            Text(widget.product.price, style: const TextStyle(fontSize: 20, color: Colors.teal)),
+            Text(' ৳'+widget.product.price, style: const TextStyle(fontSize: 20, color: Colors.teal)),
             const SizedBox(height: 16),
             const Text('Product Description', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
             const SizedBox(height: 8),
-            Text(widget.product.description, style: TextStyle(fontSize: 16, color: Colors.grey[700])),
+            Text(widget.product.description, style: TextStyle(fontSize: 15)),
             const SizedBox(height: 16),
 
             Row(
@@ -105,8 +105,8 @@ class _ProductDescriptionPageState extends ConsumerState<ProductDescriptionPage>
                     icon: const Icon(Icons.shopping_cart_outlined),
                     label: const Text('Add to Cart'),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.cyanAccent,
-                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      backgroundColor: Colors.orange,
+                      padding: const EdgeInsets.symmetric(vertical: 12,horizontal: 10),
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
                     ),
                     onPressed: () {
@@ -123,8 +123,8 @@ class _ProductDescriptionPageState extends ConsumerState<ProductDescriptionPage>
                     icon: const Icon(Icons.person),
                     label: const Text('Artisan Story'),
                     style: OutlinedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(vertical: 14),
-                      side: const BorderSide(color: Colors.cyanAccent),
+                      padding: const EdgeInsets.symmetric(vertical: 12,horizontal: 10),
+                      side: const BorderSide(color: Colors.orangeAccent),
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
                     ),
                     onPressed: () {
@@ -166,7 +166,7 @@ class _ProductDescriptionPageState extends ConsumerState<ProductDescriptionPage>
               child: Center(
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFFFFC400).withOpacity(0.9),
+                    backgroundColor: Color(0xFF7BF4D7).withOpacity(0.9),
                     padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 9),
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                   ),
@@ -191,7 +191,7 @@ class _ProductDescriptionPageState extends ConsumerState<ProductDescriptionPage>
             ListTile(
               leading: const CircleAvatar(backgroundImage: AssetImage('assets/images/hridoy.jpg')),
               title: Text(widget.product.sellerName),
-              subtitle: Text('Contact: ${widget.product.sellerContact}'),
+              subtitle: Text('${widget.product.sellerContact}'),
               trailing: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -265,7 +265,7 @@ class _ProductDescriptionPageState extends ConsumerState<ProductDescriptionPage>
                 hintText: 'Write your thoughts...',
                 border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
                 filled: true,
-                fillColor: Colors.grey[100],
+                //fillColor: Colors.grey[100],
               ),
             ),
             const SizedBox(height: 12),
@@ -273,8 +273,8 @@ class _ProductDescriptionPageState extends ConsumerState<ProductDescriptionPage>
               icon: const Icon(Icons.send),
               label: const Text('Submit Review'),
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.cyanAccent,
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                backgroundColor: Colors.orangeAccent,
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
               ),
               onPressed: _submitReview,

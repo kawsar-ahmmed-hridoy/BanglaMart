@@ -81,11 +81,11 @@ class _ArtisanStoryPageState extends State<ArtisanStoryPage> {
               children: [
                 Row(
                   children: [
-                    Icon(Icons.person, size: 28, color: Colors.teal),
+                    Icon(Icons.storefront, size: 22, color: Colors.teal),
                     SizedBox(width: 10),
                     Expanded(
                       child: Text(
-                        'Artisan: ${widget.artisanName}',
+                        '${widget.artisanName}',
                         style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                       ),
                     ),
@@ -94,9 +94,9 @@ class _ArtisanStoryPageState extends State<ArtisanStoryPage> {
                 SizedBox(height: 8),
                 Row(
                   children: [
-                    Icon(Icons.storefront, color: Colors.deepPurple),
+                    Icon(Icons.person, color: Colors.deepPurple),
                     SizedBox(width: 10),
-                    Text('Seller: ${widget.sellerName}', style: TextStyle(fontSize: 16)),
+                    Text('Seller: ${widget.sellerName}', style: TextStyle(fontSize: 15)),
                   ],
                 ),
                 SizedBox(height: 12),
@@ -104,7 +104,7 @@ class _ArtisanStoryPageState extends State<ArtisanStoryPage> {
                   children: [
                     Icon(Icons.phone, color: Colors.green),
                     SizedBox(width: 10),
-                    Text(widget.artisanContact, style: TextStyle(fontSize: 16)),
+                    Text(widget.artisanContact, style: TextStyle(fontSize: 15)),
                   ],
                 ),
                 SizedBox(height: 8),
@@ -113,17 +113,17 @@ class _ArtisanStoryPageState extends State<ArtisanStoryPage> {
                     Icon(Icons.location_on, color: Colors.red),
                     SizedBox(width: 10),
                     Expanded(
-                      child: Text(widget.artisanLocation, style: TextStyle(fontSize: 16)),
+                      child: Text(widget.artisanLocation, style: TextStyle(fontSize: 15)),
                     ),
                   ],
                 ),
                 SizedBox(height: 20),
                 Divider(),
-                Text('History', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                Text('ইতিহাস (History)', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                 SizedBox(height: 8),
                 Text(
                   widget.artisanHistory,
-                  style: TextStyle(fontSize: 16, color: Colors.grey[800]),
+                  style: TextStyle(fontSize: 16),
                 ),
                 SizedBox(height: 20),
                 Divider(),
