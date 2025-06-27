@@ -24,8 +24,8 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     final bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
-    final Color navBarColor = isDarkMode ? Colors.grey[900]! : Colors.white;
-    final Color iconColor = isDarkMode ? Colors.white : Colors.black87;
+    final Color navBarColor = isDarkMode ? Colors.white10! : Color(0xFFDEF4FB);
+    final Color iconColor = isDarkMode ? Colors.white : Colors.black;
 
     return Scaffold(
       extendBody: true,
@@ -33,7 +33,7 @@ class _MainScreenState extends State<MainScreen> {
       bottomNavigationBar: CurvedNavigationBar(
         backgroundColor: Colors.transparent,
         color: navBarColor,
-        buttonBackgroundColor: Theme.of(context).colorScheme.primary,
+        buttonBackgroundColor: Color(0xFFCEEFFA),
         height: 60,
         index: _currentIndex,
         animationDuration: const Duration(milliseconds: 300),

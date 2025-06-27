@@ -30,23 +30,23 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
     final List<OnboardingPage> pages = [
       OnboardingPage(
         lottieAsset: 'assets/animations/ar.json',
-        title: 'Experience Crafts in AR',
+        title: 'বাংলার শিল্প ঐতিহ্যের অভিজ্ঞতা',
         description:
-        'Visualize Nakshi Kantha or Jamdani sarees in your space using augmented reality',
+        'নকশীকাঁথা, জামদানি এবং আরও অনেক ঐতিহ্যবাহী পণ্যের চিত্রায়ন করুন, কিনুন এবং বিক্রি করুন।',
         bgColor: const Color(0xFFE4F2E8),
       ),
       OnboardingPage(
         lottieAsset: 'assets/animations/makers.json',
-        title: 'Meet the Makers',
+        title: 'শিল্পীদের সাথে পরিচিত হোন',
         description:
-        'Discover stories of Pabna weavers and Rajshahi silk artisans through voice narratives',
+        'বাংলার ঐতিহ্যবাহী হস্তশিল্প ও শিল্পীদের গল্প শুনুন এবং তাদের সম্পর্কে জানুন। ',
         bgColor: const Color(0xFFE4F2E8),
       ),
       OnboardingPage(
         lottieAsset: 'assets/animations/payment.json',
-        title: 'Ethical Shopping',
+        title: 'নিরাপদ পেমেন্ট সুবিধা',
         description:
-        'Directly support artisans with 90% profit going to creators via bKash/Nagad',
+        'শিল্পীদের সরাসরি সমর্থন করুন, যেখানে ৯০% লাভ শিল্পীদের কাছে পৌঁছাবে বিকাশ/নগদের মাধ্যমে।',
         bgColor: const Color(0xFFE4F2E8),
       ),
     ];

@@ -151,10 +151,8 @@ class _SocialAccountsPageState extends State<SocialAccountsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFF5F7FA),
       appBar: AppBar(
         title: Text('Social Accounts'),
-        backgroundColor: Color(0xFF252C35),
       ),
       body: Column(
         children: [

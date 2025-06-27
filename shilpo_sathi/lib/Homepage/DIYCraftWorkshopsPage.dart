@@ -27,25 +27,25 @@ class DIYCraftWorkshopsPage extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
             children: [
               _buildWorkshopCard(
-                "Pottery Workshop",
-                "assets/images/pottery_workshop.jpg",
-                "Learn the art of pottery from experts.",
+                "নকশীকাঁথার ডিজাইন",
                 "https://youtu.be/D7K0H5GoERg?si=8Nx5JfIgmrB0bdmj",
-                "https://www.facebook.com/groups/potteryworkshop",
+                "শিখুন কিভাবে শিল্পীরা নকশীকাঁথা তৈরি করে।",
+                "https://youtu.be/D7K0H5GoERg?si=8Nx5JfIgmrB0bdmj",
+                "https://www.facebook.com/share/g/1UL5enBUZ2/",
               ),
               _buildWorkshopCard(
-                "Textile Weaving",
-                "assets/images/textile_weaving.jpg",
-                "Discover traditional weaving techniques.",
-                "https://www.youtube.com/watch?v=example2",
-                "https://www.facebook.com/groups/textileweaving",
+                "জামদানি শাড়ি তৈরি",
+                "https://youtu.be/AnVQS7qxhCE?si=xJJZps0trUZ6Ty9l",
+                "জামদানি শাড়ি তৈরির টেকনিক শিখুন।",
+                "https://youtu.be/AnVQS7qxhCE?si=xJJZps0trUZ6Ty9l",
+                "https://www.facebook.com/share/g/18yAdkQFJh/",
               ),
               _buildWorkshopCard(
-                "Jewelry Making",
-                "assets/images/jewelry_making.jpg",
-                "Create your own handmade jewelry.",
-                "https://www.youtube.com/watch?v=example3",
-                "https://www.facebook.com/groups/jewelrymaking",
+                "শখের মৃৎশিল্প",
+                "https://youtu.be/pdCdk59KG84?si=3yiW0pP3n1CWDRS5",
+                "মাটির কারিগর ও কারুকাজের বিস্তারিত।",
+                "https://youtu.be/pdCdk59KG84?si=3yiW0pP3n1CWDRS5",
+                "https://www.facebook.com/share/g/19RE22E5UB/",
               ),
             ],
           ),
@@ -56,20 +56,22 @@ class DIYCraftWorkshopsPage extends StatelessWidget {
 
   Widget _buildWorkshopCard(
       String title,
-      String imagePath,
+      String youtubeLinkForThumbnail,
       String description,
       String youtubeLink,
       String facebookLink,
       ) {
+    final videoId = _extractYoutubeVideoId(youtubeLinkForThumbnail);
+
+    final thumbnailUrl = videoId != null
+        ? "https://img.youtube.com/vi/$videoId/hqdefault.jpg"
+        : null;
+
     return Container(
       width: 160,
       margin: const EdgeInsets.symmetric(horizontal: 8.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-        image: DecorationImage(
-          image: AssetImage(imagePath),
-          fit: BoxFit.cover,
-        ),
         boxShadow: [
           BoxShadow(
             color: Colors.indigoAccent.withOpacity(0.3),
@@ -82,6 +84,26 @@ class DIYCraftWorkshopsPage extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
         child: Stack(
           children: [
+            Positioned.fill(
+              child: thumbnailUrl != null
+                  ? Image.network(
+                thumbnailUrl,
+                fit: BoxFit.cover,
+                loadingBuilder: (context, child, progress) {
+                  if (progress == null) return child;
+                  return const Center(child: CircularProgressIndicator());
+                },
+                errorBuilder: (context, error, stackTrace) {
+                  return Container(
+                    color: Colors.grey.shade300,
+                    child: const Center(
+                      child: Icon(Icons.broken_image, size: 50),
+                    ),
+                  );
+                },
+              )
+                  : Container(color: Colors.grey.shade300),
+            ),
             Positioned.fill(
               child: Container(
                 decoration: BoxDecoration(
@@ -103,31 +125,39 @@ class DIYCraftWorkshopsPage extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(12),
+              padding: const EdgeInsets.all(15),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    title,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
-                      color: Colors.white,
-                    ),
+                  // Title and description at top
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        title,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.cyanAccent,
+                        ),
+                      ),
+                      const SizedBox(height: 5),
+                      Text(
+                        description,
+                        style: const TextStyle(
+                          fontSize: 10,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.white,
+                          height: 1.3,
+                        ),
+                        maxLines: 3,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
                   ),
-                  const SizedBox(height: 5),
-                  Text(
-                    description,
-                    style: const TextStyle(
-                      fontSize: 12,
-                      color: Colors.white70,
-                      height: 1.3,
-                    ),
-                    maxLines: 3,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  const SizedBox(height: 10),
+
+                  // Icons at bottom
                   Row(
                     children: [
                       _iconButton(
@@ -150,6 +180,25 @@ class DIYCraftWorkshopsPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String? _extractYoutubeVideoId(String url) {
+    try {
+      final uri = Uri.parse(url);
+
+      if (uri.host.contains("youtu.be")) {
+        return uri.pathSegments.isNotEmpty ? uri.pathSegments[0] : null;
+      }
+
+      if (uri.host.contains("youtube.com")) {
+        return uri.queryParameters['v'];
+      }
+
+      // fallback null
+      return null;
+    } catch (e) {
+      return null;
+    }
   }
 
   Widget _iconButton(IconData icon, String link, Color color) {

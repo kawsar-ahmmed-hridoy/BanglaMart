@@ -65,7 +65,6 @@ class _ArtisanStoryPageState extends State<ArtisanStoryPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xFF6ECAB8),
         title: Text('Artisan Story'),
         centerTitle: true,
         elevation: 2,

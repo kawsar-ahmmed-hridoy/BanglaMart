@@ -10,7 +10,7 @@ class CartPage extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        //backgroundColor: Colors.white,
         title: const Text(
           'Cart',
           style: TextStyle(fontWeight: FontWeight.bold),
@@ -35,7 +35,7 @@ class CartPage extends ConsumerWidget {
                   margin: const EdgeInsets.all(8.0),
                   child: ListTile(
                     leading: Image.network(
-                      item.product.imageUrl,
+                      item.product.imageAsset,
                       width: 50,
                       height: 50,
                       fit: BoxFit.cover,

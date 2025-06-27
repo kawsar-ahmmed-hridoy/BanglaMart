@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import 'MessagePage.dart';
 import 'SignOutSection.dart';
 import 'SocialAccountsPage.dart';
 
@@ -62,7 +63,7 @@ class _AccountPageState extends State<AccountPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Account',style: TextStyle(fontWeight: FontWeight.bold)),
-        backgroundColor: Colors.white,
+        //backgroundColor: Colors.white,
         centerTitle: true,
       ),
 
@@ -125,7 +126,12 @@ class _AccountPageState extends State<AccountPage> {
             ListTile(
               leading: Icon(Icons.message, color: Colors.deepPurple),
               title: Text('Messages'),
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => MessagePage()),
+                );
+              },
             ),
             ListTile(
               leading: Icon(Icons.shopping_bag_rounded, color: Colors.deepPurple),

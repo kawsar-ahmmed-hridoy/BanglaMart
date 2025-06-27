@@ -56,9 +56,9 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                 ),
                 const SizedBox(height: 2),
                 Text(
-                  'শিল্পসাথী',
+                  'Bangla Mart',
                   style: TextStyle(
-                    fontSize: 50,
+                    fontSize: 40,
                     fontWeight: FontWeight.bold,
                     color: Color(0xFF2A5934),
                     fontFamily: 'Kalpurush',
@@ -70,7 +70,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                     'Crafting Heritage, Empowering Artisans',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontSize: 15,
+                      fontSize: 20,
                       fontWeight: FontWeight.bold,
                       color: Colors.black,
                     ),

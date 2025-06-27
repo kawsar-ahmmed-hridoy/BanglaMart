@@ -20,6 +20,10 @@ class _AddPostPageState extends State<AddPostPage> {
   final TextEditingController _sellerNameController = TextEditingController();
   final TextEditingController _sellerContactController = TextEditingController();
   final TextEditingController _locationController = TextEditingController();
+  final TextEditingController _videoLinkController = TextEditingController();
+  final TextEditingController _historyController = TextEditingController();
+  final TextEditingController _relatedLinkController = TextEditingController();
+
   final ImagePicker _picker = ImagePicker();
   File? _selectedImage;
   String _selectedCategory = 'Clothing';
@@ -38,12 +42,15 @@ class _AddPostPageState extends State<AddPostPage> {
       final product = Product(
         name: _nameController.text,
         price: _priceController.text,
-        imageUrl: _selectedImage!.path,
+        imageAsset: _selectedImage!.path,
         description: _descriptionController.text,
         sellerName: _sellerNameController.text,
         sellerContact: _sellerContactController.text,
         location: _locationController.text,
         category: _selectedCategory,
+        videoLink: _videoLinkController.text,
+        history: _historyController.text,
+        relatedLink: _relatedLinkController.text,
       );
       widget.onPostAdded(product);
       Navigator.pop(context);
@@ -92,16 +99,16 @@ class _AddPostPageState extends State<AddPostPage> {
                 ),
               ),
               const SizedBox(height: 20),
-
               _buildTextField(_nameController, 'Product Name', 'Enter product name'),
               _buildTextField(_priceController, 'Price', 'Enter product price', keyboard: TextInputType.number),
               _buildTextField(_descriptionController, 'Description', 'Enter description', maxLines: 3),
               _buildTextField(_sellerNameController, 'Seller Name', 'Enter seller name'),
               _buildTextField(_sellerContactController, 'Seller Contact', 'Enter contact info', keyboard: TextInputType.phone),
               _buildTextField(_locationController, 'Location', 'Enter product location'),
+              _buildTextField(_videoLinkController, 'Video Link', 'Enter YouTube video link'),
+              _buildTextField(_historyController, 'History', 'Enter artisan history'),
+              _buildTextField(_relatedLinkController, 'Related Link', 'Enter related URL or article'),
               const SizedBox(height: 16),
-
-
               DropdownButtonFormField<String>(
                 decoration: _dropdownDecoration('Category'),
                 value: _selectedCategory,
@@ -112,16 +119,27 @@ class _AddPostPageState extends State<AddPostPage> {
                     });
                   }
                 },
-                items: ['Clothing', 'Handicraft', 'Jewelry', 'Woodwork', 'Pottery', 'Weaving', 'Painting', 'Embroidery', 'Calligraphy', 'Metal Craft', 'Recycled Art', 'Nature Art', 'Others']
-                    .map((cat) => DropdownMenuItem(
+                items: [
+                  'Clothing',
+                  'Handicraft',
+                  'Jewelry',
+                  'Woodwork',
+                  'Pottery',
+                  'Weaving',
+                  'Painting',
+                  'Embroidery',
+                  'Calligraphy',
+                  'Metal Craft',
+                  'Recycled Art',
+                  'Nature Art',
+                  'Others'
+                ].map((cat) => DropdownMenuItem(
                   value: cat,
                   child: Text(cat),
                 ))
                     .toList(),
               ),
               const SizedBox(height: 30),
-
-
               ElevatedButton.icon(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF252C35),

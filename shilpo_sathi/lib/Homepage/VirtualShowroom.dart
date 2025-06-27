@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -32,73 +31,39 @@ class _VirtualShowroomState extends State<VirtualShowroom> {
   ];
 
   int _currentBannerIndex = 0;
-  bool _isForward = true;
-  late Timer _timer;
 
-  @override
-  void initState() {
-    super.initState();
-    _startBannerTimer();
+  void _nextBanner() {
+    setState(() {
+      _currentBannerIndex = (_currentBannerIndex + 1) % banners.length;
+    });
   }
 
-  @override
-  void dispose() {
-    _timer.cancel();
-    super.dispose();
-  }
-
-  void _startBannerTimer() {
-    _timer = Timer.periodic(Duration(seconds: 5), (timer) {
-      setState(() {
-        if (_isForward) {
-          _currentBannerIndex = (_currentBannerIndex + 1) % banners.length;
-          if (_currentBannerIndex == banners.length - 1) _isForward = false;
-        } else {
-          _currentBannerIndex = (_currentBannerIndex - 1) % banners.length;
-          if (_currentBannerIndex == 0) _isForward = true;
-        }
-      });
+  void _previousBanner() {
+    setState(() {
+      _currentBannerIndex = (_currentBannerIndex - 1 + banners.length) % banners.length;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    if (banners.isEmpty) {
-      return Center(child: Text("No banners available"));
-    }
-
     final banner = banners[_currentBannerIndex];
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Divider(height: 20),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10.0),
-          child: Row(
-            children: [
-              Text(
-                "Verified Store",
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
-              ),
-            ],
+        const Divider(height: 20),
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 10.0),
+          child: Text(
+            "Verified Store",
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
           ),
         ),
-        SizedBox(height: 12),
+        const SizedBox(height: 12),
         AspectRatio(
           aspectRatio: 16 / 9,
           child: AnimatedSwitcher(
-            duration: Duration(milliseconds: 700),
-            transitionBuilder: (child, animation) {
-              final slide = Tween<Offset>(
-                begin: _isForward ? Offset(1.0, 0.0) : Offset(-1.0, 0.0),
-                end: Offset.zero,
-              ).animate(animation);
-              return SlideTransition(
-                position: slide,
-                child: FadeTransition(opacity: animation, child: child),
-              );
-            },
+            duration: const Duration(milliseconds: 500),
             child: KeyedSubtree(
               key: ValueKey(_currentBannerIndex),
               child: _buildBanner(
@@ -109,13 +74,23 @@ class _VirtualShowroomState extends State<VirtualShowroom> {
             ),
           ),
         ),
-        SizedBox(height: 10),
+        const SizedBox(height: 12),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: List.generate(
-            banners.length,
-                (index) => _buildIndicator(index == _currentBannerIndex),
-          ),
+          children: [
+            IconButton(
+              onPressed: _previousBanner,
+              icon: const Icon(Icons.arrow_back_ios_new),
+            ),
+            ...List.generate(
+              banners.length,
+                  (index) => _buildIndicator(index == _currentBannerIndex),
+            ),
+            IconButton(
+              onPressed: _nextBanner,
+              icon: const Icon(Icons.arrow_forward_ios),
+            ),
+          ],
         ),
       ],
     );
@@ -123,13 +98,16 @@ class _VirtualShowroomState extends State<VirtualShowroom> {
 
   Widget _buildBanner(String imagePath, String name, String url) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 8),
+      margin: const EdgeInsets.symmetric(horizontal: 8),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(18),
+        image: DecorationImage(
+          image: AssetImage(imagePath),
+          fit: BoxFit.cover,
+        ),
         boxShadow: [
           BoxShadow(color: Colors.black12, blurRadius: 8, offset: Offset(0, 4)),
         ],
-        image: DecorationImage(image: AssetImage(imagePath), fit: BoxFit.cover),
       ),
       child: Stack(
         children: [
@@ -139,7 +117,10 @@ class _VirtualShowroomState extends State<VirtualShowroom> {
               gradient: LinearGradient(
                 begin: Alignment.bottomCenter,
                 end: Alignment.topCenter,
-                colors: [Colors.blueGrey.withOpacity(0.4), Colors.indigo.withOpacity(0.2)],
+                colors: [
+                  Colors.blueGrey.withOpacity(0.4),
+                  Colors.indigo.withOpacity(0.2),
+                ],
               ),
             ),
           ),
@@ -153,21 +134,26 @@ class _VirtualShowroomState extends State<VirtualShowroom> {
                 children: [
                   Row(
                     children: [
-                      Icon(Icons.store_rounded, color: Colors.white, size: 20),
-                      SizedBox(width: 6),
-                      Text(name,
-                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white)),
+                      const Icon(Icons.store_rounded, color: Colors.white, size: 20),
+                      const SizedBox(width: 6),
+                      Text(
+                        name,
+                        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+                      ),
                     ],
                   ),
-                  SizedBox(height: 70),
+                  const SizedBox(height: 70),
                   ElevatedButton.icon(
                     onPressed: () => _navigateToWebsite(url),
-                    icon: Icon(Icons.link, size: 18, color: Colors.white),
-                    label: Text("Visit Website", style: TextStyle(fontSize: 13, color: Colors.white)),
+                    icon: const Icon(Icons.link, size: 18, color: Colors.white),
+                    label: const Text(
+                      "Visit Website",
+                      style: TextStyle(fontSize: 13, color: Colors.white),
+                    ),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xFFEF436B),
+                      backgroundColor: const Color(0xFFEF436B),
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-                      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                       elevation: 2,
                     ),
                   ),
@@ -182,11 +168,11 @@ class _VirtualShowroomState extends State<VirtualShowroom> {
 
   Widget _buildIndicator(bool isActive) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 3),
+      margin: const EdgeInsets.symmetric(horizontal: 3),
       width: isActive ? 10 : 8,
       height: isActive ? 10 : 8,
       decoration: BoxDecoration(
-        color: isActive ? Color(0xFFEF436B) : Colors.grey[400],
+        color: isActive ? const Color(0xFFEF436B) : Colors.grey[400],
         shape: BoxShape.circle,
       ),
     );
@@ -198,7 +184,7 @@ class _VirtualShowroomState extends State<VirtualShowroom> {
       await launchUrl(uri, mode: LaunchMode.externalApplication);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Could not launch website")),
+        const SnackBar(content: Text("Could not launch website")),
       );
     }
   }

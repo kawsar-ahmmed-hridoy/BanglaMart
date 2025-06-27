@@ -47,8 +47,13 @@ class CartNotifier extends StateNotifier<List<CartItem>> {
           (sum, item) => sum + (double.parse(item.product.price.replaceAll('\$', '')) * item.quantity),
     );
   }
+
+  void clearCart() {
+    state = [];
+  }
 }
 
 final cartProvider = StateNotifierProvider<CartNotifier, List<CartItem>>((ref) {
   return CartNotifier();
 });
+

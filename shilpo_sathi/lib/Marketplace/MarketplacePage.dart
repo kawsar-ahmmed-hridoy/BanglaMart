@@ -10,24 +10,29 @@ class MarketplacePage extends ConsumerWidget {
     Product(
       name: 'নকশি কাঁথা',
       price: '\$20',
-      imageUrl: 'https://phantomhands.in/imager/media/the-practical-magic-of-the-nakshi-kantha-a-brief-introduction/23599/9-1_515cffaa34c7b727c9423a5db08aae1f.jpg',
+      imageAsset: 'assets/images/1.jpg',
       description: 'নকশি কাঁথা হলো সাধারণ কাঁথার উপর নানা ধরনের নকশা করে বানানো বিশেষ প্রকারের কাঁথা। নকশি কাঁথা শত শত বছরের পুরনো ভারতের পশ্চিমবঙ্গ ও বাংলাদেশের সংস্কৃতির একটা অংশ।',
       sellerName: 'Rahimul',
       sellerContact: '+880123456789',
       location: 'Natore, Rajshahi, Bangladesh',
       category: 'Handicraft',
+      videoLink: 'https://www.youtube.com/watch?v=nokshi_demo',
+      history: 'নকশি কাঁথার ইতিহাস শত বছরের পুরনো। এটি বাংলার নারীদের হাতে তৈরি এক অসাধারণ শিল্পকর্ম যা ঐতিহ্য ও সংস্কৃতিকে বহন করে।',
+      relatedLink: 'https://en.wikipedia.org/wiki/Nakshi_Kantha',
     ),
     Product(
       name: 'Jamdani Sharee',
       price: '\$50',
-      imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTwrNhEl0ObNXh0IgGO7T3K5rQLVAz3U6sxwttLoTzwj5-AmGHW4lAJqV0XTU2jU8wBkiY&usqp=CAU',
+      imageAsset: 'assets/images/2.jpg',
       description: 'A Share.',
       sellerName: 'Artisan 2',
       sellerContact: '+880987654321',
       location: 'Tangail, Dhaka, Bangladesh',
       category: 'Clothing',
+      videoLink: 'https://www.youtube.com/watch?v=jamdani_demo',
+      history: 'জামদানি শাড়ি মুঘল আমল থেকে শুরু করে আজ পর্যন্ত বাংলার গর্ব। এটি একটি জটিল হস্তচালিত তাঁত যা বিশ্ববিখ্যাত।',
+      relatedLink: 'https://en.wikipedia.org/wiki/Jamdani',
     ),
-
   ];
 
   final TextEditingController _searchController = TextEditingController();
@@ -40,7 +45,7 @@ class MarketplacePage extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        //backgroundColor: Colors.white,
         elevation: 0,
         title: const Text(
           'Marketplace',
@@ -244,8 +249,8 @@ class ProductCard extends ConsumerWidget {
           children: [
             ClipRRect(
               borderRadius: const BorderRadius.vertical(top: Radius.circular(15)),
-              child: Image.network(
-                product.imageUrl,
+              child: Image.asset(
+                product.imageAsset,
                 height: 150,
                 width: double.infinity,
                 fit: BoxFit.cover,
@@ -301,25 +306,30 @@ class ProductCard extends ConsumerWidget {
     );
   }
 }
-
 class Product {
   final String name;
   final String price;
-  final String imageUrl;
+  final String imageAsset;
   final String description;
   final String sellerName;
   final String sellerContact;
   final String location;
   final String category;
+  final String videoLink;
+  final String history;
+  final String relatedLink;
 
   Product({
     required this.name,
     required this.price,
-    required this.imageUrl,
+    required this.imageAsset,
     required this.description,
     required this.sellerName,
     required this.sellerContact,
     required this.location,
     required this.category,
+    required this.videoLink,
+    required this.history,
+    required this.relatedLink,
   });
 }

@@ -34,7 +34,7 @@ class MyApp extends ConsumerWidget {
     final themeMode = ref.watch(themeProvider);
 
     return MaterialApp(
-      title: 'ShilpoSathi',
+      title: 'Bangla Mart',
       theme: _buildAppTheme(),
       darkTheme: _buildDarkAppTheme(),
       themeMode: themeMode,
@@ -59,13 +59,13 @@ class MyApp extends ConsumerWidget {
   ThemeData _buildAppTheme() {
     return ThemeData(
       colorScheme: ColorScheme.fromSeed(
-        seedColor: const Color(0xFF2A5934),
+        seedColor: const Color(0xFFDEF4FB),
         secondary: const Color(0xFFF5A623),
       ),
       fontFamily: 'Kalpurush',
       useMaterial3: true,
       appBarTheme: const AppBarTheme(
-        color: Color(0xFF2A5934),
+        color: Color(0xFFDEF4FB),
         iconTheme: IconThemeData(color: Colors.white),
       ),
     );
@@ -74,7 +74,7 @@ class MyApp extends ConsumerWidget {
   ThemeData _buildDarkAppTheme() {
     return ThemeData.dark().copyWith(
       colorScheme: ColorScheme.dark(
-        primary: const Color(0xFF2A5934),
+        primary: Colors.white10,
         secondary: const Color(0xFFF5A623),
       ),
       appBarTheme: const AppBarTheme(

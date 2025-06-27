@@ -124,7 +124,7 @@ class _SignUpPageState extends State<SignUpPage> with SingleTickerProviderStateM
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/images/background1.jpg'),
+            image: AssetImage('assets/images/bg4.jpg'),
             fit: BoxFit.cover,
           ),
         ),

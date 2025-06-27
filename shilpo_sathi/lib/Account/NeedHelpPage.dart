@@ -23,11 +23,9 @@ class NeedHelpPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF2F4F7),
       appBar: AppBar(
         title: const Text('Need Help?'),
         elevation: 0,
-        backgroundColor: const Color(0xFF1E2A38),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
@@ -162,10 +160,8 @@ class FAQPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF2F4F7),
       appBar: AppBar(
         title: const Text('FAQs'),
-        backgroundColor: const Color(0xFF1E2A38),
         elevation: 0,
       ),
       body: ListView.builder(

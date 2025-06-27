@@ -1,21 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'dart:async';
 import 'CartProvider.dart';
 
-class CheckoutPage extends ConsumerWidget {
+class CheckoutPage extends ConsumerStatefulWidget {
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<CheckoutPage> createState() => _CheckoutPageState();
+}
+
+class _CheckoutPageState extends ConsumerState<CheckoutPage> {
+  final TextEditingController _addressController = TextEditingController();
+  final TextEditingController _promoCodeController = TextEditingController();
+
+  String selectedPayment = '';
+
+  @override
+  Widget build(BuildContext context) {
     final totalPrice = ref.watch(cartProvider.notifier).totalPrice;
-    final TextEditingController _addressController = TextEditingController();
-    final TextEditingController _promoCodeController = TextEditingController();
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color(0xFF252C35),
-        title: const Text(
-          'Checkout',
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-        ),
+        //backgroundColor: const Color(0xFF252C35),
+        title: const Text('Checkout', style: TextStyle(fontWeight: FontWeight.bold)),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -23,28 +29,20 @@ class CheckoutPage extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'Delivery Address',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
+            const Text('Delivery Address', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
             const SizedBox(height: 16),
             TextField(
               controller: _addressController,
               decoration: InputDecoration(
                 hintText: 'Enter your delivery address',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
+                border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
                 filled: true,
               ),
               maxLines: 2,
             ),
             const SizedBox(height: 24),
 
-            const Text(
-              'Promo Code',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
+            const Text('Promo Code', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
             const SizedBox(height: 16),
             Row(
               children: [
@@ -53,9 +51,7 @@ class CheckoutPage extends ConsumerWidget {
                     controller: _promoCodeController,
                     decoration: InputDecoration(
                       hintText: 'Enter promo code',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
+                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
                       filled: true,
                     ),
                   ),
@@ -70,117 +66,65 @@ class CheckoutPage extends ConsumerWidget {
                     final promoCode = _promoCodeController.text;
                     if (promoCode.isNotEmpty) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text('Promo code "$promoCode" applied!'),
-                        ),
+                        SnackBar(content: Text('Promo code "$promoCode" applied!')),
                       );
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Please enter a promo code.'),
-                        ),
+                        const SnackBar(content: Text('Please enter a promo code.')),
                       );
                     }
                   },
-                  child: const Text(
-                    'Apply',
-                    style: TextStyle(color: Colors.white),
-                  ),
+                  child: const Text('Apply', style: TextStyle(color: Colors.white)),
                 ),
               ],
             ),
             const SizedBox(height: 24),
 
-            const Text(
-              'Payment Methods',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
+            const Text('Payment Methods', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
             const SizedBox(height: 16),
             PaymentMethodCard(
               icon: Icons.credit_card,
               title: 'Credit/Debit Card',
-              onTap: () {
-              },
+              selected: selectedPayment == 'card',
+              onTap: () => setState(() => selectedPayment = 'card'),
             ),
             const SizedBox(height: 8),
             PaymentMethodCard(
               icon: Icons.mobile_friendly,
               title: 'Mobile Banking',
-              onTap: () {
-              },
+              selected: selectedPayment == 'mobile',
+              onTap: () => setState(() => selectedPayment = 'mobile'),
             ),
             const SizedBox(height: 8),
             PaymentMethodCard(
               icon: Icons.account_balance,
               title: 'Bank Transfer',
-              onTap: () {
-              },
+              selected: selectedPayment == 'bank',
+              onTap: () => setState(() => selectedPayment = 'bank'),
             ),
             const SizedBox(height: 8),
             PaymentMethodCard(
               icon: Icons.money,
               title: 'Cash on Delivery',
-              onTap: () {
-              },
+              selected: selectedPayment == 'cash',
+              onTap: () => setState(() => selectedPayment = 'cash'),
             ),
             const SizedBox(height: 24),
 
-            const Text(
-              'Order Summary',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
+            const Text('Order Summary', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
             const SizedBox(height: 16),
             Card(
               elevation: 4,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
-              ),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text(
-                          'Subtotal',
-                          style: TextStyle(fontSize: 16),
-                        ),
-                        Text(
-                          '\$${totalPrice.toStringAsFixed(2)}',
-                          style: const TextStyle(fontSize: 16),
-                        ),
-                      ],
-                    ),
+                    summaryRow('Subtotal', '\$${totalPrice.toStringAsFixed(2)}'),
                     const SizedBox(height: 8),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text(
-                          'Shipping',
-                          style: TextStyle(fontSize: 16),
-                        ),
-                        const Text(
-                          '\$5.00',
-                          style: TextStyle(fontSize: 16),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 8),
+                    summaryRow('Shipping', '\$5.00'),
                     const Divider(),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text(
-                          'Total',
-                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          '\$${(totalPrice + 5.00).toStringAsFixed(2)}',
-                          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                        ),
-                      ],
-                    ),
+                    summaryRow('Total', '\$${(totalPrice + 5.00).toStringAsFixed(2)}', bold: true),
                   ],
                 ),
               ),
@@ -198,27 +142,68 @@ class CheckoutPage extends ConsumerWidget {
                   final address = _addressController.text;
                   if (address.isEmpty) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Please enter a delivery address.'),
-                      ),
+                      const SnackBar(content: Text('Please enter a delivery address.')),
                     );
                   } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Order placed successfully!'),
-                      ),
+                    showDialog(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (context) {
+                        Future.delayed(const Duration(seconds: 2), () {
+                          Navigator.of(context).pop();
+                          setState(() {
+                            _addressController.clear();
+                            _promoCodeController.clear();
+                            selectedPayment = '';
+                          });
+                          ref.read(cartProvider.notifier).clearCart();
+                          showDialog(
+                            context: context,
+                            builder: (_) => AlertDialog(
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                              title: const Text('Order Confirmed!',textAlign: TextAlign.center,),
+                              content: const Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(Icons.check_circle, color: Colors.green, size: 50,),
+                                  SizedBox(height: 30,)
+                                ],
+                              ),
+                            ),
+                          );
+                        });
+
+                        return Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.min,
+                            children: const [
+                              CircularProgressIndicator(color: Colors.green),
+                              SizedBox(height: 16),
+                              Text('Placing your order...', style: TextStyle(fontSize: 16)),
+                            ],
+                          ),
+                        );
+                      },
                     );
                   }
                 },
-                child: const Text(
-                  'Place Order',
-                  style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
-                ),
+                child: const Text('Place Order', style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
               ),
             ),
           ],
         ),
       ),
+    );
+  }
+
+  Widget summaryRow(String label, String value, {bool bold = false}) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(label, style: TextStyle(fontSize: bold ? 18 : 16, fontWeight: bold ? FontWeight.bold : FontWeight.normal)),
+        Text(value, style: TextStyle(fontSize: bold ? 18 : 16, fontWeight: bold ? FontWeight.bold : FontWeight.normal)),
+      ],
     );
   }
 }
@@ -227,27 +212,32 @@ class PaymentMethodCard extends StatelessWidget {
   final IconData icon;
   final String title;
   final VoidCallback onTap;
+  final bool selected;
 
   const PaymentMethodCard({
     required this.icon,
     required this.title,
     required this.onTap,
+    required this.selected,
   });
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 4,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8),
-      ),
+      color: selected ? Colors.green.shade100 : Colors.white,
+      elevation: selected ? 6 : 3,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       child: ListTile(
-        leading: Icon(icon, color: const Color(0xFF252C35)),
+        leading: Icon(icon, color: selected ? Colors.green : const Color(0xFF252C35)),
         title: Text(
           title,
-          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+            color: selected ? Colors.green.shade900 : Colors.black87,
+          ),
         ),
-        trailing: const Icon(Icons.arrow_forward_ios, color: Color(0xFF252C35)),
+        trailing: selected ? const Icon(Icons.check_circle, color: Colors.green) : const Icon(Icons.arrow_forward_ios, color: Color(0xFF252C35)),
         onTap: onTap,
       ),
     );
