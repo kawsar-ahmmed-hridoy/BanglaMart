@@ -195,7 +195,16 @@ class _SignUpPageState extends State<SignUpPage> with SingleTickerProviderStateM
                                 ),
                                 border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
                               ),
-                              validator: (value) => value!.isEmpty ? 'Enter your password' : null,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Enter your password';
+                                }
+                                final passwordRegExp = RegExp(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#\$&*~]).{6,}$');
+                                if (!passwordRegExp.hasMatch(value)) {
+                                  return 'Password must contain:\n- 1 lowercase\n- 1 uppercase\n- 1 special character (!@#\$&*~)';
+                                }
+                                return null;
+                              },
                             ),
                             SizedBox(height: 10),
                             TextFormField(
