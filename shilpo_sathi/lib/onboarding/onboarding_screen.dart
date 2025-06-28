@@ -32,7 +32,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
         lottieAsset: 'assets/animations/ar.json',
         title: 'বাংলার শিল্প ঐতিহ্যের অভিজ্ঞতা',
         description:
-        'নকশীকাঁথা, জামদানি এবং আরও অনেক ঐতিহ্যবাহী পণ্যের চিত্রায়ন করুন, কিনুন এবং বিক্রি করুন।',
+        'নকশীকাঁথা, জামদানি এবং আরও অনেক ঐতিহ্যবাহী পণ্য দেখুন, কিনুন এবং বিক্রি করুন।',
         bgColor: const Color(0xFFE4F2E8),
       ),
       OnboardingPage(
@@ -52,7 +52,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
     ];
 
     return Scaffold(
-      backgroundColor: Color(0xFFE4F2E8),
+      backgroundColor: const Color(0xFFE4F2E8),
       body: SafeArea(
         child: Stack(
           children: [
@@ -98,7 +98,8 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                               ),
                               const SizedBox(height: 15),
                               Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 24),
+                                padding:
+                                const EdgeInsets.symmetric(horizontal: 24),
                                 child: Text(
                                   pages[index].description,
                                   style: TextStyle(
@@ -141,6 +142,38 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                 ),
               ),
             ),
+            // 🟢 Skip Button
+            Positioned(
+              top: 20,
+              right: 20,
+              child: TextButton(
+                onPressed: () {
+                  FirebaseAuth.instance
+                      .authStateChanges()
+                      .listen((User? user) {
+                    if (user != null) {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => MainScreen()),
+                      );
+                    } else {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => SignInPage()),
+                      );
+                    }
+                  });
+                },
+                child: const Text(
+                  'Skip',
+                  style: TextStyle(
+                    color: Color(0xFF2A5934),
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
             Positioned(
               bottom: 40,
               left: 20,
@@ -156,7 +189,8 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                       ),
                       child: const Text(
                         'Back',
-                        style: TextStyle(color: Color(0xFF2A5934), fontSize: 16),
+                        style:
+                        TextStyle(color: Color(0xFF2A5934), fontSize: 16),
                       ),
                     )
                   else
@@ -164,27 +198,32 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                   if (currentIndex == pages.length - 1)
                     ElevatedButton(
                       onPressed: () {
-                        FirebaseAuth.instance.authStateChanges().listen((User? user) {
+                        FirebaseAuth.instance
+                            .authStateChanges()
+                            .listen((User? user) {
                           if (user != null) {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => MainScreen()),
+                              MaterialPageRoute(
+                                  builder: (context) => MainScreen()),
                             );
                           } else {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => SignInPage()),
+                              MaterialPageRoute(
+                                  builder: (context) => SignInPage()),
                             );
                           }
                         });
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF2A5934).withOpacity(0.8),
+                        backgroundColor:
+                        const Color(0xFF2A5934).withOpacity(0.8),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(24),
                         ),
-                        padding:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 5),
                         elevation: 4,
                       ),
                       child: const Text(

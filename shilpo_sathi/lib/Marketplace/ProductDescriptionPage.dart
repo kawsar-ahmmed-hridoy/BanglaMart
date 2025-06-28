@@ -91,7 +91,7 @@ class _ProductDescriptionPageState extends ConsumerState<ProductDescriptionPage>
             const SizedBox(height: 16),
             Text(widget.product.name, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
             const SizedBox(height: 6),
-            Text(' ৳'+widget.product.price, style: const TextStyle(fontSize: 20, color: Colors.teal)),
+            Text('৳'+widget.product.price, style: const TextStyle(fontSize: 20, color: Colors.teal)),
             const SizedBox(height: 16),
             const Text('Product Description', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
             const SizedBox(height: 8),

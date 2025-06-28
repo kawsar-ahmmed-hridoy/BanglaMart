@@ -67,7 +67,6 @@ class _AddPostPageState extends State<AddPostPage> {
       backgroundColor: const Color(0xFFF6F8FA),
       appBar: AppBar(
         title: const Text('Add New Product'),
-        backgroundColor: const Color(0xFF252C35),
         centerTitle: true,
       ),
       body: SingleChildScrollView(

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'ChatPage.dart';  // Import your demo ChatPage here
+import 'ChatPage.dart';
 
 class MessagePage extends StatefulWidget {
   final Map<String, String>? initialUser;
@@ -13,8 +13,6 @@ class MessagePage extends StatefulWidget {
 class _MessagePageState extends State<MessagePage> {
   final TextEditingController _searchController = TextEditingController();
   String _searchQuery = '';
-
-  // Demo current user ID
   final String currentUserId = 'currentUser';
 
   late List<Map<String, String>> users;
@@ -48,14 +46,13 @@ class _MessagePageState extends State<MessagePage> {
   @override
   Widget build(BuildContext context) {
     final filteredUsers = users.where((user) {
-      final fullName = (user['firstName']! + ' ' + user['lastName']!).toLowerCase();
+      final fullName = "${user['firstName']} ${user['lastName']}".toLowerCase();
       return user['userId'] != currentUserId && fullName.contains(_searchQuery);
     }).toList();
 
     return Scaffold(
       backgroundColor: const Color(0xFFF3F3F3),
       appBar: AppBar(
-        //backgroundColor: Colors.deepPurple,
         title: const Text('Messages', style: TextStyle(fontWeight: FontWeight.bold)),
         centerTitle: true,
       ),
@@ -72,31 +69,25 @@ class _MessagePageState extends State<MessagePage> {
                 contentPadding: const EdgeInsets.symmetric(vertical: 10),
                 filled: true,
                 fillColor: Colors.white,
-                border: OutlineInputBorder(borderRadius: BorderRadius.circular(30), borderSide: BorderSide.none),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30),
+                  borderSide: BorderSide.none,
+                ),
               ),
             ),
           ),
           Expanded(
             child: filteredUsers.isEmpty
                 ? const Center(child: Text('No users found.'))
-                : ListView.separated(
-              padding: const EdgeInsets.symmetric(vertical: 8),
+                : ListView.builder(
+              padding: const EdgeInsets.all(12),
               itemCount: filteredUsers.length,
-              separatorBuilder: (_, __) => const Divider(indent: 70, endIndent: 16),
               itemBuilder: (context, index) {
                 final user = filteredUsers[index];
                 final userName = "${user['firstName']} ${user['lastName']}".trim();
                 final profileImage = user['profileImage'] ?? 'assets/images/default_avatar.png';
 
-                return ListTile(
-                  leading: CircleAvatar(
-                    radius: 26,
-                    backgroundColor: Colors.grey[300],
-                    backgroundImage: AssetImage(profileImage),
-                  ),
-                  title: Text(userName, style: const TextStyle(fontWeight: FontWeight.w600)),
-                  subtitle: const Text("Tap to message", style: TextStyle(color: Colors.grey)),
-                  //trailing: const Icon(Icons.message_outlined, color: Colors.deepPurple),
+                return GestureDetector(
                   onTap: () {
                     Navigator.push(
                       context,
@@ -109,6 +100,45 @@ class _MessagePageState extends State<MessagePage> {
                       ),
                     );
                   },
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    elevation: 2,
+                    margin: const EdgeInsets.only(bottom: 12),
+                    child: Padding(
+                      padding: const EdgeInsets.all(12),
+                      child: Row(
+                        children: [
+                          CircleAvatar(
+                            radius: 28,
+                            backgroundImage: AssetImage(profileImage),
+                          ),
+                          const SizedBox(width: 16),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  userName,
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                const SizedBox(height: 4),
+                                Text(
+                                  'Tap to message',
+                                  style: TextStyle(color: Colors.grey[600]),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const Icon(Icons.chat_bubble_outline, color: Colors.grey),
+                        ],
+                      ),
+                    ),
+                  ),
                 );
               },
             ),

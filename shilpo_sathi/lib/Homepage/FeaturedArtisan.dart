@@ -7,56 +7,66 @@ import '../Marketplace/ProductDescriptionPage.dart';
 class Featuredartisan extends ConsumerWidget {
   final List<Product> featuredArtisans = [
     Product(
-      name: 'Jamdani Sharee',
-      price: '\৳50',
-      imageAsset: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTwrNhEl0ObNXh0IgGO7T3K5rQLVAz3U6sxwttLoTzwj5-AmGHW4lAJqV0XTU2jU8wBkiY&usqp=CAU',
-      description: 'A Share.',
-      sellerName: 'Artisan 2',
-      sellerContact: '+880987654321',
-      location: 'Tangail, Dhaka, Bangladesh',
-      category: 'Clothing',
-      videoLink: 'https://www.youtube.com/watch?v=jamdani_demo',
-      history: 'জামদানি শাড়ি মুঘল আমল থেকে শুরু করে আজ পর্যন্ত বাংলার গর্ব। এটি একটি জটিল হস্তচালিত তাঁত যা বিশ্ববিখ্যাত।',
-      relatedLink: 'https://en.wikipedia.org/wiki/Jamdani',
-    ),
-    Product(
-      name: 'Jamdani Sharee',
-      price: '\৳3500',
-      imageAsset: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTwrNhEl0ObNXh0IgGO7T3K5rQLVAz3U6sxwttLoTzwj5-AmGHW4lAJqV0XTU2jU8wBkiY&usqp=CAU',
-      description: 'A Share.',
-      sellerName: 'Artisan 2',
-      sellerContact: '+880987654321',
-      location: 'Tangail, Dhaka, Bangladesh',
-      category: 'Clothing',
-      videoLink: 'https://www.youtube.com/watch?v=jamdani_demo',
-      history: 'জামদানি শাড়ি মুঘল আমল থেকে শুরু করে আজ পর্যন্ত বাংলার গর্ব। এটি একটি জটিল হস্তচালিত তাঁত যা বিশ্ববিখ্যাত।',
-      relatedLink: 'https://en.wikipedia.org/wiki/Jamdani',
-    ),
-    Product(
-      name: 'নকশি কাঁথা',
-      price: '\৳1200',
-      imageAsset: 'https://phantomhands.in/imager/media/the-practical-magic-of-the-nakshi-kantha-a-brief-introduction/23599/9-1_515cffaa34c7b727c9423a5db08aae1f.jpg',
-      description: 'নকশি কাঁথা হলো সাধারণ কাঁথার উপর নানা ধরনের নকশা করে বানানো বিশেষ প্রকারের কাঁথা। নকশি কাঁথা শত শত বছরের পুরনো ভারতের পশ্চিমবঙ্গ ও বাংলাদেশের সংস্কৃতির একটা অংশ।',
-      sellerName: 'Rahimul',
-      sellerContact: '+880123456789',
+      name: 'বেতের ঝুড়ি',
+      price: '৳250',
+      imageAsset: 'assets/images/7.jpg',
+      description: '১০০% হাতে তৈরি, সূক্ষ্ম নকশা ও সূচিকর্ম, ফুল, লতা, পশু, পাখি, ধর্মীয় প্রতীক, গ্রামীণ জীবনচিত্রসহ নানা রকম বিষয়বস্তু চিত্রিত।',
+      sellerName: 'রাকিব',
+      sellerContact: '+880163456789',
       location: 'Natore, Rajshahi, Bangladesh',
-      category: 'Handicraft',
-      videoLink: 'https://www.youtube.com/watch?v=nokshi_demo',
-      history: 'নকশি কাঁথার ইতিহাস শত বছরের পুরনো। এটি বাংলার নারীদের হাতে তৈরি এক অসাধারণ শিল্পকর্ম যা ঐতিহ্য ও সংস্কৃতিকে বহন করে।',
+      category: 'Weaving',
+      videoLink: 'https://youtu.be/Lvy6ctRypNI?si=Kms5E62fei5OG3vc',
+      history: 'নকশীকাঁথার ইতিহাস প্রায় ১০০০ বছরের পুরনো। এই শিল্পের প্রথম পরিচিতি পাওয়া যায় প্রাচীন বাঙালি কবিতা ও সাহিত্যে। বিশেষ করে "নকশীকাঁথার মাঠ" কাব্যে জসীমউদ্দীন এই শিল্পের অসাধারণ বর্ণনা দিয়েছেন।'
+          'মূলত বাঙালি গৃহিণীরা ঘরের পুরনো কাপড়, ধুতি বা শাড়ি পুনর্ব্যবহার করে কাঁথা তৈরি করতেন। পরে তাদের সৃজনশীলতা ও কল্পনার ছোঁয়ায় এগুলো হয়ে ওঠে জীবন্ত শিল্পকর্ম। এটি শুধু ব্যবহারিক জিনিস নয় বরং ঐতিহ্য, সংস্কৃতি ও নারীর আত্মপ্রকাশের প্রতীক।'
+          'প্রসিদ্ধ স্থানসমূহ (Famous Regions): জামালপুর, যশোর, কুমিল্লা রাজশাহী ফরিদপুর এই অঞ্চলগুলোতে নকশীকাঁথা তৈরির প্রচলন সবচেয়ে বেশি। নকশীকাঁথা এখন দেশ-বিদেশে একটি জনপ্রিয় উপহার সামগ্রী হিসেবে বিবেচিত। এটি ঐতিহ্য ও আধুনিকতার এক অনন্য সংমিশ্রণ।',
       relatedLink: 'https://en.wikipedia.org/wiki/Nakshi_Kantha',
     ),
     Product(
-      name: 'Jamdani Sharee',
-      price: '\৳2550',
-      imageAsset: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTwrNhEl0ObNXh0IgGO7T3K5rQLVAz3U6sxwttLoTzwj5-AmGHW4lAJqV0XTU2jU8wBkiY&usqp=CAU',
-      description: 'A Share.',
-      sellerName: 'Artisan 2',
-      sellerContact: '+880987654321',
+      name: 'পাটের ব্যাগ',
+      price: '৳500',
+      imageAsset: 'assets/images/8.jpg',
+      description: 'সম্পূর্ণ হাতে বোনা, সূক্ষ্ম ও জটিল নকশা, যেমন ফুল, পাখি, জ্যামিতিক ধরণ, নরম ও আরামদায়ক।',
+      sellerName: 'সুমন',
+      sellerContact: '+880187654321',
       location: 'Tangail, Dhaka, Bangladesh',
       category: 'Clothing',
-      videoLink: 'https://www.youtube.com/watch?v=jamdani_demo',
-      history: 'জামদানি শাড়ি মুঘল আমল থেকে শুরু করে আজ পর্যন্ত বাংলার গর্ব। এটি একটি জটিল হস্তচালিত তাঁত যা বিশ্ববিখ্যাত।',
-      relatedLink: 'https://en.wikipedia.org/wiki/Jamdani',
+      videoLink: 'https://youtu.be/B9ZpB6L493c?si=OQDBn3yAeingDPBm',
+      history: 'জামদানি শাড়ির উৎপত্তি বহু পুরনো, যা মোগল আমলের সময় বাংলায় প্রচলিত ছিল। এই শিল্পকর্মের উৎপত্তি প্রাচীন বাঙালি ও পারস্য-আরব বুনন ঐতিহ্যের মিশ্রণ। জামদানি বুনন মূলত ঢাকার আশেপাশে গড়ে উঠেছিল, বিশেষ করে মুন্সিগঞ্জ ও নারায়ণগঞ্জ অঞ্চলে। এটি বিশ্বে বাঙালির অন্যতম গর্বের ঐতিহ্য।'
+          'বাংলাদেশের জামদানি শাড়ি ২০১৩ সালে ইউনেস্কো’র মানবসৃষ্ট অমূর্ত সাংস্কৃতিক ঐতিহ্য হিসেবে স্বীকৃত হয়।'
+          'প্রসিদ্ধ অঞ্চল (Famous Regions): ঢাকা, নারায়ণগঞ্জ, মুন্সিগঞ্জ'
+          'জামদানি শাড়ি সাধারণত উৎসব, বিয়ের অনুষ্ঠান ও বিশেষ দিনে পরিধান করা হয়। এটি বাঙালির ঐতিহ্যবাহী সংস্কৃতির প্রতীক এবং গৌরবের একটি নিদর্শন।',
+      relatedLink: 'https://bn.wikipedia.org/wiki/%E0%A6%9C%E0%A6%BE%E0%A6%AE%E0%A6%A6%E0%A6%BE%E0%A6%A8%E0%A6%BF',
+    ),
+    Product(
+      name: 'জামদানি শাড়ি',
+      price: '৳2500',
+      imageAsset: 'assets/images/9.jpg',
+      description: 'সম্পূর্ণ হাতে বোনা, সূক্ষ্ম ও জটিল নকশা, যেমন ফুল, পাখি, জ্যামিতিক ধরণ, নরম ও আরামদায়ক।',
+      sellerName: 'সুমন',
+      sellerContact: '+880187654321',
+      location: 'Tangail, Dhaka, Bangladesh',
+      category: 'Clothing',
+      videoLink: 'https://youtu.be/B9ZpB6L493c?si=OQDBn3yAeingDPBm',
+      history: 'জামদানি শাড়ির উৎপত্তি বহু পুরনো, যা মোগল আমলের সময় বাংলায় প্রচলিত ছিল। এই শিল্পকর্মের উৎপত্তি প্রাচীন বাঙালি ও পারস্য-আরব বুনন ঐতিহ্যের মিশ্রণ। জামদানি বুনন মূলত ঢাকার আশেপাশে গড়ে উঠেছিল, বিশেষ করে মুন্সিগঞ্জ ও নারায়ণগঞ্জ অঞ্চলে। এটি বিশ্বে বাঙালির অন্যতম গর্বের ঐতিহ্য।'
+          'বাংলাদেশের জামদানি শাড়ি ২০১৩ সালে ইউনেস্কো’র মানবসৃষ্ট অমূর্ত সাংস্কৃতিক ঐতিহ্য হিসেবে স্বীকৃত হয়।'
+          'প্রসিদ্ধ অঞ্চল (Famous Regions): ঢাকা, নারায়ণগঞ্জ, মুন্সিগঞ্জ'
+          'জামদানি শাড়ি সাধারণত উৎসব, বিয়ের অনুষ্ঠান ও বিশেষ দিনে পরিধান করা হয়। এটি বাঙালির ঐতিহ্যবাহী সংস্কৃতির প্রতীক এবং গৌরবের একটি নিদর্শন।',
+      relatedLink: 'https://bn.wikipedia.org/wiki/%E0%A6%9C%E0%A6%BE%E0%A6%AE%E0%A6%A6%E0%A6%BE%E0%A6%A8%E0%A6%BF',
+    ),
+    Product(
+      name: 'নকশীকাঁথা',
+      price: '৳1550',
+      imageAsset: 'assets/images/1.jpg',
+      description: '১০০% হাতে তৈরি, সূক্ষ্ম নকশা ও সূচিকর্ম, ফুল, লতা, পশু, পাখি, ধর্মীয় প্রতীক, গ্রামীণ জীবনচিত্রসহ নানা রকম বিষয়বস্তু চিত্রিত।',
+      sellerName: 'রাকিব',
+      sellerContact: '+880163456789',
+      location: 'Natore, Rajshahi, Bangladesh',
+      category: 'Weaving',
+      videoLink: 'https://youtu.be/Lvy6ctRypNI?si=Kms5E62fei5OG3vc',
+      history: 'নকশীকাঁথার ইতিহাস প্রায় ১০০০ বছরের পুরনো। এই শিল্পের প্রথম পরিচিতি পাওয়া যায় প্রাচীন বাঙালি কবিতা ও সাহিত্যে। বিশেষ করে "নকশীকাঁথার মাঠ" কাব্যে জসীমউদ্দীন এই শিল্পের অসাধারণ বর্ণনা দিয়েছেন।'
+          'মূলত বাঙালি গৃহিণীরা ঘরের পুরনো কাপড়, ধুতি বা শাড়ি পুনর্ব্যবহার করে কাঁথা তৈরি করতেন। পরে তাদের সৃজনশীলতা ও কল্পনার ছোঁয়ায় এগুলো হয়ে ওঠে জীবন্ত শিল্পকর্ম। এটি শুধু ব্যবহারিক জিনিস নয় বরং ঐতিহ্য, সংস্কৃতি ও নারীর আত্মপ্রকাশের প্রতীক।'
+          'প্রসিদ্ধ স্থানসমূহ (Famous Regions): জামালপুর, যশোর, কুমিল্লা রাজশাহী ফরিদপুর এই অঞ্চলগুলোতে নকশীকাঁথা তৈরির প্রচলন সবচেয়ে বেশি। নকশীকাঁথা এখন দেশ-বিদেশে একটি জনপ্রিয় উপহার সামগ্রী হিসেবে বিবেচিত। এটি ঐতিহ্য ও আধুনিকতার এক অনন্য সংমিশ্রণ।',
+      relatedLink: 'https://en.wikipedia.org/wiki/Nakshi_Kantha',
     ),
   ];
 
@@ -84,7 +94,7 @@ class Featuredartisan extends ConsumerWidget {
         ),
         const SizedBox(height: 10),
         SizedBox(
-          height: 210, // increased height to accommodate full content
+          height: 210,
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
             padding: const EdgeInsets.symmetric(horizontal: 10),

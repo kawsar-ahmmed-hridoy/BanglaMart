@@ -18,6 +18,9 @@ class _SignUpPageState extends State<SignUpPage> with SingleTickerProviderStateM
   DateTime? _selectedDate;
   bool _isLoading = false;
 
+  bool _obscurePassword = true;
+  bool _obscureConfirmPassword = true;
+
   late AnimationController _controller;
   late Animation<double> _opacityAnimation;
   late Animation<double> _translateAnimation;
@@ -77,9 +80,6 @@ class _SignUpPageState extends State<SignUpPage> with SingleTickerProviderStateM
         String firstName = nameParts.isNotEmpty ? nameParts.first : '';
         String lastName = nameParts.length > 1 ? nameParts.sublist(1).join(' ') : '';
 
-        print("First Name: $firstName");
-        print("Last Name: $lastName");
-
         await FirebaseFirestore.instance.collection('users').doc(userCredential.user!.uid).set({
           'firstName': firstName,
           'lastName': lastName,
@@ -88,9 +88,6 @@ class _SignUpPageState extends State<SignUpPage> with SingleTickerProviderStateM
           'dateOfBirth': _selectedDate,
           'createdAt': Timestamp.now(),
         });
-
-        // Debug: Print success message
-        print("User data stored successfully!");
 
         Navigator.pushReplacementNamed(context, '/sign_in');
       } on FirebaseAuthException catch (e) {
@@ -143,10 +140,7 @@ class _SignUpPageState extends State<SignUpPage> with SingleTickerProviderStateM
                       decoration: BoxDecoration(
                         color: Colors.transparent,
                         borderRadius: BorderRadius.circular(20),
-                        border: Border.all(
-                          color: Colors.black,
-                          width: 1,
-                        ),
+                        border: Border.all(color: Colors.black, width: 1),
                         boxShadow: [
                           BoxShadow(
                             color: Colors.white.withOpacity(0.2),
@@ -160,23 +154,14 @@ class _SignUpPageState extends State<SignUpPage> with SingleTickerProviderStateM
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Text(
-                              'Sign Up',
-                              style: TextStyle(
-                                fontSize: 28,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.blueGrey,
-                              ),
-                            ),
+                            Text('Sign Up', style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.blueGrey)),
                             SizedBox(height: 15),
                             TextFormField(
                               controller: _nameController,
                               decoration: InputDecoration(
                                 labelText: 'Name',
                                 prefixIcon: Icon(Icons.person, color: Colors.blueGrey),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
+                                border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
                               ),
                               validator: (value) => value!.isEmpty ? 'Enter your name' : null,
                             ),
@@ -186,36 +171,52 @@ class _SignUpPageState extends State<SignUpPage> with SingleTickerProviderStateM
                               decoration: InputDecoration(
                                 labelText: 'Email',
                                 prefixIcon: Icon(Icons.email, color: Colors.blueGrey),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
+                                border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
                               ),
                               validator: (value) => value!.isEmpty ? 'Enter your email' : null,
                             ),
                             SizedBox(height: 10),
                             TextFormField(
                               controller: _passwordController,
+                              obscureText: _obscurePassword,
                               decoration: InputDecoration(
                                 labelText: 'Password',
                                 prefixIcon: Icon(Icons.lock, color: Colors.blueGrey),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
+                                suffixIcon: IconButton(
+                                  icon: Icon(
+                                    _obscurePassword ? Icons.visibility_off : Icons.visibility,
+                                    color: Colors.blueGrey,
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      _obscurePassword = !_obscurePassword;
+                                    });
+                                  },
                                 ),
+                                border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
                               ),
-                              obscureText: true,
                               validator: (value) => value!.isEmpty ? 'Enter your password' : null,
                             ),
                             SizedBox(height: 10),
                             TextFormField(
                               controller: _confirmPasswordController,
+                              obscureText: _obscureConfirmPassword,
                               decoration: InputDecoration(
                                 labelText: 'Confirm Password',
                                 prefixIcon: Icon(Icons.lock, color: Colors.blueGrey),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
+                                suffixIcon: IconButton(
+                                  icon: Icon(
+                                    _obscureConfirmPassword ? Icons.visibility_off : Icons.visibility,
+                                    color: Colors.blueGrey,
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      _obscureConfirmPassword = !_obscureConfirmPassword;
+                                    });
+                                  },
                                 ),
+                                border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
                               ),
-                              obscureText: true,
                               validator: (value) => value!.isEmpty ? 'Confirm your password' : null,
                             ),
                             SizedBox(height: 10),
@@ -224,9 +225,7 @@ class _SignUpPageState extends State<SignUpPage> with SingleTickerProviderStateM
                               decoration: InputDecoration(
                                 labelText: 'Gender',
                                 prefixIcon: Icon(Icons.people, color: Colors.blueGrey),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
+                                border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
                               ),
                               items: ['Male', 'Female', 'Other'].map((String gender) {
                                 return DropdownMenuItem<String>(
@@ -248,9 +247,7 @@ class _SignUpPageState extends State<SignUpPage> with SingleTickerProviderStateM
                                 decoration: InputDecoration(
                                   labelText: 'Date of Birth',
                                   prefixIcon: Icon(Icons.calendar_today, color: Colors.blueGrey),
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
+                                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
                                 ),
                                 child: Row(
                                   children: [
@@ -272,14 +269,9 @@ class _SignUpPageState extends State<SignUpPage> with SingleTickerProviderStateM
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.blue,
                                 padding: EdgeInsets.symmetric(horizontal: 30, vertical: 6),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(30),
-                                ),
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
                               ),
-                              child: Text(
-                                'Sign Up',
-                                style: TextStyle(fontSize: 16, color: Colors.white),
-                              ),
+                              child: Text('Sign Up', style: TextStyle(fontSize: 16, color: Colors.white)),
                             ),
                             SizedBox(height: 5),
                             Row(

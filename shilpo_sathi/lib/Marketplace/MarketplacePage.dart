@@ -17,7 +17,7 @@ class MarketplacePage extends ConsumerWidget {
     Product(
       name: 'নকশীকাঁথা (Nakshi Kantha)',
       price: '1550',
-      imageAsset: 'assets/images/1.jpg',
+      imageAsset: 'assets/images/5.jpg',
       description: '১০০% হাতে তৈরি, সূক্ষ্ম নকশা ও সূচিকর্ম, ফুল, লতা, পশু, পাখি, ধর্মীয় প্রতীক, গ্রামীণ জীবনচিত্রসহ নানা রকম বিষয়বস্তু চিত্রিত।',
       sellerName: 'রাকিব',
       sellerContact: '+880163456789',
@@ -32,7 +32,7 @@ class MarketplacePage extends ConsumerWidget {
     Product(
       name: 'জামদানি শাড়ি (Jamdani Sharee)',
       price: '2500',
-      imageAsset: 'assets/images/2.jpg',
+      imageAsset: 'assets/images/3.jpg',
       description: 'সম্পূর্ণ হাতে বোনা, সূক্ষ্ম ও জটিল নকশা, যেমন ফুল, পাখি, জ্যামিতিক ধরণ, নরম ও আরামদায়ক।',
       sellerName: 'সুমন',
       sellerContact: '+880187654321',
@@ -48,7 +48,7 @@ class MarketplacePage extends ConsumerWidget {
     Product(
       name: 'মৃৎশিল্প (Pottery)',
       price: '500',
-      imageAsset: 'assets/images/3.jpg',
+      imageAsset: 'assets/images/6.jpg',
       description: 'হাতে গড়া ও কারিগরি দক্ষতায় তৈরিকৃত,পরিবেশবান্ধব এবং টেকসই, প্রাকৃতিক কাদামাটি ব্যবহার।',
       sellerName: 'মিরাজ',
       sellerContact: '+880197654321',
@@ -60,6 +60,22 @@ class MarketplacePage extends ConsumerWidget {
           'প্রসিদ্ধ অঞ্চল (Famous Regions): ঢাকা, রাজশাহী, বরিশাল'
           'মৃৎশিল্পের পণ্যগুলো দৈনন্দিন জীবনে ব্যবহার হয় রান্নার বাসন, জলাধার, ফুলদানি ও সজ্জার কাজে। এছাড়া এগুলো সাংস্কৃতিক অনুষ্ঠান ও গৃহসজ্জায় বিশেষ গুরুত্ব পায়। মৃৎশিল্প কারিগররা এই শিল্পকে ধরে রেখেছেন প্রজন্ম থেকে প্রজন্ম পর্যন্ত, যা আমাদের সাংস্কৃতিক ঐতিহ্যের অমূল্য অংশ।',
       relatedLink: 'https://bn.wikipedia.org/wiki/%E0%A6%AE%E0%A7%83%E0%A7%8E%E0%A6%B6%E0%A6%BF%E0%A6%B2%E0%A7%8D%E0%A6%AA_(%E0%A6%B6%E0%A6%BF%E0%A6%B2%E0%A7%8D%E0%A6%AA%E0%A6%95%E0%A6%B2%E0%A6%BE)',
+    ),
+    Product(
+      name: 'পাটের ব্যাগ',
+      price: '500',
+      imageAsset: 'assets/images/8.jpg',
+      description: 'সম্পূর্ণ হাতে বোনা, সূক্ষ্ম ও জটিল নকশা, যেমন ফুল, পাখি, জ্যামিতিক ধরণ, নরম ও আরামদায়ক।',
+      sellerName: 'সুমন',
+      sellerContact: '+880187654321',
+      location: 'Tangail, Dhaka, Bangladesh',
+      category: 'Clothing',
+      videoLink: 'https://youtu.be/B9ZpB6L493c?si=OQDBn3yAeingDPBm',
+      history: 'জামদানি শাড়ির উৎপত্তি বহু পুরনো, যা মোগল আমলের সময় বাংলায় প্রচলিত ছিল। এই শিল্পকর্মের উৎপত্তি প্রাচীন বাঙালি ও পারস্য-আরব বুনন ঐতিহ্যের মিশ্রণ। জামদানি বুনন মূলত ঢাকার আশেপাশে গড়ে উঠেছিল, বিশেষ করে মুন্সিগঞ্জ ও নারায়ণগঞ্জ অঞ্চলে। এটি বিশ্বে বাঙালির অন্যতম গর্বের ঐতিহ্য।'
+          'বাংলাদেশের জামদানি শাড়ি ২০১৩ সালে ইউনেস্কো’র মানবসৃষ্ট অমূর্ত সাংস্কৃতিক ঐতিহ্য হিসেবে স্বীকৃত হয়।'
+          'প্রসিদ্ধ অঞ্চল (Famous Regions): ঢাকা, নারায়ণগঞ্জ, মুন্সিগঞ্জ'
+          'জামদানি শাড়ি সাধারণত উৎসব, বিয়ের অনুষ্ঠান ও বিশেষ দিনে পরিধান করা হয়। এটি বাঙালির ঐতিহ্যবাহী সংস্কৃতির প্রতীক এবং গৌরবের একটি নিদর্শন।',
+      relatedLink: 'https://bn.wikipedia.org/wiki/%E0%A6%9C%E0%A6%BE%E0%A6%AE%E0%A6%A6%E0%A6%BE%E0%A6%A8%E0%A6%BF',
     ),
   ];
 

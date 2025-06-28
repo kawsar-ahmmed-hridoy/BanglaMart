@@ -65,18 +65,18 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 40),
+                  padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 0),
                   child: Text(
                     'Crafting Heritage, Empowering Artisans',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontSize: 20,
+                      fontSize: 15,
                       fontWeight: FontWeight.bold,
                       color: Colors.black,
                     ),
                   ),
                 ),
-                const SizedBox(height: 70),
+                const SizedBox(height: 90),
               ],
             ),
           ),

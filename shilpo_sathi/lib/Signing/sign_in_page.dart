@@ -11,6 +11,7 @@ class SignInPage extends StatefulWidget {
   _SignInPageState createState() => _SignInPageState();
 }
 
+bool _obscurePassword = true;
 class _SignInPageState extends State<SignInPage> with SingleTickerProviderStateMixin {
   List<Map<String, String>> loginNotifications = [];
   final _formKey = GlobalKey<FormState>();
@@ -179,10 +180,21 @@ class _SignInPageState extends State<SignInPage> with SingleTickerProviderStateM
                               SizedBox(height: 10),
                               TextFormField(
                                 controller: _passwordController,
-                                obscureText: true,
+                                obscureText: _obscurePassword,
                                 decoration: InputDecoration(
                                   labelText: "Password",
                                   prefixIcon: Icon(Icons.lock, color: Colors.blueGrey, size: 22),
+                                  suffixIcon: IconButton(
+                                    icon: Icon(
+                                      _obscurePassword ? Icons.visibility_off : Icons.visibility,
+                                      color: Colors.blueGrey,
+                                    ),
+                                    onPressed: () {
+                                      setState(() {
+                                        _obscurePassword = !_obscurePassword;
+                                      });
+                                    },
+                                  ),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
                                   ),

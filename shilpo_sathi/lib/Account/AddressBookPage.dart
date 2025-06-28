@@ -106,7 +106,7 @@ class _AddressBookPageState extends State<AddressBookPage> {
                   decoration: BoxDecoration(
                     borderRadius: cardRadius,
                     gradient: const LinearGradient(
-                      colors: [Colors.grey, Colors.cyan],
+                      colors: [Colors.grey, Colors.blueGrey],
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                     ),
