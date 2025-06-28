@@ -4,13 +4,11 @@ import 'dart:async';
 import 'CartProvider.dart';
 import 'MobileBankingPage.dart';
 
-// Helper: Parse string price to double, ignoring any non-numeric chars
 double parsePrice(String priceStr) {
   final cleaned = priceStr.replaceAll(RegExp(r'[^0-9.]'), '');
   return double.tryParse(cleaned) ?? 0.0;
 }
 
-// Helper: Format number as Taka currency
 String formatTaka(double amount) => '৳${amount.toStringAsFixed(2)}';
 
 class CheckoutPage extends ConsumerStatefulWidget {

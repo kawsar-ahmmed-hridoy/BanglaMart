@@ -61,7 +61,7 @@ class _AddressBookPageState extends State<AddressBookPage> {
     );
 
     await Future.delayed(const Duration(seconds: 2));
-    Navigator.pop(context); // close loading
+    Navigator.pop(context);
     setState(() {
       defaultAddress = newAddress;
     });

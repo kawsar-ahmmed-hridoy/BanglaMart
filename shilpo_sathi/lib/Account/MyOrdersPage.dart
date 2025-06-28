@@ -7,9 +7,7 @@ class MyOrdersPage extends StatefulWidget {
   @override
   _MyOrdersPageState createState() => _MyOrdersPageState();
 }
-
 class _MyOrdersPageState extends State<MyOrdersPage> {
-  // Simulated list of orders (replace with real data source)
   List<Order> orders = [];
 
   bool isLoading = true;
@@ -22,11 +20,8 @@ class _MyOrdersPageState extends State<MyOrdersPage> {
 
   Future<void> _loadOrders() async {
     setState(() => isLoading = true);
-
-    // Simulate network or DB delay
     await Future.delayed(const Duration(seconds: 1));
 
-    // Replace below with actual fetch logic
     orders = [
       Order(
         orderId: 'ORD12345',

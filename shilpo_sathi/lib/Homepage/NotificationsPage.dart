@@ -25,7 +25,6 @@ class NotificationsPage extends StatelessWidget {
               ),
               SizedBox(height: 20),
 
-              // Show all login notifications dynamically
               for (var notif in loginNotifications)
                 LoginNotification(
                   message: notif['message']!,
@@ -34,7 +33,6 @@ class NotificationsPage extends StatelessWidget {
 
               SizedBox(height: 16),
 
-              // You can keep these or remove as you want
               DataNotification(
                 message: 'Your data usage has reached 80% of your limit.',
                 timestamp: '2 hours ago',

@@ -21,7 +21,7 @@ class ManageAccountPage extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Manage শিল্পসাথী Account'),
+        title: Text('Manage Bangla Mart Account'),
         backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
       ),
       body: Padding(

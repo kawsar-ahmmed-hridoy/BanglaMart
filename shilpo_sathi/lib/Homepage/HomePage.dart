@@ -47,7 +47,6 @@ class _HomePageState extends State<HomePage> {
 
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     return AppBar(
-      //backgroundColor: Colors.white,
       title: Text(
         "Homepage",
         style: TextStyle(fontWeight: FontWeight.bold),

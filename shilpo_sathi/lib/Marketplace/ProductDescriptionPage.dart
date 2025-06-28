@@ -265,7 +265,6 @@ class _ProductDescriptionPageState extends ConsumerState<ProductDescriptionPage>
                 hintText: 'Write your thoughts...',
                 border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
                 filled: true,
-                //fillColor: Colors.grey[100],
               ),
             ),
             const SizedBox(height: 12),

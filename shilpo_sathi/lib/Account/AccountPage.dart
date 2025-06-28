@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shilpo_sathi/Account/WhatUThinkPage.dart';
-
 import 'AddressBookPage.dart';
 import 'MessagePage.dart';
 import 'MyOrdersPage.dart';
@@ -66,7 +65,6 @@ class _AccountPageState extends State<AccountPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Account',style: TextStyle(fontWeight: FontWeight.bold)),
-        //backgroundColor: Colors.white,
         centerTitle: true,
       ),
 

@@ -1,5 +1,4 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import '../Marketplace/MarketplacePage.dart';
 
 class FilteredProductsNotifier extends StateNotifier<List<Product>> {

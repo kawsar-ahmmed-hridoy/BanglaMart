@@ -1,5 +1,4 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import '../Marketplace/MarketplacePage.dart';
 
 class CartItem {
@@ -44,7 +43,6 @@ class CartNotifier extends StateNotifier<List<CartItem>> {
           ...state.sublist(index + 1),
         ];
       } else {
-        // Quantity is 1, so remove the item
         state = [
           ...state.sublist(0, index),
           ...state.sublist(index + 1),

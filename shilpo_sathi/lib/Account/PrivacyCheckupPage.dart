@@ -6,7 +6,6 @@ class PrivacyCheckupPage extends StatelessWidget {
   Widget build(BuildContext context) => Scaffold(
     appBar: AppBar(
       title: Text('Privacy Checkup'),
-      //backgroundColor: Color(0xFF252C35),
     ),
     body: ListView(padding: EdgeInsets.all(16), children: [
       Text(

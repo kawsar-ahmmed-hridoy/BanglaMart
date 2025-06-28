@@ -27,7 +27,7 @@ class _ChatPageState extends State<ChatPage> {
   final TextEditingController _controller = TextEditingController();
   final List<Message> _messages = [];
 
-  final String currentUserId = 'currentUser'; // demo current user id
+  final String currentUserId = 'currentUser';
 
   void _sendMessage() {
     final text = _controller.text.trim();
@@ -56,7 +56,6 @@ class _ChatPageState extends State<ChatPage> {
             Text(widget.userName, style: TextStyle(fontWeight: FontWeight.bold)),
           ],
         ),
-        //backgroundColor: Colors.deepPurple,
       ),
       body: Column(
         children: [

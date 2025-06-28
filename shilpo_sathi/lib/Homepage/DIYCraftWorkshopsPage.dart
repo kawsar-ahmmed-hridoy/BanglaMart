@@ -130,7 +130,6 @@ class DIYCraftWorkshopsPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Title and description at top
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -157,7 +156,6 @@ class DIYCraftWorkshopsPage extends StatelessWidget {
                     ],
                   ),
 
-                  // Icons at bottom
                   Row(
                     children: [
                       _iconButton(
@@ -194,7 +192,6 @@ class DIYCraftWorkshopsPage extends StatelessWidget {
         return uri.queryParameters['v'];
       }
 
-      // fallback null
       return null;
     } catch (e) {
       return null;

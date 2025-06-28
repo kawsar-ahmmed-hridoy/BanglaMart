@@ -40,7 +40,6 @@ class _MyProfilePageState extends State<MyProfilePage> {
       try {
         DocumentSnapshot userDoc = await _firestore.collection('users').doc(user.uid).get();
         if (userDoc.exists) {
-          // Debug: Print the entire document data
           print("User Document Data: ${userDoc.data()}");
 
           setState(() {

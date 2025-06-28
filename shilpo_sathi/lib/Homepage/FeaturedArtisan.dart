@@ -138,7 +138,6 @@ class Featuredartisan extends ConsumerWidget {
               height: 110,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(14),
-                //color: Colors.grey[100],
               ),
               clipBehavior: Clip.antiAlias,
               child: product.imageAsset.startsWith('http')

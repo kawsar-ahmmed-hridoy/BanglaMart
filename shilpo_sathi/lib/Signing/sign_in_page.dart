@@ -119,7 +119,6 @@ class _SignInPageState extends State<SignInPage> with SingleTickerProviderStateM
                 ),
                 child: Column(
                   children: [
-                    // Top Section (Logo and Welcome Text)
                     Container(
                       height: screenHeight * 0.30,
                       child: Opacity(
@@ -139,8 +138,6 @@ class _SignInPageState extends State<SignInPage> with SingleTickerProviderStateM
                         ),
                       ),
                     ),
-
-                    // Middle Section (Form)
                     Transform.translate(
                       offset: Offset(0, _translateAnimation.value),
                       child: Container(
@@ -231,7 +228,6 @@ class _SignInPageState extends State<SignInPage> with SingleTickerProviderStateM
                       ),
                     ),
 
-                    // Bottom Section (Social Icons and Sign Up)
                     SizedBox(height: 40),
                     Text("Or sign in with"),
                     SizedBox(height: 10),
