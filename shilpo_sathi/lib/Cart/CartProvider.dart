@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../Marketplace/MarketplacePage.dart';
 
@@ -21,6 +22,11 @@ class CartNotifier extends StateNotifier<List<CartItem>> {
     } else {
       state = [...state, CartItem(product: product)];
     }
+  }
+
+  void addToCart2(Product product) {
+    //item.add(product);
+    notifyListeners();
   }
 
   void removeFromCart(CartItem item) {
@@ -62,9 +68,15 @@ class CartNotifier extends StateNotifier<List<CartItem>> {
   void clearCart() {
     state = [];
   }
+
+  void notifyListeners() {
+    print("Hello");
+  }
 }
 
 final cartProvider = StateNotifierProvider<CartNotifier, List<CartItem>>((ref) {
   return CartNotifier();
-});
+}
 
+
+);

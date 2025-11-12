@@ -127,11 +127,11 @@ class _SignInPageState extends State<SignInPage> with SingleTickerProviderStateM
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              // Image.asset(
-                              //   "assets/images/shilpo.png",
-                              //   width: isPortrait ? 150 : 100,
-                              //   height: isPortrait ? 70 : 70,
-                              // ),
+                              Image.asset(
+                                "assets/images/shilpo.png",
+                                width: isPortrait ? 150 : 100,
+                                height: isPortrait ? 70 : 70,
+                              ),
                               SizedBox(height: 10),
                             ],
                           ),

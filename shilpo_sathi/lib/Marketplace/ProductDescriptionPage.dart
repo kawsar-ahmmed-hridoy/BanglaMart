@@ -19,6 +19,8 @@ class _ProductDescriptionPageState extends ConsumerState<ProductDescriptionPage>
   final TextEditingController _reviewController = TextEditingController();
   double _userRating = 0.0;
   final List<Map<String, dynamic>> _reviews = [];
+
+  get product => null;
   void _submitReview() {
     if (_reviewController.text.isNotEmpty && _userRating > 0) {
       setState(() {
@@ -110,7 +112,7 @@ class _ProductDescriptionPageState extends ConsumerState<ProductDescriptionPage>
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
                     ),
                     onPressed: () {
-                      ref.read(cartProvider.notifier).addToCart(widget.product);
+                      cartProvider.addToCar2(product);
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(content: Text('${widget.product.name} added to cart!')),
                       );
@@ -283,5 +285,11 @@ class _ProductDescriptionPageState extends ConsumerState<ProductDescriptionPage>
         ),
       ),
     );
+  }
+}
+
+extension on StateNotifierProvider<CartNotifier, List<CartItem>> {
+  void addToCar2(product) {
+
   }
 }

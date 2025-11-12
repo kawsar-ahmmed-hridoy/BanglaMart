@@ -13,6 +13,7 @@ class CategoryListPage extends StatelessWidget {
     {'icon': Icons.emoji_nature, 'label': 'Nature Art'},
   ];
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

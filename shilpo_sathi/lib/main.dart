@@ -36,7 +36,7 @@ class MyApp extends ConsumerWidget {
     final themeMode = ref.watch(themeProvider);
 
     return MaterialApp(
-      title: 'Bangla Mart',
+      title: 'Shilpo Sathi',
       theme: _buildAppTheme(),
       darkTheme: _buildDarkAppTheme(),
       themeMode: themeMode,

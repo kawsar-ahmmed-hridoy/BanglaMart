@@ -56,7 +56,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                 ),
                 const SizedBox(height: 2),
                 Text(
-                  'Bangla Mart',
+                  'Shilpo Sathi',
                   style: TextStyle(
                     fontSize: 40,
                     fontWeight: FontWeight.bold,

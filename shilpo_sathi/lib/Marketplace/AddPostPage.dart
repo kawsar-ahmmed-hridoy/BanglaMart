@@ -119,20 +119,8 @@ class _AddPostPageState extends State<AddPostPage> {
                   }
                 },
                 items: [
-                  'Clothing',
-                  'Handicraft',
-                  'Jewelry',
-                  'Woodwork',
-                  'Pottery',
-                  'Weaving',
-                  'Painting',
-                  'Embroidery',
-                  'Calligraphy',
-                  'Metal Craft',
-                  'Recycled Art',
-                  'Nature Art',
-                  'Others'
-                ].map((cat) => DropdownMenuItem(
+                  ''
+                ] .map((cat) => DropdownMenuItem(
                   value: cat,
                   child: Text(cat),
                 ))
